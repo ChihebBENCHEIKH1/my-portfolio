@@ -39,6 +39,7 @@ export const Portfolio = ({ titles }: any) => {
                     technologies={project.technologies}
                     websiteURL={project.websiteURL}
                     image={project.image}
+                    tech={titles[lang]["technologies"]}
                   />
                 ))}
               </div>

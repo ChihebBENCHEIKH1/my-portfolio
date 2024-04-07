@@ -23,6 +23,8 @@ export const textContent = {
       "I'm a FrontEnd Developer skilled in seamlessly integrating user experience principles with expert knowledge in FrontEnd development.",
     headerDescription:
       "With nearly a year of experience as a Junior FrontEnd Developer, my passion for innovation drives my proficiency in front-end development. I excel at crafting user-centric applications that consistently surpass expectations, and my commitment to tackling challenges sets me apart as a unique talent in the field.",
+    headerSkills:
+      "JavaScript, ES11, TypeScript, HTML, CSS, RWD, React, Hooks, Next.js, Gatsby, React Native, Redux, MobX, Emotion, Styled Components, MUI, AntD, Formik, React Hook Form, Yup, RFF, i18n, JSON Schema, Jest, React Testing Library, Jasmine, Cypress, Nx, Vite, Webpack, GitHub, GitLab, Azure, JIRA",
     cvDownload: "CV DOWNLOAD",
     moreInfo: "For more information check my CV in your preferred language:",
     portfolioTitle: "My Portfolio",
@@ -95,6 +97,8 @@ export const textContent = {
     codeProjects: "code projects",
     contactName: "Chiheb BEN CHEIKH",
     contactEmail: "bencheikh.chiheb@gmail.com",
+    technologies: "Technologies",
+    skill: "Skills",
   },
   de: {
     navBar: ["Startseite", "Über uns", "Portfolio", "Kontakt"],
@@ -114,6 +118,8 @@ export const textContent = {
       "Ich bin ein Frontend-Entwickler mit Fachkenntnissen in der nahtlosen Integration von Benutzererfahrungsprinzipien und fundiertem Wissen in der Frontend-Entwicklung.",
     headerDescription:
       "Mit fast einem Jahr Erfahrung als Junior Frontend-Entwickler treibt mich meine Leidenschaft für Innovation zu meiner Kompetenz in der Frontend-Entwicklung. Ich zeichne mich durch die Entwicklung benutzerzentrierter Anwendungen aus, die konsequent die Erwartungen übertreffen, und meine Bereitschaft, Herausforderungen anzunehmen, macht mich zu einem einzigartigen Talent auf diesem Gebiet.",
+    headerSkills:
+      "JavaScript, ES11, TypeScript, HTML, CSS, RWD, React, Hooks, Next.js, Gatsby, React Native, Redux, MobX, Emotion, Styled Components, MUI, AntD, Formik, React Hook Form, Yup, RFF, i18n, JSON Schema, Jest, React Testing Library, Jasmine, Cypress, Nx, Vite, Webpack, GitHub, GitLab, Azure, JIRA",
     cvDownload: "Lebenslauf herunterladen",
     moreInfo:
       "Für weitere Informationen überprüfen Sie meinen Lebenslauf in Ihrer bevorzugten Sprache:",
@@ -186,5 +192,7 @@ export const textContent = {
     codeProjects: "Programmierprojekte",
     contactName: "Chiheb BEN CHEIKH",
     contactEmail: "bencheikh.chiheb@gmail.com",
+    technologies: "Technologien",
+    skill: "Faehigkeiten",
   },
 };

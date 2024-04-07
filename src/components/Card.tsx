@@ -7,6 +7,7 @@ type Props = {
   technologies: string[];
   websiteURL: string;
   image: string;
+  tech: string;
 };
 
 const Card: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const Card: React.FC<Props> = ({
   technologies,
   websiteURL,
   image,
+  tech,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -52,7 +54,7 @@ const Card: React.FC<Props> = ({
               </a>
               <a href={websiteURL}>
                 {" "}
-                <strong>Technologies:</strong> {technologies.join(" / ")}
+                <strong>{tech} : </strong> {technologies.join(" / ")}
               </a>
             </p>
             <p className="separator"></p>

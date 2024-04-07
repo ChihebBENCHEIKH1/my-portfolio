@@ -85,7 +85,7 @@ const Navbar: React.FC<Props> = ({ titles }: Props) => {
                   handleLangToggle(lang === "eng" ? "de" : "eng");
                 }}
               >
-                {lang === "eng" ? "Deutsch" : "English"}
+                {lang === "eng" ? "Deutsch" : "Englisch"}
               </a>
             </li>
           </ul>

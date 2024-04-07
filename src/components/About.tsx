@@ -41,8 +41,12 @@ export const About = ({ titles }: { titles: any }) => {
               <div className="col-lg-7">
                 <div className="about-descr">
                   <p className="p-heading">{titles[lang]["headerTitle"]}</p>
-                  <p className="separator mb-30">
+                  <p className="separator mb-30" style={{ minWidth: "100%" }}>
                     {titles[lang]["headerDescription"]}
+                    <div style={{ marginTop: "20px" }}>
+                      <strong>{titles[lang]["skill"]} :</strong>{" "}
+                      {titles[lang]["headerSkills"]}
+                    </div>
                   </p>
                 </div>
               </div>
