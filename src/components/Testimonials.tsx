@@ -21,7 +21,7 @@ export const Testimonials = ({ titles }: any) => {
 
           <div className="container">
             <div className="journal-block">
-              {titles[lang].testimonials.map((testimonial) => (
+              {titles[lang].testimonials.map((testimonial: any) => (
                 <div
                   style={{
                     display: "flex",

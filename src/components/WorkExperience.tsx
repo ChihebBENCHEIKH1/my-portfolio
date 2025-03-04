@@ -1,7 +1,6 @@
 import { motion, useTransform } from "framer-motion"; // Added useTransform import
 import { useLanguage } from "../context/LanguageContext";
 import { useScroll } from "framer-motion";
-import Card from "./Card";
 
 export const WorkExperience = ({ titles }: any) => {
   const { lang } = useLanguage();
@@ -22,7 +21,7 @@ export const WorkExperience = ({ titles }: any) => {
 
           <div className="container">
             <div className="journal-block">
-              {titles[lang].workExperienceList.map((workExperience) => (
+              {titles[lang].workExperienceList.map((workExperience: any) => (
                 <div
                   style={{
                     display: "flex",

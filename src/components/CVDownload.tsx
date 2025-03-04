@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import englishCv from "../assets/cv/Chiheb_CV.pdf";
-import germanCv from "../assets/cv/Chiheb_CV_de.pdf";
+
 export const CVDownload = ({ titles }: any) => {
   // Modified parameter to receive an object
   const { lang } = useLanguage();
