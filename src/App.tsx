@@ -8,6 +8,8 @@ import { Portfolio } from "./components/Portfolio";
 import { Footer } from "./components/Footer";
 import { Contact } from "./components/Contact";
 import { AnimatePresence, motion } from "framer-motion";
+import { WorkExperience } from "./components/WorkExperience";
+import { Testimonials } from "./components/Testimonials";
 function App() {
   return (
     <>
@@ -35,8 +37,10 @@ function App() {
           <Navbar titles={textContent} />
           <Header titles={textContent} />
           <About titles={textContent} />
-          <CVDownload titles={textContent} />
+          <WorkExperience titles={textContent} />
           <Portfolio titles={textContent} />
+          <Testimonials titles={textContent} />
+          <CVDownload titles={textContent} />
           <Contact titles={textContent} />
           <Footer />
         </motion.div>

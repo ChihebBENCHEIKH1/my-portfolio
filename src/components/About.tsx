@@ -44,8 +44,20 @@ export const About = ({ titles }: { titles: any }) => {
                   <p className="separator mb-30" style={{ minWidth: "100%" }}>
                     {titles[lang]["headerDescription"]}
                     <div style={{ marginTop: "20px" }}>
-                      <strong>{titles[lang]["skill"]} :</strong>{" "}
-                      {titles[lang]["headerSkills"]}
+                      <p>
+                        <strong>{titles[lang]["skill"]} :</strong>{" "}
+                      </p>
+                      <ul
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <li>{titles[lang]["Frontend"]}</li>
+                        <li>{titles[lang]["Backend"]}</li>
+                        <li>{titles[lang]["DevOps & Tools"]}</li>
+                      </ul>
                     </div>
                   </p>
                 </div>

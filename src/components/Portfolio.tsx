@@ -19,7 +19,7 @@ export const Portfolio = ({ titles }: any) => {
 
   return (
     <motion.div style={{ scale }}>
-      <div id={titles[lang]["navBar"][1]} className="text-left paddsection">
+      <div id={titles[lang]["navBar"][3]} className="text-left paddsection">
         <section id="Portfolio">
           <div className="container">
             <div className="section-title text-center">
@@ -40,6 +40,33 @@ export const Portfolio = ({ titles }: any) => {
                     websiteURL={project.websiteURL}
                     image={project.image}
                     tech={titles[lang]["technologies"]}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="container" style={{ marginTop: "50px" }}>
+            <div className="section-title text-center">
+              <motion.h3>{titles[lang].backendProjects}</motion.h3>
+            </div>
+          </div>
+
+          <div className="container">
+            <div className="journal-block">
+              <div
+                className="row"
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                {titles[lang].backendProjectsList.map((project: Project) => (
+                  <Card
+                    key={Math.random() * 1000}
+                    title={project.title}
+                    description={project.description}
+                    technologies={project.technologies}
+                    websiteURL={project.websiteURL}
+                    image={project.image}
+                    tech={titles[lang]["technologies"]}
+                    isFrameVisible={false}
                   />
                 ))}
               </div>

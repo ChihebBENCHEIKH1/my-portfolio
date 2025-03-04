@@ -8,6 +8,7 @@ type Props = {
   websiteURL: string;
   image: string;
   tech: string;
+  isFrameVisible?: boolean;
 };
 
 const Card: React.FC<Props> = ({
@@ -17,6 +18,7 @@ const Card: React.FC<Props> = ({
   websiteURL,
   image,
   tech,
+  isFrameVisible = true,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -29,10 +31,11 @@ const Card: React.FC<Props> = ({
           transition={{ duration: 0.3 }}
         >
           <div
+            onClick={() => window.open(websiteURL, "_blank")}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {isHovered ? (
+            {isHovered && isFrameVisible ? (
               <iframe
                 src={websiteURL}
                 className="frame-responsive"

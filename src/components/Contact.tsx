@@ -11,7 +11,7 @@ export const Contact = (titles: any) => {
     <>
       <motion.div style={{ scale }}>
         <div id="contact" className="paddsection">
-          <section id={titles["titles"][lang]["navBar"][3]}>
+          <section id={titles["titles"][lang]["navBar"][5]}>
             <div className="container">
               <div className="contact-block1">
                 <div className="row">

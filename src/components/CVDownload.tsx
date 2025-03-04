@@ -33,15 +33,6 @@ export const CVDownload = ({ titles }: any) => {
               {" "}
               English
             </a>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href={germanCv}
-              className="btn btn-cv"
-            >
-              {" "}
-              Deutsch
-            </a>
             {/* <a
               target="_blank"
               rel="noopener noreferrer"
