@@ -34,6 +34,11 @@ const Card: React.FC<Props> = ({
             onClick={() => window.open(websiteURL, "_blank")}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             {isHovered && isFrameVisible ? (
               <iframe

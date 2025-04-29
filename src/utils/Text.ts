@@ -2,6 +2,8 @@ import ig from "../assets/in.png";
 import invoice from "../assets/inv.png";
 import eBank from "../assets/eb.png";
 import hero from "../assets/hero.png";
+import swifltet from "../assets/swifltet.jpeg";
+
 export const textContent = {
   eng: {
     navBar: [
@@ -116,6 +118,14 @@ export const textContent = {
         ],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
         image: hero,
+      },
+      {
+        title: "Swiftlet – Lightweight Node.js Web Framework",
+        description:
+          "Swiftlet is a minimalist web framework built from scratch using pure Node.js. It supports dynamic routing, query and body parsing, and CORS out of the box — all with zero dependencies. Designed for speed, simplicity, and flexibility, Swiftlet offers a deeper look into how web frameworks like Express function under the hood.",
+        technologies: ["Node.js", "JavaScript", "HTTP", "Routing", "CORS"],
+        websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
+        image: swifltet,
       },
     ],
     contactTitle: "GET IN TOUCH",
@@ -286,6 +296,14 @@ export const textContent = {
         ],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
         image: hero,
+      },
+      {
+        title: "Swiftlet – Leichtgewichtiges Node.js Web-Framework",
+        description:
+          "Swiftlet ist ein minimalistisches Web-Framework, das vollständig mit reinem Node.js von Grund auf entwickelt wurde. Es unterstützt dynamisches Routing, das Parsen von Querys und Request-Bodies sowie CORS – alles ohne externe Abhängigkeiten. Swiftlet wurde für Geschwindigkeit, Einfachheit und Flexibilität entwickelt und bietet einen tieferen Einblick in die Funktionsweise von Web-Frameworks wie Express.",
+        technologies: ["Node.js", "JavaScript", "HTTP", "Routing", "CORS"],
+        websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
+        image: swifltet,
       },
     ],
     contactTitle: "KONTAKTIEREN SIE UNS",
