@@ -85,7 +85,7 @@ export const Portfolio = ({ titles }: any) => {
                 className="row"
                 style={{ alignItems: "center", justifyContent: "center" }}
               >
-                {titles[lang].backendProjectsList.map((project: Project) => (
+                {titles[lang].devopsProjectsList.map((project: Project) => (
                   <Card
                     key={Math.random() * 1000}
                     title={project.title}

@@ -3,7 +3,7 @@ import Navbar from "./components/NavBar";
 import { textContent } from "./utils/Text";
 import { Header } from "./components/Header";
 import { About } from "./components/About";
-import { CVDownload } from "./components/CVDownload";
+// import { CVDownload } from "./components/CVDownload";
 import { Portfolio } from "./components/Portfolio";
 import { Footer } from "./components/Footer";
 import { Contact } from "./components/Contact";
