@@ -4,6 +4,7 @@ import eBank from "../assets/eb.png";
 import hero from "../assets/hero.png";
 import swifltet from "../assets/swifltet.jpeg";
 import docker from "../assets/docker.jpg";
+import teomach from "../assets/teomach.png";
 export const textContent = {
   eng: {
     navBar: [
@@ -152,7 +153,7 @@ export const textContent = {
           "Built Vue.js/Laravel apps from Figma designs, implementing Docker CI/CD pipelines and PHPUnit testing to reduce post-deployment issues",
       },
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5pzNyZM2md6VO1eLhcw_KPHwePi0Nm2mOzg&s",
+        img: teomach,
         title: "Frontend Developer",
         company: "Teomach Limited",
         description:
@@ -351,7 +352,7 @@ export const textContent = {
           "Entwicklung von Vue.js/Laravel-Apps basierend auf Figma-Designs, Implementierung von Docker CI/CD-Pipelines und PHPUnit-Tests, um Probleme nach dem Deployment zu reduzieren",
       },
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5pzNyZM2md6VO1eLhcw_KPHwePi0Nm2mOzg&s",
+        img: teomach,
         title: "Frontend Developer",
         company: "Teomach Limited",
         description:
