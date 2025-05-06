@@ -72,6 +72,34 @@ export const Portfolio = ({ titles }: any) => {
               </div>
             </div>
           </div>
+
+          <div className="container" style={{ marginTop: "50px" }}>
+            <div className="section-title text-center">
+              <motion.h3>{titles[lang].devopsProjects}</motion.h3>
+            </div>
+          </div>
+
+          <div className="container">
+            <div className="journal-block">
+              <div
+                className="row"
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                {titles[lang].backendProjectsList.map((project: Project) => (
+                  <Card
+                    key={Math.random() * 1000}
+                    title={project.title}
+                    description={project.description}
+                    technologies={project.technologies}
+                    websiteURL={project.websiteURL}
+                    image={project.image}
+                    tech={titles[lang]["technologies"]}
+                    isFrameVisible={false}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </motion.div>

@@ -40,7 +40,7 @@ function App() {
           <WorkExperience titles={textContent} />
           <Portfolio titles={textContent} />
           <Testimonials titles={textContent} />
-          <CVDownload titles={textContent} />
+          {/* <CVDownload titles={textContent} /> */}
           <Contact titles={textContent} />
           <Footer />
         </motion.div>

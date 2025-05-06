@@ -3,7 +3,7 @@ import invoice from "../assets/inv.png";
 import eBank from "../assets/eb.png";
 import hero from "../assets/hero.png";
 import swifltet from "../assets/swifltet.jpeg";
-
+import docker from "../assets/docker.jpg";
 export const textContent = {
   eng: {
     navBar: [
@@ -141,6 +141,7 @@ export const textContent = {
     "DevOps & Tools":
       "DevOps & Tools: Docker, GitHub Actions, GitLab CI, Nginx, Jira, PHPUnit",
     backendProjects: "Full-Stack projects",
+    devopsProjects: "DevOps projects",
     workExperience: "Work Experience",
     workExperienceList: [
       {
@@ -180,6 +181,16 @@ export const textContent = {
         email: "mathias.molnar@friends-in-flats.at",
         testimonial:
           "Chiheb is a talented and detail-oriented developer who excels in building performant, user-friendly interfaces with Next.js and modern JavaScript frameworks",
+      },
+    ],
+    devopsProjectsList: [
+      {
+        title: "Dockerized Full-Stack Project",
+        description:
+          "Dockerized development and production environment for backend (Node.js) and frontend (React) apps",
+        technologies: ["Node.js", "React", "Docker", "Github actions"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/DockerizedApp",
+        image: docker,
       },
     ],
   },
@@ -306,6 +317,16 @@ export const textContent = {
         image: swifltet,
       },
     ],
+    devopsProjectsList: [
+      {
+        title: "Dockerisiertes Full-Stack-Projekt",
+        description:
+          "Dockerisiertes Entwicklungs- und Produktionsumfeld für Backend- (Node.js) und Frontend-Anwendungen (React)",
+        technologies: ["Node.js", "React", "Docker", "Github Actions"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/DockerizedApp",
+        image: docker,
+      },
+    ],
     contactTitle: "KONTAKTIEREN SIE UNS",
     codeProjects: "Programmierprojekte",
     contactName: "Chiheb BEN CHEIKH",
@@ -319,6 +340,7 @@ export const textContent = {
     "DevOps & Tools":
       "DevOps & Tools: Docker, GitHub Actions, GitLab CI, Nginx, Jira, PHPUnit",
     backendProjects: "Full-Stack-projekte",
+    devopsProjects: "DevOps-Projekte",
     workExperience: "Berufserfahrung",
     workExperienceList: [
       {
