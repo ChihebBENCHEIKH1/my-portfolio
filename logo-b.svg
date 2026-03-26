@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!--
+    CONCEPT B: "NEGATIVE SPACE BUILDER"
+    A solid rounded square with the letter C carved out as negative space.
+    Inside the C's gap, a small square/block sits — representing "building".
+    Ultra clean. Reads as a C at first, then you notice the block.
+    Think Notion, Linear, Vercel — that tier of branding.
+  -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16162a"/>
+    </linearGradient>
+    <mask id="cMask">
+      <rect width="512" height="512" fill="white"/>
+      <!-- The C cutout -->
+      <path d="
+        M 320 155
+        A 115 115 0 1 0 320 357
+        L 320 318
+        A 76 76 0 1 1 320 194
+        Z
+      " fill="black"/>
+    </mask>
+    <mask id="blockReveal">
+      <rect width="512" height="512" fill="white"/>
+    </mask>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" fill="#f8f8f8"/>
+
+  <!-- Main shape with C carved out -->
+  <rect x="56" y="56" width="400" height="400" rx="48" fill="url(#bg)" mask="url(#cMask)"/>
+
+  <!-- The "builder block" sitting in the C gap -->
+  <rect x="324" y="236" width="40" height="40" rx="6" fill="#4F46E5"/>
+
+  <!-- Subtle shadow under block -->
+  <rect x="326" y="238" width="40" height="40" rx="6" fill="#000" opacity="0.15" transform="translate(2,2)"/>
+  <rect x="324" y="236" width="40" height="40" rx="6" fill="#4F46E5"/>
+
+  <!-- Small accent dot -->
+  <circle cx="344" cy="256" r="4" fill="white" opacity="0.9"/>
+
+  <!-- Name below -->
+  <text x="256" y="498" text-anchor="middle"
+    font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif"
+    font-size="11" font-weight="600" fill="#1a1a2e" letter-spacing="8" opacity="0.5">CHIHEB</text>
+</svg>
