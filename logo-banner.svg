@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 350" fill="none">
+  <!--
+    LinkedIn Banner: 1400x350
+    The meteor streaks across the wide frame left-to-right.
+  -->
+  <defs>
+    <radialGradient id="bg" cx="40%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#0e0e1a"/>
+      <stop offset="100%" stop-color="#04040a"/>
+    </radialGradient>
+
+    <radialGradient id="headGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="20%" stop-color="#e0e8ff" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="#818cf8" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="trail" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#e0e8ff" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#a5b4fc" stop-opacity="0.1"/>
+      <stop offset="65%" stop-color="#818cf8" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="trail2" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0"/>
+      <stop offset="55%" stop-color="#a855f7" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#c084fc" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="warmTrail" x1="0" y1="0" x2="1" y2="0.3">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0"/>
+      <stop offset="65%" stop-color="#f59e0b" stop-opacity="0.03"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.15"/>
+    </linearGradient>
+
+    <filter id="bloom" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="b2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="b3"/>
+      <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="particle" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="350" fill="url(#bg)"/>
+
+  <!-- Stars scattered across banner -->
+  <g opacity="0.18">
+    <circle cx="50" cy="40" r="0.8" fill="white"/>
+    <circle cx="180" cy="290" r="0.6" fill="white"/>
+    <circle cx="320" cy="60" r="0.7" fill="white"/>
+    <circle cx="500" cy="310" r="0.5" fill="white"/>
+    <circle cx="650" cy="30" r="0.8" fill="white"/>
+    <circle cx="780" cy="280" r="0.6" fill="white"/>
+    <circle cx="900" cy="55" r="0.7" fill="white"/>
+    <circle cx="1050" cy="300" r="0.6" fill="white"/>
+    <circle cx="1150" cy="45" r="0.8" fill="white"/>
+    <circle cx="1300" cy="260" r="0.7" fill="white"/>
+    <circle cx="1350" cy="80" r="0.5" fill="white"/>
+    <circle cx="250" cy="170" r="0.5" fill="white"/>
+    <circle cx="1220" cy="140" r="0.6" fill="white"/>
+    <circle cx="70" cy="200" r="0.6" fill="white"/>
+    <circle cx="420" cy="130" r="0.5" fill="white"/>
+    <circle cx="1380" cy="180" r="0.5" fill="white"/>
+    <circle cx="600" cy="270" r="0.6" fill="white"/>
+    <circle cx="850" cy="180" r="0.5" fill="white"/>
+    <circle cx="1100" cy="90" r="0.6" fill="white"/>
+    <circle cx="140" cy="100" r="0.5" fill="white"/>
+  </g>
+
+  <!-- ===== METEOR — sweeps left to right across the banner ===== -->
+
+  <!-- Wide atmospheric glow -->
+  <line x1="100" y1="60" x2="880" y2="155"
+    stroke="#6366f1" stroke-width="45" stroke-linecap="round" opacity="0.03" filter="url(#soft)"/>
+
+  <!-- Main trail -->
+  <path d="M 100 60 Q 450 100, 880 155"
+    stroke="url(#trail)" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 115 52 Q 460 94, 888 148"
+    stroke="url(#trail2)" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M 90 68 Q 440 108, 874 162"
+    stroke="url(#warmTrail)" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Three shin fragments rising from trail -->
+  <g filter="url(#particle)">
+    <!-- Fragment 1 -->
+    <line x1="350" y1="88" x2="332" y2="45" stroke="#a5b4fc" stroke-width="1.3" stroke-linecap="round" opacity="0.4"/>
+    <circle cx="332" cy="43" r="3" fill="#a5b4fc" opacity="0.5"/>
+    <circle cx="332" cy="43" r="1.3" fill="white" opacity="0.4"/>
+
+    <!-- Fragment 2 (tallest) -->
+    <line x1="520" y1="108" x2="508" y2="48" stroke="#c084fc" stroke-width="1.3" stroke-linecap="round" opacity="0.45"/>
+    <circle cx="508" cy="46" r="3.5" fill="#c084fc" opacity="0.55"/>
+    <circle cx="508" cy="46" r="1.5" fill="white" opacity="0.45"/>
+
+    <!-- Fragment 3 -->
+    <line x1="700" y1="130" x2="692" y2="78" stroke="#818cf8" stroke-width="1.3" stroke-linecap="round" opacity="0.35"/>
+    <circle cx="692" cy="76" r="3" fill="#818cf8" opacity="0.45"/>
+    <circle cx="692" cy="76" r="1.3" fill="white" opacity="0.35"/>
+  </g>
+
+  <!-- Debris particles along trail -->
+  <g filter="url(#particle)">
+    <circle cx="200" cy="68" r="1" fill="#a5b4fc" opacity="0.12"/>
+    <circle cx="280" cy="78" r="1.3" fill="#c084fc" opacity="0.15"/>
+    <circle cx="430" cy="98" r="1" fill="#a5b4fc" opacity="0.12"/>
+    <circle cx="580" cy="115" r="1.4" fill="#818cf8" opacity="0.15"/>
+    <circle cx="640" cy="122" r="0.8" fill="#fbbf24" opacity="0.08"/>
+    <circle cx="760" cy="140" r="1.2" fill="#e879f9" opacity="0.1"/>
+    <circle cx="830" cy="150" r="0.9" fill="#c084fc" opacity="0.12"/>
+    <circle cx="470" cy="102" r="0.7" fill="#fbbf24" opacity="0.08"/>
+  </g>
+
+  <!-- ===== METEOR HEAD — C curve ===== -->
+  <g filter="url(#bloom)">
+    <path d="
+      M 880 155
+      C 910 170, 930 200, 928 230
+      C 925 260, 905 280, 870 288
+      C 840 294, 815 288, 790 275
+    " stroke="white" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </g>
+
+  <!-- Inner bright core of C -->
+  <path d="
+    M 880 155
+    C 910 170, 930 200, 928 230
+    C 925 260, 905 280, 870 288
+    C 840 294, 815 288, 790 275
+  " stroke="white" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.9"/>
+
+  <!-- Head glow -->
+  <circle cx="880" cy="155" r="22" fill="url(#headGlow)" opacity="0.5"/>
+  <circle cx="880" cy="155" r="6" fill="white" opacity="0.9" filter="url(#particle)"/>
+  <circle cx="878" cy="153" r="2" fill="white"/>
+
+  <!-- Tail glow -->
+  <circle cx="790" cy="275" r="3" fill="#a5b4fc" opacity="0.4" filter="url(#particle)"/>
+  <circle cx="790" cy="275" r="1.3" fill="white" opacity="0.25"/>
+
+  <!-- ===== NAME — right side of banner ===== -->
+  <text x="1150" y="168" text-anchor="middle"
+    font-family="'Georgia', 'Palatino Linotype', 'Book Antiqua', serif"
+    font-size="28" font-weight="400" fill="white" letter-spacing="8" opacity="0.5"
+    filter="url(#textGlow)">CHIHEB</text>
+  <line x1="1070" y1="182" x2="1230" y2="182" stroke="white" stroke-width="0.5" opacity="0.12"/>
+  <text x="1150" y="200" text-anchor="middle"
+    font-family="'Georgia', 'Palatino Linotype', serif"
+    font-size="11" font-weight="300" fill="#a0a0b8" letter-spacing="6" opacity="0.4">BEN CHEIKH</text>
+
+  <!-- Subtle tagline -->
+  <text x="1150" y="228" text-anchor="middle"
+    font-family="-apple-system, 'Helvetica Neue', sans-serif"
+    font-size="9" font-weight="400" fill="#818cf8" letter-spacing="4" opacity="0.25">FULL-STACK ENGINEER</text>
+</svg>
