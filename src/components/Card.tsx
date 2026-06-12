@@ -47,7 +47,7 @@ const Card: React.FC<Props> = ({
                 title="Website Preview"
               ></iframe>
             ) : (
-              <img src={image} className="img-responsive" alt="img" />
+              <img src={image} className="img-responsive" alt={title} />
             )}
           </div>
 

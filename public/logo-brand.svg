@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="16" result="b2"/>
+      <feMerge>
+        <feMergeNode in="b2"/>
+        <feMergeNode in="b1"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glow-sm" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ambient" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+
+    <!-- Background gradient -->
+    <radialGradient id="bg" cx="50%" cy="45%" r="55%">
+      <stop offset="0%" stop-color="#0a0c14"/>
+      <stop offset="100%" stop-color="#04050a"/>
+    </radialGradient>
+
+    <!-- The C stroke gradient -->
+    <linearGradient id="cStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="50%" stop-color="#00c8ff"/>
+      <stop offset="100%" stop-color="#ff007f"/>
+    </linearGradient>
+
+    <!-- Cursor blink gradient -->
+    <linearGradient id="cursorGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#00a0cc"/>
+    </linearGradient>
+
+    <!-- Mask for the C shape -->
+    <clipPath id="roundClip">
+      <rect x="32" y="32" width="448" height="448" rx="88"/>
+    </clipPath>
+  </defs>
+
+  <!-- ===== BACKGROUND ===== -->
+  <rect x="32" y="32" width="448" height="448" rx="88" fill="url(#bg)"/>
+
+  <!-- Ambient light bleed -->
+  <circle cx="200" cy="200" r="120" fill="#00f0ff" opacity="0.04" filter="url(#ambient)"/>
+  <circle cx="340" cy="330" r="100" fill="#ff007f" opacity="0.03" filter="url(#ambient)"/>
+
+  <!-- Subtle noise texture via dots -->
+  <g clip-path="url(#roundClip)" opacity="0.03">
+    <circle cx="100" cy="150" r="0.8" fill="#00f0ff"/>
+    <circle cx="200" cy="100" r="0.6" fill="#ff007f"/>
+    <circle cx="350" cy="180" r="0.7" fill="#00f0ff"/>
+    <circle cx="420" cy="300" r="0.5" fill="#ffb800"/>
+    <circle cx="150" cy="380" r="0.8" fill="#00f0ff"/>
+    <circle cx="300" cy="420" r="0.6" fill="#ff007f"/>
+    <circle cx="80" cy="280" r="0.5" fill="#ffb800"/>
+    <circle cx="400" cy="130" r="0.7" fill="#00f0ff"/>
+  </g>
+
+  <!-- ===== THE C — Built from a thick arc with sharp-cut gap ===== -->
+  <!--
+    The C is an open arc (270°) — thick, bold, geometric.
+    Gap faces right. Think of it as a broken ring.
+  -->
+  <g filter="url(#glow)">
+    <!-- Main C arc — outer ring -->
+    <path d="
+      M 340 148
+      A 140 140 0 1 0 340 364
+    " stroke="url(#cStroke)" stroke-width="42" stroke-linecap="square" fill="none"/>
+  </g>
+
+  <!-- Inner edge highlight -->
+  <path d="
+    M 340 148
+    A 140 140 0 1 0 340 364
+  " stroke="white" stroke-width="1" stroke-linecap="square" fill="none" opacity="0.08"
+    transform="translate(0,0)"/>
+
+  <!-- ===== CURSOR BLOCK — The signature element ===== -->
+  <!-- A blinking terminal cursor sits in the gap of the C -->
+  <g filter="url(#glow-sm)">
+    <rect x="348" y="234" width="18" height="44" rx="2" fill="url(#cursorGrad)" opacity="0.9"/>
+  </g>
+  <!-- Cursor reflection -->
+  <rect x="348" y="234" width="18" height="12" rx="2" fill="white" opacity="0.15"/>
+
+  <!-- ===== ACCENT ELEMENTS ===== -->
+
+  <!-- Top-right corner data tag -->
+  <g font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="9" opacity="0.18">
+    <text x="385" y="115" fill="#00f0ff" letter-spacing="2">CBC</text>
+  </g>
+
+  <!-- Three dots — terminal traffic lights, top-left -->
+  <g transform="translate(72, 78)" opacity="0.35">
+    <circle cx="0" cy="0" r="4.5" fill="#ff5f57"/>
+    <circle cx="16" cy="0" r="4.5" fill="#febc2e"/>
+    <circle cx="32" cy="0" r="4.5" fill="#28c840"/>
+  </g>
+
+  <!-- Bottom accent line -->
+  <line x1="120" y1="430" x2="392" y2="430" stroke="#00f0ff" stroke-width="0.5" opacity="0.1"/>
+
+  <!-- Subtle angle bracket accents flanking the C -->
+  <g stroke="#ff007f" stroke-width="1.5" stroke-linecap="round" opacity="0.2">
+    <!-- Left < bracket -->
+    <polyline points="108,220 88,256 108,292" fill="none"/>
+    <!-- Right > bracket -->
+    <polyline points="404,220 424,256 404,292" fill="none"/>
+  </g>
+
+  <!-- ===== BOTTOM WORDMARK ===== -->
+  <text x="256" y="405" text-anchor="middle"
+    font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace"
+    font-weight="600" font-size="13" fill="#00f0ff" letter-spacing="12" opacity="0.5">CHIHEB</text>
+
+  <text x="256" y="425" text-anchor="middle"
+    font-family="'JetBrains Mono', 'SF Mono', 'Fira Code', monospace"
+    font-weight="300" font-size="8" fill="#8080a0" letter-spacing="6" opacity="0.35">BEN CHEIKH</text>
+
+  <!-- ===== BORDER ===== -->
+  <rect x="32" y="32" width="448" height="448" rx="88"
+    fill="none" stroke="#00f0ff" stroke-width="1" opacity="0.08"/>
+</svg>

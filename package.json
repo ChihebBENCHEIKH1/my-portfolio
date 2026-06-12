@@ -4,18 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "node node_modules/vite/bin/vite.js",
+    "build": "node node_modules/vite/bin/vite.js build",
+    "postbuild": "node scripts/prerender.mjs",
+    "prerender": "node scripts/prerender.mjs",
+    "preview": "node node_modules/vite/bin/vite.js preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@react-three/drei": "^9.122.0",
+    "@react-three/fiber": "^8.18.0",
+    "@react-three/postprocessing": "^2.19.1",
     "bootstrap": "^5.3.3",
-    "gh-pages": "^6.1.1",
     "fortawesome": "^0.0.1-security",
     "framer-motion": "^11.0.24",
+    "gh-pages": "^6.1.1",
     "gsap": "^3.12.5",
     "hover.css": "^2.3.2",
     "ionicons": "^7.3.1",
@@ -23,18 +28,27 @@
     "owl.carousel": "^2.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typed.js": "^2.1.0"
+    "three": "^0.183.2",
+    "typed.js": "^2.1.0",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.2.1",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
+    "@types/three": "^0.183.1",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "puppeteer": "^23.11.1",
+    "sharp": "^0.34.5",
+    "sirv": "^3.0.2",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4"
+    "vite": "^5.1.4",
+    "vite-plugin-image-optimizer": "^2.0.3"
   }
 }

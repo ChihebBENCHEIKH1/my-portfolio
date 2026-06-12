@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <filter id="neon" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="b1"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="b2"/>
+      <feGaussianBlur in="SourceGraphic" stdDeviation="24" result="b3"/>
+      <feMerge><feMergeNode in="b3"/><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-soft" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="g"/>
+      <feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="mega-glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="50"/>
+    </filter>
+    <filter id="mid-glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="25"/>
+    </filter>
+
+    <!-- Background -->
+    <radialGradient id="bgGrad" cx="50%" cy="42%" r="60%">
+      <stop offset="0%" stop-color="#0c0e18"/>
+      <stop offset="60%" stop-color="#06070d"/>
+      <stop offset="100%" stop-color="#020304"/>
+    </radialGradient>
+
+    <!-- C gradient - the money gradient -->
+    <linearGradient id="cGrad" x1="0" y1="0" x2="0.8" y2="1">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="35%" stop-color="#00d4ff"/>
+      <stop offset="65%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ff007f"/>
+    </linearGradient>
+
+    <!-- Inner C glow gradient -->
+    <linearGradient id="innerGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ff007f" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <!-- Particle trail gradient -->
+    <linearGradient id="trail1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.7"/>
+    </linearGradient>
+    <linearGradient id="trail2" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0%" stop-color="#ff007f" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#ff007f" stop-opacity="0.6"/>
+    </linearGradient>
+
+    <clipPath id="frame">
+      <rect x="24" y="24" width="464" height="464" rx="96"/>
+    </clipPath>
+  </defs>
+
+  <!-- ===== CANVAS ===== -->
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="url(#bgGrad)"/>
+
+  <!-- ===== DEEP ATMOSPHERE ===== -->
+  <!-- Large ambient orbs -->
+  <ellipse cx="190" cy="190" rx="160" ry="140" fill="#00f0ff" opacity="0.035" filter="url(#mega-glow)"/>
+  <ellipse cx="350" cy="350" rx="140" ry="120" fill="#ff007f" opacity="0.03" filter="url(#mega-glow)"/>
+  <ellipse cx="256" cy="256" rx="80" ry="80" fill="#a855f7" opacity="0.025" filter="url(#mega-glow)"/>
+
+  <!-- ===== GEOMETRIC CONSTELLATION ===== -->
+  <!-- Thin connecting lines between scattered points — star map feel -->
+  <g clip-path="url(#frame)" stroke-width="0.4" opacity="0.07">
+    <line x1="80" y1="120" x2="160" y2="95" stroke="#00f0ff"/>
+    <line x1="160" y1="95" x2="200" y2="140" stroke="#00f0ff"/>
+    <line x1="80" y1="120" x2="110" y2="180" stroke="#00f0ff"/>
+
+    <line x1="380" y1="100" x2="430" y2="140" stroke="#ff007f"/>
+    <line x1="430" y1="140" x2="410" y2="190" stroke="#ff007f"/>
+    <line x1="380" y1="100" x2="350" y2="130" stroke="#ff007f"/>
+
+    <line x1="100" y1="380" x2="140" y2="420" stroke="#a855f7"/>
+    <line x1="140" y1="420" x2="190" y2="400" stroke="#a855f7"/>
+
+    <line x1="370" y1="380" x2="420" y2="410" stroke="#00f0ff"/>
+    <line x1="420" y1="410" x2="440" y2="370" stroke="#00f0ff"/>
+  </g>
+
+  <!-- Constellation dots -->
+  <g clip-path="url(#frame)" opacity="0.15">
+    <circle cx="80" cy="120" r="1.8" fill="#00f0ff"/>
+    <circle cx="160" cy="95" r="1.2" fill="#00f0ff"/>
+    <circle cx="200" cy="140" r="1.5" fill="#00f0ff"/>
+    <circle cx="110" cy="180" r="1" fill="#00f0ff"/>
+    <circle cx="380" cy="100" r="1.8" fill="#ff007f"/>
+    <circle cx="430" cy="140" r="1.2" fill="#ff007f"/>
+    <circle cx="410" cy="190" r="1" fill="#ff007f"/>
+    <circle cx="350" cy="130" r="1.5" fill="#ff007f"/>
+    <circle cx="100" cy="380" r="1.5" fill="#a855f7"/>
+    <circle cx="140" cy="420" r="1.2" fill="#a855f7"/>
+    <circle cx="190" cy="400" r="1" fill="#a855f7"/>
+    <circle cx="370" cy="380" r="1.5" fill="#00f0ff"/>
+    <circle cx="420" cy="410" r="1.2" fill="#00f0ff"/>
+    <circle cx="440" cy="370" r="1" fill="#00f0ff"/>
+  </g>
+
+  <!-- ===== THE C — ENGINEERED GEOMETRIC MARK ===== -->
+  <!--
+    Not a font. A precision-cut arc built from geometry.
+    Thick, bold, gradient stroke. Gap faces right at ~40°.
+    Two parallel arcs create depth.
+  -->
+
+  <!-- C shadow/depth layer -->
+  <path d="M 338 138 A 148 148 0 1 0 338 374"
+    stroke="#000" stroke-width="52" stroke-linecap="round" fill="none" opacity="0.4"
+    transform="translate(3,4)"/>
+
+  <!-- C outer glow -->
+  <path d="M 338 138 A 148 148 0 1 0 338 374"
+    stroke="url(#cGrad)" stroke-width="52" stroke-linecap="round" fill="none"
+    filter="url(#mid-glow)" opacity="0.4"/>
+
+  <!-- C main stroke -->
+  <path d="M 338 138 A 148 148 0 1 0 338 374"
+    stroke="url(#cGrad)" stroke-width="48" stroke-linecap="round" fill="none"/>
+
+  <!-- C inner shine — top edge highlight -->
+  <path d="M 334 142 A 144 144 0 1 0 334 370"
+    stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.12"/>
+
+  <!-- C inner fill glow -->
+  <path d="M 330 150 A 132 132 0 1 0 330 362"
+    stroke="url(#innerGlow)" stroke-width="20" stroke-linecap="round" fill="none"/>
+
+  <!-- ===== ENERGY PARTICLES AT C ENDPOINTS ===== -->
+  <!-- Top endpoint burst -->
+  <g filter="url(#neon)">
+    <circle cx="338" cy="138" r="5" fill="#00f0ff"/>
+  </g>
+  <!-- Particle trail from top -->
+  <line x1="338" y1="138" x2="390" y2="105" stroke="url(#trail1)" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="390" cy="105" r="2" fill="#00f0ff" opacity="0.5" filter="url(#glow-soft)"/>
+  <line x1="338" y1="138" x2="370" y2="118" stroke="#00f0ff" stroke-width="0.5" opacity="0.3"/>
+  <circle cx="370" cy="118" r="1.2" fill="#00f0ff" opacity="0.4"/>
+  <line x1="338" y1="138" x2="355" y2="100" stroke="#00f0ff" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="355" cy="100" r="0.8" fill="#00f0ff" opacity="0.3"/>
+
+  <!-- Bottom endpoint burst -->
+  <g filter="url(#neon)">
+    <circle cx="338" cy="374" r="5" fill="#ff007f"/>
+  </g>
+  <!-- Particle trail from bottom -->
+  <line x1="338" y1="374" x2="392" y2="405" stroke="url(#trail2)" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="392" cy="405" r="2" fill="#ff007f" opacity="0.5" filter="url(#glow-soft)"/>
+  <line x1="338" y1="374" x2="372" y2="392" stroke="#ff007f" stroke-width="0.5" opacity="0.3"/>
+  <circle cx="372" cy="392" r="1.2" fill="#ff007f" opacity="0.4"/>
+  <line x1="338" y1="374" x2="358" y2="410" stroke="#ff007f" stroke-width="0.5" opacity="0.2"/>
+  <circle cx="358" cy="410" r="0.8" fill="#ff007f" opacity="0.3"/>
+
+  <!-- ===== ORBITING RING ===== -->
+  <!-- A tilted elliptical orbit passing around the C — depth illusion -->
+  <ellipse cx="256" cy="256" rx="195" ry="195" fill="none"
+    stroke="#00f0ff" stroke-width="0.6" stroke-dasharray="3 16 1 22" opacity="0.12"
+    transform="rotate(-20 256 256)"/>
+  <!-- Orbit dot -->
+  <circle cx="61" cy="256" r="2.5" fill="#00f0ff" opacity="0.35" filter="url(#glow-soft)"
+    transform="rotate(-20 256 256)"/>
+
+  <!-- Second orbit -->
+  <ellipse cx="256" cy="256" rx="210" ry="210" fill="none"
+    stroke="#ff007f" stroke-width="0.4" stroke-dasharray="2 28 1 18" opacity="0.08"
+    transform="rotate(35 256 256)"/>
+  <circle cx="466" cy="256" r="1.8" fill="#ff007f" opacity="0.25" filter="url(#glow-soft)"
+    transform="rotate(35 256 256)"/>
+
+  <!-- ===== FLOATING DATA FRAGMENTS ===== -->
+  <!-- These give the "alive system" feel -->
+  <g font-family="'JetBrains Mono', 'SF Mono', monospace" clip-path="url(#frame)">
+    <!-- Top-left system readout -->
+    <g font-size="7" opacity="0.12">
+      <text x="62" y="72" fill="#00f0ff" letter-spacing="1.5">SYS.ARCHITECT</text>
+      <text x="62" y="84" fill="#50dc50" letter-spacing="1">STATUS: ACTIVE</text>
+    </g>
+
+    <!-- Top-right -->
+    <g font-size="7" opacity="0.12" text-anchor="end">
+      <text x="450" y="72" fill="#ff007f" letter-spacing="1.5">0xCBC</text>
+      <text x="450" y="84" fill="#a855f7" letter-spacing="1">FULL_STACK</text>
+    </g>
+
+    <!-- Bottom center wordmark -->
+    <text x="256" y="442" text-anchor="middle"
+      font-size="11" font-weight="600" fill="white" letter-spacing="14" opacity="0.6">CHIHEB</text>
+    <text x="256" y="460" text-anchor="middle"
+      font-size="7" font-weight="300" fill="#8888a0" letter-spacing="8" opacity="0.35">BEN CHEIKH</text>
+  </g>
+
+  <!-- ===== FRAME BORDER ===== -->
+  <!-- Ultra-subtle border that catches light -->
+  <rect x="24" y="24" width="464" height="464" rx="96"
+    fill="none" stroke="white" stroke-width="0.5" opacity="0.04"/>
+  <!-- Inner glow edge -->
+  <rect x="28" y="28" width="456" height="456" rx="92"
+    fill="none" stroke="#00f0ff" stroke-width="0.3" opacity="0.06"/>
+</svg>

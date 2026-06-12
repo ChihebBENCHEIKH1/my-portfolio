@@ -1,16 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "owl.carousel/dist/assets/owl.carousel.min.css";
-import "magnific-popup/dist/magnific-popup.css";
 import "./index.css";
 import { LanguageProvider } from "./context/LanguageContext.tsx";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const container = document.getElementById("root")!;
+const tree = (
   <React.StrictMode>
     <LanguageProvider>
       <App />
     </LanguageProvider>
   </React.StrictMode>
 );
+
+// Prerendered output (postbuild SSG) ships static HTML inside #root — hydrate it.
+// Dev / first-paint without prerender → empty #root → mount fresh.
+if (container.firstElementChild) {
+  ReactDOM.hydrateRoot(container, tree);
+} else {
+  ReactDOM.createRoot(container).render(tree);
+}

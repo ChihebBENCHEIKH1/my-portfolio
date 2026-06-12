@@ -1,9 +1,9 @@
-import ig from "../assets/in.png";
-import invoice from "../assets/inv.png";
-import eBank from "../assets/eb.png";
 import hero from "../assets/hero.png";
+import ghostwire from "../assets/ghostwire.png";
 import swifltet from "../assets/swifltet.jpeg";
-import docker from "../assets/docker.jpg";
+import sentinel from "../assets/sentinel-dashboard.png";
+import flowforge from "../assets/flowforge.png";
+import ghostwatch from "../assets/ghostwatch.png";
 import teomach from "../assets/teomach.png";
 export const textContent = {
   eng: {
@@ -17,154 +17,107 @@ export const textContent = {
     ],
     getInTouch: "GET IN TOUCH",
     name: "Chiheb BEN CHEIKH",
-    email: "bencheikh.chiheb@gmail.com",
+    email: "contact@chihebbencheikh.com",
     I: "I'm",
     qualities: [
       "Chiheb BEN CHEIKH",
-      "a Full Stack Developer",
-      "Curious",
-      "Creative",
-      "Collaborative",
+      "a Full-Stack Engineer",
+      "a Problem Solver",
+      "Detail-Oriented",
+      "Relentless",
     ],
-    myInfo: "Full Stack Developer, Creative Maker, Problem Solver",
+    myInfo: "Full-Stack Engineer · Problem Solver · Builder",
     headerTitle:
-      "Hi, I'm Chiheb Ben Cheikh—a Full Stack Developer who ships. I thrive in fast-paced environments where both code quality and speed matter",
+      "Hi, I'm Chiheb Ben Cheikh — I architect distributed systems and ship production-grade platforms. I thrive where reliability, scale, and velocity intersect",
     headerDescription:
-      "With a robust background in building production applications, I've built a dealership management system solo using React, Node.js, and Stripe, and have contributed to multiple production apps across diverse industries. I excel at integrating frontend excellence with solid backend solutions, leveraging technologies like React, Next.js, Vue.js, Node.js, and Laravel. Constantly pushing the boundaries of innovation, I combine my technical expertise with a passion for problem-solving, ensuring every project I touch is efficient, scalable, and built to last. Welcome to my portfolio, where technology meets creativity",
+      "I design and build the systems behind the interface — from high-concurrency monitoring engines on GCP handling real-time telemetry across distributed microservices, to AI-powered remediation agents that autonomously fix container vulnerabilities. My work spans the full stack: React and Next.js frontends, FastAPI and Spring Boot backends, event-driven pipelines with RabbitMQ, and production infrastructure orchestrated with Docker, Kubernetes, and Terraform. I've engineered CI/CD pipelines that cut release cycles, delivered cross-platform mobile solutions with 99.9% uptime visibility, and built visual workflow engines from scratch. Every system I touch is designed for resilience, observability, and zero-downtime operation",
     headerSkills:
-      "JavaScript, ES11, TypeScript, HTML, CSS, RWD, React, Hooks, Next.js, Gatsby, React Native, Redux, MobX, Emotion, Styled Components, MUI, AntD, Formik, React Hook Form, Yup, RFF, i18n, JSON Schema, Jest, React Testing Library, Jasmine, Cypress, Nx, Vite, Webpack, GitHub, GitLab, Azure, JIRA",
+      "TypeScript, React, Next.js, Vue.js, Angular, React Native, Node.js, FastAPI, Spring Boot, Go, Laravel, Docker, Kubernetes, Terraform, GCP, RabbitMQ, WebSockets, CI/CD, GitHub Actions, Cypress, Playwright",
     cvDownload: "CV DOWNLOAD",
     moreInfo: "For more information check my CV in your preferred language:",
     portfolioTitle: "Projects",
-    role: "FrontEnd projects",
+    role: "Systems & Platform",
 
     projects: [
       {
-        title: "Instagram Clone",
+        title: "Ghostwire — Visual API Pipeline Builder",
         description:
-          "React Vite Instagram-Like landing page! This project showcases a simple landing page similar to Instagram, where users can view posts.",
-        technologies: ["React.js", "Tailwind CSS", "Responsive Design"],
-        websiteURL: "https://chihebbencheikh1.github.io/Instagram-clone/",
-        image: ig,
+          "Full-stack DevOps platform where you visually design API pipelines as node graphs, deploy them to real Docker infrastructure, stream logs live via WebSocket, and use an AI agent (ReAct loop) to automatically diagnose and remediate failures.",
+        technologies: ["React", "Node.js", "Docker", "WebSocket", "AI Agent"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        image: ghostwire,
       },
-      {
-        title: "Invoice Generator",
-        description:
-          "An Invoice Generator project built with React and TailwindCSS. Add items, quantity, prices, tax rates, and discounts.",
-        year: 2024,
-        technologies: ["React.js", "Tailwind CSS"],
-        websiteURL: "https://chihebbencheikh1.github.io/invoice-generator/",
-        image: invoice,
-      },
-      {
-        title: "React E-Bank Landing Page",
-        description:
-          "React frontend landing page for an e-bank presents a user-friendly interface for managing accounts and accessing financial services online, emphasizing simplicity and modern design.",
-        year: 2023,
-        technologies: ["React.js", "Tailwind CSS", "Vite"],
-        websiteURL: "https://chihebbencheikh1.github.io/react-e-bank/",
-        image: eBank,
-      },
-      // {
-      //   title: "E-Shop Landing Page",
-      //   description:
-      //     "This is a sample e-shop web application for selling electronic components and devices. The project is built with React, Vite, and Tailwind CSS. ",
-      //   year: 2023,
-      //   technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
-      //   websiteURL: "https://chihebbencheikh1.github.io/My-shop/",
-      //   image: eShop,
-      // },
-      // {
-      //   title: " tailwind-react-landing ",
-      //   description:
-      //     "A responsive landing page template built using React, Tailwind CSS, and Vite. The landing page is designed for an educational site, showcasing its features and services.",
-      //   year: 2022,
-      //   technologies: [
-      //     "Vite",
-      //     "Github pages",
-      //     "Github actions",
-      //     "Tailwind CSS",
-      //     "JavaScript",
-      //     "React.js",
-      //   ],
-      //   websiteURL:
-      //     "https://chihebbencheikh1.github.io/tailwind-react-landing/",
-      //   image: ed,
-      // },
-      // {
-      //   title: "Space Portfolio Game",
-      //   description:
-      //     "Created an exciting 2D space game to deploy on AWS using EC2 and CodeBuild for CI/CD. This demonstrates my game development skills and mastery of the AWS cloud.",
-      //   year: 2022,
-      //   technologies: ["HTML", "CSS", "JavaScript", "Canvas"],
-      //   websiteURL: "https://chihebbencheikh1.github.io/portfolio/index.html",
-      //   image: space,
-      // },
     ],
     backendProjectsList: [
       {
-        title: "Motorcycle Dealership",
+        title: "Motorcycle Dealership Platform",
         description:
-          "A full-stack platform for managing dealership operations, featuring OTP authentication, Stripe payments, automated invoicing, and modular architecture.",
-        technologies: [
-          "React.js",
-          "Node.js",
-          "Stripe",
-          "Docker",
-          "Sentry",
-          "Nginx",
-          "GitHub Actions",
-          "Jira",
-          "Cypress",
-        ],
+          "Full-stack platform for managing dealership operations — OTP authentication, Stripe payments, automated invoicing, and modular architecture with CI/CD and end-to-end testing.",
+        technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
         image: hero,
       },
       {
-        title: "Swiftlet – Lightweight Node.js Web Framework",
+        title: "Swiftlet — Zero-Dep Node.js Web Framework",
         description:
-          "Swiftlet is a minimalist web framework built from scratch using pure Node.js. It supports dynamic routing, query and body parsing, and CORS out of the box — all with zero dependencies. Designed for speed, simplicity, and flexibility, Swiftlet offers a deeper look into how web frameworks like Express function under the hood.",
-        technologies: ["Node.js", "JavaScript", "HTTP", "Routing", "CORS"],
+          "Minimalist web framework built from scratch with pure Node.js. Dynamic routing, body parsing, and CORS — zero dependencies. Published on npm.",
+        technologies: ["Node.js", "HTTP", "Routing", "npm Package"],
         websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
         image: swifltet,
+      },
+      {
+        title: "FlowForge — Workflow Automation Engine",
+        description:
+          "Production-grade workflow automation platform (mini Zapier) — visual DAG builder, webhook/cron triggers, branching conditions, real-time execution monitoring, and Redis-backed queue processing.",
+        technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
+        image: flowforge,
+      },
+      {
+        title: "GhostWatch — Incident Management Platform",
+        description:
+          "Event-driven incident management system with real-time Kanban board, RabbitMQ event bus, full-text search, WebSocket live updates, and Prometheus/Grafana observability stack.",
+        technologies: ["Spring Boot", "Angular", "RabbitMQ", "PostgreSQL", "Docker"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/GhostWatch",
+        image: ghostwatch,
       },
     ],
     contactTitle: "GET IN TOUCH",
     codeProjects: "code projects",
     contactName: "Chiheb BEN CHEIKH",
-    contactEmail: "bencheikh.chiheb@gmail.com",
+    contactEmail: "contact@chihebbencheikh.com",
     technologies: "Technologies",
     skill: "Technical Expertise",
     Frontend:
-      "Frontend: React, Next.js, Vue.js, Redux, Material-UI, Tailwind CSS, Cypress, Playwright",
+      "Production Stack: Go, Node.js, TypeScript, Next.js, Docker",
     Backend:
-      "Backend: Node.js, Laravel, TypeScript, RESTful APIs, Stripe Integration, Sentry",
+      "Ecosystem Polyglot: Python (FastAPI/Django), PHP (Laravel), Java (Spring Boot)",
     "DevOps & Tools":
-      "DevOps & Tools: Docker, GitHub Actions, GitLab CI, Nginx, Jira, PHPUnit",
+      "Cloud & DevOps: GCP, Kubernetes, Terraform, GitHub Actions, CI/CD",
     backendProjects: "Full-Stack projects",
-    devopsProjects: "DevOps projects",
+    devopsProjects: "DevOps & Security",
     workExperience: "Work Experience",
     workExperienceList: [
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full Stack Developer",
-        company: "K-tronik",
-        description:
-          "Built Vue.js/Laravel apps from Figma designs, implementing Docker CI/CD pipelines and PHPUnit testing to reduce post-deployment issues",
-      },
-      {
         img: teomach,
-        title: "Frontend Developer",
+        title: "Full Stack Engineer",
         company: "Teomach Limited",
         description:
-          "Modernized marketing site UI using Ant Design, improving cross-browser compatibility",
+          "Architected a high-concurrency monitoring engine on GCP using FastAPI, handling real-time telemetry from distributed microservices. Delivered cross-platform React Native solutions with 99.9% uptime visibility",
+      },
+      {
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
+        title: "Full Stack Developer",
+        company: "K-tronik GmbH",
+        description:
+          "Maintained and extended an Application Management System with Laravel and Vue.js. Engineered automated processing features while ensuring zero-regression through PHPUnit and Cypress testing",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoRKIXkbvCRWNgWBm5pfWeLrhu1mfOQ-hrCiS8Zc1kIw7QxcHwAWAwY7x6uR_7nPjvD28&usqp=CAU",
         title: "Full Stack Developer",
         company: "Friends in flat",
         description:
-          "Contributed to Next.js UI development for improved user experience and using prisma for database management",
+          "Built Next.js interfaces with Prisma ORM for database management, improving user experience and data layer architecture",
       },
     ],
     testimonialsTitle: "Testimonials",
@@ -186,12 +139,12 @@ export const textContent = {
     ],
     devopsProjectsList: [
       {
-        title: "Dockerized Full-Stack Project",
+        title: "Sentinel-Remediator — AI Vulnerability Agent",
         description:
-          "Dockerized development and production environment for backend (Node.js) and frontend (React) apps",
-        technologies: ["Node.js", "React", "Docker", "Github actions"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/DockerizedApp",
-        image: docker,
+          "Autonomous AI agent that ingests container vulnerability scans, generates fixes via a ReAct reasoning loop, verifies them through local Docker builds, and creates pull requests for human review.",
+        technologies: ["Go", "Next.js", "Docker", "AI Agent", "ReAct Loop"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
+        image: sentinel,
       },
     ],
   },
@@ -206,164 +159,117 @@ export const textContent = {
     ],
     getInTouch: "KONTAKTIEREN SIE UNS",
     name: "Chiheb BEN CHEIKH",
-    email: "bencheikh.chiheb@gmail.com",
+    email: "contact@chihebbencheikh.com",
     I: "Ich bin ",
     qualities: [
       "Chiheb BEN CHEIKH",
-      "ein Fullstack-Entwickler",
-      "Neugierig",
-      "Kreativ",
-      "Kooperativ",
+      "ein Full-Stack Engineer",
+      "ein Problemlöser",
+      "Detailorientiert",
+      "Unermüdlich",
     ],
-    myInfo: "Fullstack-Entwickler, Kreativer Gestalter, Problemlöser",
+    myInfo: "Full-Stack Engineer · Problemlöser · Builder",
     headerTitle:
-      "Hallo, ich bin Chiheb Ben Cheikh – ein Full-Stack-Entwickler, der versendet. Ich gedeihe in schnelllebigen Umgebungen, in denen sowohl Codequalität als auch Geschwindigkeit wichtig sind",
+      "Hallo, ich bin Chiheb Ben Cheikh — Ich entwerfe verteilte Systeme und liefere produktionsreife Plattformen. Ich gedeihe dort, wo Zuverlässigkeit, Skalierung und Geschwindigkeit zusammentreffen",
     headerDescription:
-      "Mit fundiertem Hintergrundwissen in der Entwicklung von Produktionsanwendungen habe ich allein mit React, Node.js und Stripe ein Händlerverwaltungssystem erstellt und zu mehreren Produktionsanwendungen in verschiedenen Branchen beigetragen. Ich bin hervorragend darin, Frontend-Exzellenz mit soliden Backend-Lösungen zu integrieren und dabei Technologien wie React, Next.js, Vue.js, Node.js und Laravel zu nutzen. Ich verschiebe ständig die Grenzen der Innovation und kombiniere mein technisches Fachwissen mit einer Leidenschaft für Problemlösungen. So stelle ich sicher, dass jedes Projekt, mit dem ich in Berührung komme, effizient, skalierbar und auf Langlebigkeit ausgelegt ist. Willkommen in meinem Portfolio, wo Technologie auf Kreativität trifft",
+      "Ich entwerfe und baue die Systeme hinter der Oberfläche — von hochparallelen Monitoring-Engines auf GCP, die Echtzeit-Telemetrie aus verteilten Microservices verarbeiten, bis hin zu KI-gestützten Remediations-Agenten, die Container-Schwachstellen autonom beheben. Meine Arbeit erstreckt sich über den gesamten Stack: React- und Next.js-Frontends, FastAPI- und Spring-Boot-Backends, Event-Driven-Pipelines mit RabbitMQ und Produktionsinfrastruktur orchestriert mit Docker, Kubernetes und Terraform. Jedes System, das ich berühre, ist auf Resilienz, Observability und Zero-Downtime-Betrieb ausgelegt",
     headerSkills:
-      "JavaScript, ES11, TypeScript, HTML, CSS, RWD, React, Hooks, Next.js, Gatsby, React Native, Redux, MobX, Emotion, Styled Components, MUI, AntD, Formik, React Hook Form, Yup, RFF, i18n, JSON Schema, Jest, React Testing Library, Jasmine, Cypress, Nx, Vite, Webpack, GitHub, GitLab, Azure, JIRA",
+      "TypeScript, React, Next.js, Vue.js, Angular, React Native, Node.js, FastAPI, Spring Boot, Go, Laravel, Docker, Kubernetes, Terraform, GCP, RabbitMQ, WebSockets, CI/CD, GitHub Actions, Cypress, Playwright",
     cvDownload: "Lebenslauf herunterladen",
     moreInfo:
       "Für weitere Informationen überprüfen Sie meinen Lebenslauf in Ihrer bevorzugten Sprache:",
     portfolioTitle: "Projekte",
-    role: "Frontend projekte",
+    role: "Systeme & Plattformen",
     projects: [
       {
-        title: "Instagram-Klon",
+        title: "Ghostwire — Visueller API-Pipeline-Builder",
         description:
-          "React Vite Instagram-ähnliche Landingpage! Dieses Projekt zeigt eine einfache Landingpage ähnlich wie Instagram, auf der Benutzer Beiträge anzeigen können.",
-        technologies: ["React.js", "Tailwind CSS", "Responsive Design"],
-        websiteURL: "https://chihebbencheikh1.github.io/Instagram-clone/",
-        image: ig,
+          "Full-Stack-DevOps-Plattform, auf der API-Pipelines als Knoten-Graphen visuell entworfen, auf echte Docker-Infrastruktur deployt, Logs live via WebSocket gestreamt und Fehler durch einen KI-Agenten (ReAct-Loop) automatisch diagnostiziert und behoben werden.",
+        technologies: ["React", "Node.js", "Docker", "WebSocket", "AI Agent"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        image: ghostwire,
       },
-      {
-        title: "Rechnungsgenerator",
-        description:
-          "Ein Rechnungsgenerator-Projekt, das mit React und TailwindCSS erstellt wurde. Fügen Sie Artikel, Menge, Preise, Steuersätze und Rabatte hinzu.",
-        year: 2024,
-        technologies: ["React.js", "Tailwind CSS"],
-        websiteURL: "https://chihebbencheikh1.github.io/invoice-generator/",
-        image: invoice,
-      },
-      {
-        title: "React E-Bank Landingpage",
-        description:
-          "React-Frontend-Landingpage für eine E-Bank bietet eine benutzerfreundliche Oberfläche für die Verwaltung von Konten und den Zugriff auf Finanzdienstleistungen online und betont Einfachheit und modernes Design.",
-        year: 2023,
-        technologies: ["React.js", "Tailwind CSS", "Vite"],
-        websiteURL: "https://chihebbencheikh1.github.io/react-e-bank/",
-        image: eBank,
-      },
-      // {
-      //   title: "E-Shop Landingpage",
-      //   description:
-      //     "Dies ist eine Beispiels-E-Shop-Webanwendung für den Verkauf von elektronischen Komponenten und Geräten. Das Projekt ist mit React, Vite und Tailwind CSS erstellt.",
-      //   year: 2023,
-      //   technologies: ["React", "TypeScript", "Tailwind CSS", "Vite"],
-      //   websiteURL: "https://chihebbencheikh1.github.io/My-shop/",
-      //   image: eShop,
-      // },
-      // {
-      //   title: "Tailwind-React-Landing",
-      //   description:
-      //     "Eine reaktionsfähige Landingpage-Vorlage, die mit React, Tailwind CSS und Vite erstellt wurde. Die Landingpage ist für eine Bildungsseite konzipiert und präsentiert ihre Funktionen und Dienstleistungen.",
-      //   year: 2022,
-      //   technologies: [
-      //     "Vite",
-      //     "Github-Seiten",
-      //     "Github-Aktionen",
-      //     "Tailwind CSS",
-      //     "JavaScript",
-      //     "React.js",
-      //   ],
-      //   websiteURL:
-      //     "https://chihebbencheikh1.github.io/tailwind-react-landing/",
-      //   image: ed,
-      // },
-      // {
-      //   title: "Space-Portfolio-Spiel",
-      //   description:
-      //     "Erstellt ein aufregendes 2D-Weltraumspiel zum Bereitstellen auf AWS unter Verwendung von EC2 und CodeBuild für CI/CD. Dies demonstriert meine Fähigkeiten in der Spielentwicklung und meine Beherrschung der AWS-Cloud.",
-      //   year: 2022,
-      //   technologies: ["HTML", "CSS", "JavaScript", "Canvas"],
-      //   websiteURL: "https://chihebbencheikh1.github.io/portfolio/index.html",
-      //   image: space,
-      // },
     ],
     backendProjectsList: [
       {
-        title: "Motorradhändler",
+        title: "Motorrad-Händler-Plattform",
         description:
-          "Eine Full-Stack-Plattform für die Verwaltung des Händlerbetriebs mit OTP-Authentifizierung, Stripe-Zahlungen, automatisierter Rechnungsstellung und modularer Architektur.",
-        technologies: [
-          "React.js",
-          "Node.js",
-          "Stripe",
-          "Docker",
-          "Sentry",
-          "Nginx",
-          "GitHub Actions",
-          "Jira",
-          "Cypress",
-        ],
+          "Full-Stack-Plattform für den Händlerbetrieb — OTP-Authentifizierung, Stripe-Zahlungen, automatisierte Rechnungsstellung und modulare Architektur mit CI/CD und End-to-End-Tests.",
+        technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
         image: hero,
       },
       {
-        title: "Swiftlet – Leichtgewichtiges Node.js Web-Framework",
+        title: "Swiftlet — Zero-Dep Node.js Web-Framework",
         description:
-          "Swiftlet ist ein minimalistisches Web-Framework, das vollständig mit reinem Node.js von Grund auf entwickelt wurde. Es unterstützt dynamisches Routing, das Parsen von Querys und Request-Bodies sowie CORS – alles ohne externe Abhängigkeiten. Swiftlet wurde für Geschwindigkeit, Einfachheit und Flexibilität entwickelt und bietet einen tieferen Einblick in die Funktionsweise von Web-Frameworks wie Express.",
-        technologies: ["Node.js", "JavaScript", "HTTP", "Routing", "CORS"],
+          "Minimalistisches Web-Framework von Grund auf mit purem Node.js gebaut. Dynamisches Routing, Body-Parsing und CORS — ohne Abhängigkeiten. Auf npm veröffentlicht.",
+        technologies: ["Node.js", "HTTP", "Routing", "npm Package"],
         websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
         image: swifltet,
+      },
+      {
+        title: "FlowForge — Workflow-Automatisierungs-Engine",
+        description:
+          "Produktionsreife Workflow-Automatisierungsplattform (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung.",
+        technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
+        image: flowforge,
+      },
+      {
+        title: "GhostWatch — Incident-Management-Plattform",
+        description:
+          "Event-gesteuertes Incident-Management-System mit Echtzeit-Kanban-Board, RabbitMQ-Event-Bus, Volltextsuche, WebSocket-Live-Updates und Prometheus/Grafana-Observability-Stack.",
+        technologies: ["Spring Boot", "Angular", "RabbitMQ", "PostgreSQL", "Docker"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/GhostWatch",
+        image: ghostwatch,
       },
     ],
     devopsProjectsList: [
       {
-        title: "Dockerisiertes Full-Stack-Projekt",
+        title: "Sentinel-Remediator — KI-Schwachstellen-Agent",
         description:
-          "Dockerisiertes Entwicklungs- und Produktionsumfeld für Backend- (Node.js) und Frontend-Anwendungen (React)",
-        technologies: ["Node.js", "React", "Docker", "Github Actions"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/DockerizedApp",
-        image: docker,
+          "Autonomer KI-Agent, der Container-Schwachstellenscans aufnimmt, Fixes über eine ReAct-Reasoning-Schleife generiert, sie durch lokale Docker-Builds verifiziert und Pull Requests zur menschlichen Überprüfung erstellt.",
+        technologies: ["Go", "Next.js", "Docker", "AI Agent", "ReAct Loop"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
+        image: sentinel,
       },
     ],
     contactTitle: "KONTAKTIEREN SIE UNS",
     codeProjects: "Programmierprojekte",
     contactName: "Chiheb BEN CHEIKH",
-    contactEmail: "bencheikh.chiheb@gmail.com",
+    contactEmail: "contact@chihebbencheikh.com",
     technologies: "Technologien",
     skill: "Technische Expertise",
     Frontend:
-      "Frontend: React, Next.js, Vue.js, Redux, Material-UI, Tailwind CSS, Cypress, Playwright",
+      "Production Stack: Go, Node.js, TypeScript, Next.js, Docker",
     Backend:
-      "Backend: Node.js, Laravel, TypeScript, RESTful APIs, Stripe Integration, Sentry",
+      "Ecosystem Polyglot: Python (FastAPI/Django), PHP (Laravel), Java (Spring Boot)",
     "DevOps & Tools":
-      "DevOps & Tools: Docker, GitHub Actions, GitLab CI, Nginx, Jira, PHPUnit",
-    backendProjects: "Full-Stack-projekte",
-    devopsProjects: "DevOps-Projekte",
+      "Cloud & DevOps: GCP, Kubernetes, Terraform, GitHub Actions, CI/CD",
+    backendProjects: "Full-Stack-Projekte",
+    devopsProjects: "DevOps & Sicherheit",
     workExperience: "Berufserfahrung",
     workExperienceList: [
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full Stack Developer",
-        company: "K-tronik",
-        description:
-          "Entwicklung von Vue.js/Laravel-Apps basierend auf Figma-Designs, Implementierung von Docker CI/CD-Pipelines und PHPUnit-Tests, um Probleme nach dem Deployment zu reduzieren",
-      },
-      {
         img: teomach,
-        title: "Frontend Developer",
+        title: "Full Stack Engineer",
         company: "Teomach Limited",
         description:
-          "Modernisierung der Benutzeroberfläche der Marketing-Website mit Ant Design, Verbesserung der Cross-Browser-Kompatibilität",
+          "Architektur einer hochparallelen Monitoring-Engine auf GCP mit FastAPI, Verarbeitung von Echtzeit-Telemetrie aus verteilten Microservices. Lieferung plattformübergreifender React-Native-Lösungen mit 99,9% Uptime-Sichtbarkeit",
+      },
+      {
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
+        title: "Full Stack Developer",
+        company: "K-tronik GmbH",
+        description:
+          "Wartung und Erweiterung eines Application Management Systems mit Laravel und Vue.js. Entwicklung automatisierter Verarbeitungsfunktionen bei Zero-Regression durch PHPUnit- und Cypress-Tests",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoRKIXkbvCRWNgWBm5pfWeLrhu1mfOQ-hrCiS8Zc1kIw7QxcHwAWAwY7x6uR_7nPjvD28&usqp=CAU",
         title: "Full Stack Developer",
         company: "Friends in flat",
         description:
-          "Beitrag zur Next.js-UI-Entwicklung zur Verbesserung der Benutzererfahrung und zur Verwendung von Prisma für die Datenbankverwaltung",
+          "Entwicklung von Next.js-Interfaces mit Prisma ORM für Datenbankmanagement, Verbesserung der Benutzererfahrung und Datenschicht-Architektur",
       },
     ],
     testimonials: [
