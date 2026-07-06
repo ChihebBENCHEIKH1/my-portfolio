@@ -28,9 +28,9 @@ export const textContent = {
     ],
     myInfo: "Software Engineer · LLM & Secure Systems · Builder",
     headerTitle:
-      "Hi, I'm Chiheb Ben Cheikh — I ship LLM-powered, secure products end-to-end, taking them from zero to production.",
+      "Hi, I'm Chiheb Ben Cheikh — a Software Engineer building LLM-powered, agentic AI systems and shipping them securely, end-to-end, from zero to production.",
     headerDescription:
-      "I take products from zero to production across the full stack — Node.js / Express, FastAPI, and Next.js / React. I build LLM-powered, agentic features (ReAct, RAG, LoRA / PEFT) and ship them securely, with SAST / DAST baked into CI/CD. At Teomach I shipped real-time device-telemetry microservices on GCP handling thousands of events per minute at sub-second latency, with device-driven alerting and an Android companion app. I contribute to open source — Next.js (Vercel) and Bandit (Python SAST) — and publish my own tools, like the Swiftlet framework on npm. Every system I build is designed for reliability, security, and velocity.",
+      "I'm a Software Engineer focused on applied AI — I design LLM-powered, agentic systems (ReAct agents, RAG pipelines, LoRA / PEFT fine-tuning) and ship them as real products. I've built an autonomous agent that remediates container vulnerabilities end-to-end, an AI SRE loop that self-heals live pipelines, and a fine-tuned local Qwen assistant grounded with RAG. That AI work rides on a full production stack — Node.js / Express, FastAPI, Next.js / React — with security (SAST / DAST) and CI/CD built in. At Teomach I shipped real-time telemetry microservices on GCP handling thousands of events per minute, and I contribute to open source (Next.js, Bandit). Every system I build is designed for reliability, security, and velocity.",
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "CV DOWNLOAD",
@@ -100,14 +100,14 @@ export const textContent = {
     workExperienceList: [
       {
         img: teomach,
-        title: "Full-Stack Engineer",
+        title: "Software Engineer",
         company: "Teomach",
         description:
           "Shipped real-time device-telemetry microservices on GCP (thousands of events/min, sub-second latency) with device-driven alerting and an Android companion app. Set up GitHub Actions CI/CD with automated AI code review and rebuilt the Cenefits React frontend in TypeScript. (2023–2025)",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full-Stack Developer (Freelance)",
+        title: "Software Engineer (Freelance)",
         company: "K-tronik GmbH",
         description:
           "Extended a Vue.js / Laravel production system and added Cypress end-to-end and PHPUnit coverage to cut regressions. (2024–2025)",
@@ -120,14 +120,14 @@ export const textContent = {
         name: "Tom Inglis",
         email: "tom.inglis@teomach.com",
         testimonial:
-          "Chiheb is a confident and diligent developer who quickly adapts to complex codebases, delivering efficient frontend solutions with React, TypeScript, and Playwright",
+          "Chiheb is a confident and diligent software engineer who quickly adapts to complex codebases, delivering efficient, well-tested solutions with React, TypeScript, and Playwright",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6KXBwaj36H7Wvj4sUl09thy2jpdEx_g0QDA&s",
         name: "Mathias Molnar",
         email: "mathias.molnar@friends-in-flats.at",
         testimonial:
-          "Chiheb is a talented and detail-oriented developer who excels in building performant, user-friendly interfaces with Next.js and modern JavaScript frameworks",
+          "Chiheb is a talented and detail-oriented software engineer who excels at building performant, reliable systems with Next.js and modern JavaScript frameworks",
       },
     ],
     devopsProjectsList: [
@@ -197,9 +197,9 @@ export const textContent = {
     ],
     myInfo: "Software Engineer · LLM & sichere Systeme · Builder",
     headerTitle:
-      "Hallo, ich bin Chiheb Ben Cheikh — Ich liefere LLM-gestützte, sichere Produkte End-to-End und bringe sie von null bis in die Produktion.",
+      "Hallo, ich bin Chiheb Ben Cheikh — ein Software Engineer, der LLM-gestützte, agentische KI-Systeme baut und sie sicher End-to-End von null bis in die Produktion bringt.",
     headerDescription:
-      "Ich bringe Produkte von null bis in die Produktion über den gesamten Stack — Node.js / Express, FastAPI und Next.js / React. Ich baue LLM-gestützte, agentische Features (ReAct, RAG, LoRA / PEFT) und liefere sie sicher aus, mit SAST / DAST fest im CI/CD verankert. Bei Teomach habe ich Echtzeit-Gerätetelemetrie-Microservices auf GCP ausgeliefert (Tausende Events pro Minute, Latenz unter einer Sekunde) mit gerätegesteuertem Alerting und einer Android-Begleit-App. Ich trage zu Open Source bei — Next.js (Vercel) und Bandit (Python-SAST) — und veröffentliche eigene Tools wie das Swiftlet-Framework auf npm. Jedes System, das ich baue, ist auf Zuverlässigkeit, Sicherheit und Geschwindigkeit ausgelegt.",
+      "Ich bin ein Software Engineer mit Fokus auf angewandte KI — ich entwerfe LLM-gestützte, agentische Systeme (ReAct-Agenten, RAG-Pipelines, LoRA / PEFT-Feinabstimmung) und liefere sie als echte Produkte aus. Ich habe einen autonomen Agenten gebaut, der Container-Schwachstellen End-to-End behebt, eine KI-SRE-Schleife, die Live-Pipelines selbst heilt, und einen feinabgestimmten lokalen Qwen-Assistenten mit RAG. Diese KI-Arbeit läuft auf einem vollständigen Produktions-Stack — Node.js / Express, FastAPI, Next.js / React — mit Sicherheit (SAST / DAST) und CI/CD von Anfang an. Bei Teomach habe ich Echtzeit-Telemetrie-Microservices auf GCP ausgeliefert (Tausende Events pro Minute), und ich trage zu Open Source bei (Next.js, Bandit). Jedes System, das ich baue, ist auf Zuverlässigkeit, Sicherheit und Geschwindigkeit ausgelegt.",
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "Lebenslauf herunterladen",
@@ -312,14 +312,14 @@ export const textContent = {
     workExperienceList: [
       {
         img: teomach,
-        title: "Full-Stack Engineer",
+        title: "Software Engineer",
         company: "Teomach",
         description:
           "Echtzeit-Gerätetelemetrie-Microservices auf GCP ausgeliefert (Tausende Events/Min, Latenz unter einer Sekunde) mit gerätegesteuertem Alerting und einer Android-Begleit-App. GitHub-Actions-CI/CD mit automatisiertem KI-Code-Review aufgesetzt und das Cenefits-React-Frontend in TypeScript neu gebaut. (2023–2025)",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full-Stack Developer (Freelance)",
+        title: "Software Engineer (Freelance)",
         company: "K-tronik GmbH",
         description:
           "Ein Vue.js- / Laravel-Produktionssystem erweitert und Cypress-End-to-End- sowie PHPUnit-Abdeckung ergänzt, um Regressionen zu reduzieren. (2024–2025)",
@@ -331,14 +331,14 @@ export const textContent = {
         name: "Tom Inglis",
         email: "tom.inglis@teomach.com",
         testimonial:
-          "Chiheb ist ein selbstbewusster und fleißiger Entwickler, der sich schnell in komplexe Codebasen einarbeitet und effiziente Frontend-Lösungen mit React, TypeScript und Playwright liefert.",
+          "Chiheb ist ein selbstbewusster und fleißiger Software Engineer, der sich schnell in komplexe Codebasen einarbeitet und effiziente, gut getestete Lösungen mit React, TypeScript und Playwright liefert.",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6KXBwaj36H7Wvj4sUl09thy2jpdEx_g0QDA&s",
         name: "Mathias Molnar",
         email: "mathias.molnar@friends-in-flats.at",
         testimonial:
-          "Chiheb ist ein talentierter und detailorientierter Entwickler, der sich darauf spezialisiert hat, performante und benutzerfreundliche Oberflächen mit Next.js und modernen JavaScript-Frameworks zu erstellen.",
+          "Chiheb ist ein talentierter und detailorientierter Software Engineer, der sich darauf spezialisiert hat, performante und zuverlässige Systeme mit Next.js und modernen JavaScript-Frameworks zu erstellen.",
       },
     ],
     testimonialsTitle: "Testimonials",

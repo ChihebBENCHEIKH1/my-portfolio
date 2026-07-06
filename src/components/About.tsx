@@ -27,9 +27,9 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
 }
 
 const SKILLS = [
-  { label: "Languages & Backend", color: "#00f0ff", tags: ["Python", "TypeScript", "Go", "Node.js", "Express", "FastAPI", "SQL"] },
-  { label: "Frontend", color: "#ff007f", tags: ["Next.js", "React", "Tailwind", "React Flow", "Socket.io"] },
-  { label: "LLM / AI", color: "#ffb800", tags: ["ReAct Agents", "RAG", "LoRA / PEFT", "LangGraph"] },
+  { label: "LLM / AI", color: "#00f0ff", tags: ["ReAct Agents", "RAG", "LoRA / PEFT", "LangGraph", "LLM Integration"] },
+  { label: "Languages & Backend", color: "#ff007f", tags: ["Python", "TypeScript", "Go", "Node.js", "Express", "FastAPI"] },
+  { label: "Frontend", color: "#ffb800", tags: ["Next.js", "React", "Tailwind", "React Flow", "Socket.io"] },
   { label: "DevOps & Security", color: "#00f0ff", tags: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "Bandit", "Semgrep", "Trivy", "SAST/DAST"] },
 ];
 
@@ -170,8 +170,8 @@ export function About({ titles }: { titles: any }) {
               borderTop: "1px solid rgba(0,240,255,0.06)",
             }}>
               {[
-                { lbl: "Primary", val: "Python · TypeScript · Node.js · FastAPI · Next.js", c: "#00f0ff" },
-                { lbl: "AI & Security", val: "ReAct · RAG · LoRA/PEFT · Bandit · SAST/DAST", c: "#ff007f" },
+                { lbl: "AI Systems", val: "ReAct · RAG · LoRA/PEFT · LangGraph", c: "#00f0ff" },
+                { lbl: "Stack & Security", val: "Python · TypeScript · FastAPI · Next.js · SAST/DAST", c: "#ff007f" },
               ].map(({ lbl, val, c }) => (
                 <div key={lbl}>
                   <div style={{

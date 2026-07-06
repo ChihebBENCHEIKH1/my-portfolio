@@ -229,7 +229,7 @@ export function Header({ titles }: { titles: any }) {
         <motion.div {...stagger(5)} style={{
           display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center",
         }}>
-          {["Python", "TypeScript", "Go", "Next.js", "Node.js", "FastAPI", "Docker", "RAG"].map(tag => (
+          {["LLM", "RAG", "ReAct", "Python", "FastAPI", "TypeScript", "Next.js", "Docker"].map(tag => (
             <span key={tag} style={{
               fontFamily: '"JetBrains Mono"', fontSize: "11px",
               padding: "6px 16px", letterSpacing: "0.15em",
