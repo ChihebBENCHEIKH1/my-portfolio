@@ -27,9 +27,10 @@ function CountUp({ value, inView }: { value: string; inView: boolean }) {
 }
 
 const SKILLS = [
-  { label: "Production Stack", color: "#00f0ff", tags: ["Go", "Node.js", "TypeScript", "Next.js", "Docker"] },
-  { label: "Ecosystem Polyglot", color: "#ff007f", tags: ["Python (FastAPI/Django)", "PHP (Laravel)", "Java (Spring Boot)"] },
-  { label: "Cloud & DevOps", color: "#ffb800", tags: ["GCP", "Kubernetes", "Terraform", "GitHub Actions", "CI/CD"] },
+  { label: "Languages & Backend", color: "#00f0ff", tags: ["Python", "TypeScript", "Go", "Node.js", "Express", "FastAPI", "SQL"] },
+  { label: "Frontend", color: "#ff007f", tags: ["Next.js", "React", "Tailwind", "React Flow", "Socket.io"] },
+  { label: "LLM / AI", color: "#ffb800", tags: ["ReAct Agents", "RAG", "LoRA / PEFT", "LangGraph"] },
+  { label: "DevOps & Security", color: "#00f0ff", tags: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "Bandit", "Semgrep", "Trivy", "SAST/DAST"] },
 ];
 
 const STATS = [
@@ -150,8 +151,8 @@ export function About({ titles }: { titles: any }) {
               fontWeight: 700, color: "#fff", lineHeight: 1.05,
               marginBottom: "1.5rem", textTransform: "uppercase",
             }}>
-              Full-Stack Engineer<br />
-              <span style={{ color: "#00f0ff", textShadow: "0 0 20px rgba(0,240,255,0.2)" }}>&amp; Problem Solver</span>
+              Software Engineer<br />
+              <span style={{ color: "#00f0ff", textShadow: "0 0 20px rgba(0,240,255,0.2)" }}>&amp; Secure AI Builder</span>
             </h3>
             <p style={{
               fontSize: "clamp(13px, 1.4vw, 16px)", lineHeight: "1.9", color: "rgba(224,224,232,0.8)",
@@ -169,8 +170,8 @@ export function About({ titles }: { titles: any }) {
               borderTop: "1px solid rgba(0,240,255,0.06)",
             }}>
               {[
-                { lbl: "Primary", val: "Go · Node.js · TypeScript · Next.js · Docker", c: "#00f0ff" },
-                { lbl: "Polyglot", val: "FastAPI · Django · Laravel · Spring Boot", c: "#ff007f" },
+                { lbl: "Primary", val: "Python · TypeScript · Node.js · FastAPI · Next.js", c: "#00f0ff" },
+                { lbl: "AI & Security", val: "ReAct · RAG · LoRA/PEFT · Bandit · SAST/DAST", c: "#ff007f" },
               ].map(({ lbl, val, c }) => (
                 <div key={lbl}>
                   <div style={{

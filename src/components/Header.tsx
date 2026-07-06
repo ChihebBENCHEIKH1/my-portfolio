@@ -108,7 +108,7 @@ export function Header({ titles }: { titles: any }) {
         }}>
           {[
             { label: "SYS", value: "ONLINE", color: "#00f0ff" },
-            { label: "MODE", value: "FULL_STACK", color: "#ffb800" },
+            { label: "MODE", value: "LLM_SECURE", color: "#ffb800" },
           ].map(s => (
             <div key={s.label} style={{
               display: "flex", alignItems: "center", gap: "6px",
@@ -135,7 +135,7 @@ export function Header({ titles }: { titles: any }) {
           letterSpacing: "0.4em", color: "rgba(0,240,255,0.35)",
           textTransform: "uppercase", marginBottom: "1rem",
         }}>
-          {"// "}Full Stack Developer
+          {"// "}Software Engineer
         </motion.div>
 
         {/* Name */}
@@ -193,7 +193,7 @@ export function Header({ titles }: { titles: any }) {
         <motion.div {...stagger(5)} style={{
           display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center",
         }}>
-          {["React", "Next.js", "Node.js", "TypeScript", "Docker", "Vue.js", "Laravel"].map(tag => (
+          {["Python", "TypeScript", "Go", "Next.js", "Node.js", "FastAPI", "Docker", "RAG"].map(tag => (
             <span key={tag} style={{
               fontFamily: '"JetBrains Mono"', fontSize: "11px",
               padding: "6px 16px", letterSpacing: "0.15em",

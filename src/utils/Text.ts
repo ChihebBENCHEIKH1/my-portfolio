@@ -21,31 +21,39 @@ export const textContent = {
     I: "I'm",
     qualities: [
       "Chiheb BEN CHEIKH",
-      "a Full-Stack Engineer",
-      "a Problem Solver",
-      "Detail-Oriented",
+      "a Software Engineer",
+      "an LLM Builder",
+      "Security-Minded",
       "Relentless",
     ],
-    myInfo: "Full-Stack Engineer · Problem Solver · Builder",
+    myInfo: "Software Engineer · LLM & Secure Systems · Builder",
     headerTitle:
-      "Hi, I'm Chiheb Ben Cheikh — I architect distributed systems and ship production-grade platforms. I thrive where reliability, scale, and velocity intersect",
+      "Hi, I'm Chiheb Ben Cheikh — I ship LLM-powered, secure products end-to-end, taking them from zero to production.",
     headerDescription:
-      "I design and build the systems behind the interface — from high-concurrency monitoring engines on GCP handling real-time telemetry across distributed microservices, to AI-powered remediation agents that autonomously fix container vulnerabilities. My work spans the full stack: React and Next.js frontends, FastAPI and Spring Boot backends, event-driven pipelines with RabbitMQ, and production infrastructure orchestrated with Docker, Kubernetes, and Terraform. I've engineered CI/CD pipelines that cut release cycles, delivered cross-platform mobile solutions with 99.9% uptime visibility, and built visual workflow engines from scratch. Every system I touch is designed for resilience, observability, and zero-downtime operation",
+      "I take products from zero to production across the full stack — Node.js / Express, FastAPI, and Next.js / React. I build LLM-powered, agentic features (ReAct, RAG, LoRA / PEFT) and ship them securely, with SAST / DAST baked into CI/CD. At Teomach I shipped real-time device-telemetry microservices on GCP handling thousands of events per minute at sub-second latency, with device-driven alerting and an Android companion app. I contribute to open source — Next.js (Vercel) and Bandit (Python SAST) — and publish my own tools, like the Swiftlet framework on npm. Every system I build is designed for reliability, security, and velocity.",
     headerSkills:
-      "TypeScript, React, Next.js, Vue.js, Angular, React Native, Node.js, FastAPI, Spring Boot, Go, Laravel, Docker, Kubernetes, Terraform, GCP, RabbitMQ, WebSockets, CI/CD, GitHub Actions, Cypress, Playwright",
+      "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "CV DOWNLOAD",
     moreInfo: "For more information check my CV in your preferred language:",
     portfolioTitle: "Projects",
-    role: "Systems & Platform",
+    role: "Flagship & AI",
 
     projects: [
       {
-        title: "Ghostwire — Visual API Pipeline Builder",
+        title: "Ghostwire — Live Visual API Builder",
         description:
-          "Full-stack DevOps platform where you visually design API pipelines as node graphs, deploy them to real Docker infrastructure, stream logs live via WebSocket, and use an AI agent (ReAct loop) to automatically diagnose and remediate failures.",
-        technologies: ["React", "Node.js", "Docker", "WebSocket", "AI Agent"],
+          "Full-stack, real-time platform for designing API pipelines as node graphs (React Flow, Monaco) on Express + Socket.io, deployed to AWS ECS Fargate via Terraform with GitHub Actions CI/CD. Includes an agentic (ReAct) SRE loop that detects failures, pinpoints root cause, and auto-recovers pipelines.",
+        technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
         image: ghostwire,
+      },
+      {
+        title: "RAG + LoRA Assistant",
+        description:
+          "Fine-tuned a local Qwen2.5-3B with LoRA (~1% of parameters) and paired it with RAG for grounded, domain-specific answers — delivering specialised performance at a fraction of full fine-tuning cost.",
+        technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1",
+        image: hero,
       },
     ],
     backendProjectsList: [
@@ -60,8 +68,8 @@ export const textContent = {
       {
         title: "Swiftlet — Zero-Dep Node.js Web Framework",
         description:
-          "Minimalist web framework built from scratch with pure Node.js. Dynamic routing, body parsing, and CORS — zero dependencies. Published on npm.",
-        technologies: ["Node.js", "HTTP", "Routing", "npm Package"],
+          "A typed, Jest-tested web framework built from scratch with pure Node.js HTTP — dynamic routing, body parsing, and CORS with zero dependencies. Authored and published on npm.",
+        technologies: ["Node.js", "TypeScript", "Jest", "HTTP", "npm Package"],
         websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
         image: swifltet,
       },
@@ -89,35 +97,28 @@ export const textContent = {
     technologies: "Technologies",
     skill: "Technical Expertise",
     Frontend:
-      "Production Stack: Go, Node.js, TypeScript, Next.js, Docker",
+      "Languages & Backend: Python, TypeScript, Go, Node.js, Express, FastAPI",
     Backend:
-      "Ecosystem Polyglot: Python (FastAPI/Django), PHP (Laravel), Java (Spring Boot)",
+      "Frontend & AI: Next.js, React, Tailwind, React Flow · ReAct, RAG, LoRA/PEFT, LangGraph",
     "DevOps & Tools":
-      "Cloud & DevOps: GCP, Kubernetes, Terraform, GitHub Actions, CI/CD",
-    backendProjects: "Full-Stack projects",
-    devopsProjects: "DevOps & Security",
+      "DevOps & Security: Docker, Kubernetes, Terraform, GitHub Actions, Bandit, Semgrep, Trivy, SAST/DAST",
+    backendProjects: "Full-Stack Projects",
+    devopsProjects: "Security & Open Source",
     workExperience: "Work Experience",
     workExperienceList: [
       {
         img: teomach,
-        title: "Full Stack Engineer",
-        company: "Teomach Limited",
+        title: "Full-Stack Engineer",
+        company: "Teomach",
         description:
-          "Architected a high-concurrency monitoring engine on GCP using FastAPI, handling real-time telemetry from distributed microservices. Delivered cross-platform React Native solutions with 99.9% uptime visibility",
+          "Shipped real-time device-telemetry microservices on GCP (thousands of events/min, sub-second latency) with device-driven alerting and an Android companion app. Set up GitHub Actions CI/CD with automated AI code review and rebuilt the Cenefits React frontend in TypeScript. (2023–2025)",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full Stack Developer",
+        title: "Full-Stack Developer (Freelance)",
         company: "K-tronik GmbH",
         description:
-          "Maintained and extended an Application Management System with Laravel and Vue.js. Engineered automated processing features while ensuring zero-regression through PHPUnit and Cypress testing",
-      },
-      {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoRKIXkbvCRWNgWBm5pfWeLrhu1mfOQ-hrCiS8Zc1kIw7QxcHwAWAwY7x6uR_7nPjvD28&usqp=CAU",
-        title: "Full Stack Developer",
-        company: "Friends in flat",
-        description:
-          "Built Next.js interfaces with Prisma ORM for database management, improving user experience and data layer architecture",
+          "Extended a Vue.js / Laravel production system and added Cypress end-to-end and PHPUnit coverage to cut regressions. (2024–2025)",
       },
     ],
     testimonialsTitle: "Testimonials",
@@ -125,7 +126,7 @@ export const textContent = {
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo7tUBb6dq1l0_hXG2lh4C7wcYR-5VtwT7vw&s",
         name: "Tom Inglis",
-        email: "tom.inglis@toemach.com",
+        email: "tom.inglis@teomach.com",
         testimonial:
           "Chiheb is a confident and diligent developer who quickly adapts to complex codebases, delivering efficient frontend solutions with React, TypeScript, and Playwright",
       },
@@ -141,10 +142,26 @@ export const textContent = {
       {
         title: "Sentinel-Remediator — AI Vulnerability Agent",
         description:
-          "Autonomous AI agent that ingests container vulnerability scans, generates fixes via a ReAct reasoning loop, verifies them through local Docker builds, and creates pull requests for human review.",
-        technologies: ["Go", "Next.js", "Docker", "AI Agent", "ReAct Loop"],
+          "Autonomous agent that remediates container vulnerabilities end-to-end: a ReAct loop reads scan findings, patches files / Dockerfiles, then rebuilds and validates the image before opening a pull request.",
+        technologies: ["Go", "LLM Agents", "ReAct Loop", "Docker", "Next.js"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
         image: sentinel,
+      },
+      {
+        title: "Bandit (PyCQA) — Python SAST Contribution",
+        description:
+          "Extended the B704 check to catch locally-defined Markup subclasses, closing a false-negative linked to CVE-2025-54384 in the widely-used Python static-analysis security tool.",
+        technologies: ["Python", "SAST", "AST", "Open Source"],
+        websiteURL: "https://github.com/PyCQA/bandit",
+        image: sentinel,
+      },
+      {
+        title: "Next.js (Vercel · 139k★) — Contribution",
+        description:
+          "Contributed template-literal support to middleware config.matcher extraction, unlocking dynamic i18n matchers in one of the most-used React frameworks.",
+        technologies: ["Next.js", "TypeScript", "Open Source"],
+        websiteURL: "https://github.com/vercel/next.js/pull/93150",
+        image: ghostwire,
       },
     ],
   },
@@ -163,31 +180,39 @@ export const textContent = {
     I: "Ich bin ",
     qualities: [
       "Chiheb BEN CHEIKH",
-      "ein Full-Stack Engineer",
-      "ein Problemlöser",
-      "Detailorientiert",
+      "ein Software Engineer",
+      "ein LLM-Builder",
+      "Sicherheitsbewusst",
       "Unermüdlich",
     ],
-    myInfo: "Full-Stack Engineer · Problemlöser · Builder",
+    myInfo: "Software Engineer · LLM & sichere Systeme · Builder",
     headerTitle:
-      "Hallo, ich bin Chiheb Ben Cheikh — Ich entwerfe verteilte Systeme und liefere produktionsreife Plattformen. Ich gedeihe dort, wo Zuverlässigkeit, Skalierung und Geschwindigkeit zusammentreffen",
+      "Hallo, ich bin Chiheb Ben Cheikh — Ich liefere LLM-gestützte, sichere Produkte End-to-End und bringe sie von null bis in die Produktion.",
     headerDescription:
-      "Ich entwerfe und baue die Systeme hinter der Oberfläche — von hochparallelen Monitoring-Engines auf GCP, die Echtzeit-Telemetrie aus verteilten Microservices verarbeiten, bis hin zu KI-gestützten Remediations-Agenten, die Container-Schwachstellen autonom beheben. Meine Arbeit erstreckt sich über den gesamten Stack: React- und Next.js-Frontends, FastAPI- und Spring-Boot-Backends, Event-Driven-Pipelines mit RabbitMQ und Produktionsinfrastruktur orchestriert mit Docker, Kubernetes und Terraform. Jedes System, das ich berühre, ist auf Resilienz, Observability und Zero-Downtime-Betrieb ausgelegt",
+      "Ich bringe Produkte von null bis in die Produktion über den gesamten Stack — Node.js / Express, FastAPI und Next.js / React. Ich baue LLM-gestützte, agentische Features (ReAct, RAG, LoRA / PEFT) und liefere sie sicher aus, mit SAST / DAST fest im CI/CD verankert. Bei Teomach habe ich Echtzeit-Gerätetelemetrie-Microservices auf GCP ausgeliefert (Tausende Events pro Minute, Latenz unter einer Sekunde) mit gerätegesteuertem Alerting und einer Android-Begleit-App. Ich trage zu Open Source bei — Next.js (Vercel) und Bandit (Python-SAST) — und veröffentliche eigene Tools wie das Swiftlet-Framework auf npm. Jedes System, das ich baue, ist auf Zuverlässigkeit, Sicherheit und Geschwindigkeit ausgelegt.",
     headerSkills:
-      "TypeScript, React, Next.js, Vue.js, Angular, React Native, Node.js, FastAPI, Spring Boot, Go, Laravel, Docker, Kubernetes, Terraform, GCP, RabbitMQ, WebSockets, CI/CD, GitHub Actions, Cypress, Playwright",
+      "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "Lebenslauf herunterladen",
     moreInfo:
       "Für weitere Informationen überprüfen Sie meinen Lebenslauf in Ihrer bevorzugten Sprache:",
     portfolioTitle: "Projekte",
-    role: "Systeme & Plattformen",
+    role: "Flagship & KI",
     projects: [
       {
-        title: "Ghostwire — Visueller API-Pipeline-Builder",
+        title: "Ghostwire — Live Visual API Builder",
         description:
-          "Full-Stack-DevOps-Plattform, auf der API-Pipelines als Knoten-Graphen visuell entworfen, auf echte Docker-Infrastruktur deployt, Logs live via WebSocket gestreamt und Fehler durch einen KI-Agenten (ReAct-Loop) automatisch diagnostiziert und behoben werden.",
-        technologies: ["React", "Node.js", "Docker", "WebSocket", "AI Agent"],
+          "Full-Stack-Echtzeitplattform zum Entwerfen von API-Pipelines als Knoten-Graphen (React Flow, Monaco) auf Express + Socket.io, per Terraform auf AWS ECS Fargate deployt mit GitHub-Actions-CI/CD. Enthält eine agentische (ReAct) SRE-Schleife, die Fehler erkennt, die Ursache lokalisiert und Pipelines automatisch wiederherstellt.",
+        technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
         image: ghostwire,
+      },
+      {
+        title: "RAG + LoRA Assistant",
+        description:
+          "Ein lokales Qwen2.5-3B mit LoRA (~1% der Parameter) feinabgestimmt und mit RAG kombiniert für fundierte, domänenspezifische Antworten — spezialisierte Leistung zu einem Bruchteil der Kosten eines vollständigen Fine-Tunings.",
+        technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
+        websiteURL: "https://github.com/ChihebBENCHEIKH1",
+        image: hero,
       },
     ],
     backendProjectsList: [
@@ -202,8 +227,8 @@ export const textContent = {
       {
         title: "Swiftlet — Zero-Dep Node.js Web-Framework",
         description:
-          "Minimalistisches Web-Framework von Grund auf mit purem Node.js gebaut. Dynamisches Routing, Body-Parsing und CORS — ohne Abhängigkeiten. Auf npm veröffentlicht.",
-        technologies: ["Node.js", "HTTP", "Routing", "npm Package"],
+          "Ein typisiertes, mit Jest getestetes Web-Framework von Grund auf mit purem Node.js-HTTP gebaut — dynamisches Routing, Body-Parsing und CORS ohne Abhängigkeiten. Verfasst und auf npm veröffentlicht.",
+        technologies: ["Node.js", "TypeScript", "Jest", "HTTP", "npm Package"],
         websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
         image: swifltet,
       },
@@ -228,10 +253,26 @@ export const textContent = {
       {
         title: "Sentinel-Remediator — KI-Schwachstellen-Agent",
         description:
-          "Autonomer KI-Agent, der Container-Schwachstellenscans aufnimmt, Fixes über eine ReAct-Reasoning-Schleife generiert, sie durch lokale Docker-Builds verifiziert und Pull Requests zur menschlichen Überprüfung erstellt.",
-        technologies: ["Go", "Next.js", "Docker", "AI Agent", "ReAct Loop"],
+          "Autonomer Agent, der Container-Schwachstellen End-to-End behebt: eine ReAct-Schleife liest Scan-Ergebnisse, patcht Dateien / Dockerfiles und baut das Image neu und validiert es, bevor ein Pull Request eröffnet wird.",
+        technologies: ["Go", "LLM Agents", "ReAct Loop", "Docker", "Next.js"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
         image: sentinel,
+      },
+      {
+        title: "Bandit (PyCQA) — Python-SAST-Beitrag",
+        description:
+          "Den B704-Check erweitert, um lokal definierte Markup-Subklassen zu erkennen, und damit einen False-Negative im Zusammenhang mit CVE-2025-54384 im weit verbreiteten Python-Sicherheitsanalyse-Tool geschlossen.",
+        technologies: ["Python", "SAST", "AST", "Open Source"],
+        websiteURL: "https://github.com/PyCQA/bandit",
+        image: sentinel,
+      },
+      {
+        title: "Next.js (Vercel · 139k★) — Beitrag",
+        description:
+          "Template-Literal-Unterstützung zur Extraktion von middleware config.matcher beigetragen und damit dynamische i18n-Matcher in einem der meistgenutzten React-Frameworks ermöglicht.",
+        technologies: ["Next.js", "TypeScript", "Open Source"],
+        websiteURL: "https://github.com/vercel/next.js/pull/93150",
+        image: ghostwire,
       },
     ],
     contactTitle: "KONTAKTIEREN SIE UNS",
@@ -241,42 +282,35 @@ export const textContent = {
     technologies: "Technologien",
     skill: "Technische Expertise",
     Frontend:
-      "Production Stack: Go, Node.js, TypeScript, Next.js, Docker",
+      "Sprachen & Backend: Python, TypeScript, Go, Node.js, Express, FastAPI",
     Backend:
-      "Ecosystem Polyglot: Python (FastAPI/Django), PHP (Laravel), Java (Spring Boot)",
+      "Frontend & KI: Next.js, React, Tailwind, React Flow · ReAct, RAG, LoRA/PEFT, LangGraph",
     "DevOps & Tools":
-      "Cloud & DevOps: GCP, Kubernetes, Terraform, GitHub Actions, CI/CD",
+      "DevOps & Sicherheit: Docker, Kubernetes, Terraform, GitHub Actions, Bandit, Semgrep, Trivy, SAST/DAST",
     backendProjects: "Full-Stack-Projekte",
-    devopsProjects: "DevOps & Sicherheit",
+    devopsProjects: "Sicherheit & Open Source",
     workExperience: "Berufserfahrung",
     workExperienceList: [
       {
         img: teomach,
-        title: "Full Stack Engineer",
-        company: "Teomach Limited",
+        title: "Full-Stack Engineer",
+        company: "Teomach",
         description:
-          "Architektur einer hochparallelen Monitoring-Engine auf GCP mit FastAPI, Verarbeitung von Echtzeit-Telemetrie aus verteilten Microservices. Lieferung plattformübergreifender React-Native-Lösungen mit 99,9% Uptime-Sichtbarkeit",
+          "Echtzeit-Gerätetelemetrie-Microservices auf GCP ausgeliefert (Tausende Events/Min, Latenz unter einer Sekunde) mit gerätegesteuertem Alerting und einer Android-Begleit-App. GitHub-Actions-CI/CD mit automatisiertem KI-Code-Review aufgesetzt und das Cenefits-React-Frontend in TypeScript neu gebaut. (2023–2025)",
       },
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Full Stack Developer",
+        title: "Full-Stack Developer (Freelance)",
         company: "K-tronik GmbH",
         description:
-          "Wartung und Erweiterung eines Application Management Systems mit Laravel und Vue.js. Entwicklung automatisierter Verarbeitungsfunktionen bei Zero-Regression durch PHPUnit- und Cypress-Tests",
-      },
-      {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoRKIXkbvCRWNgWBm5pfWeLrhu1mfOQ-hrCiS8Zc1kIw7QxcHwAWAwY7x6uR_7nPjvD28&usqp=CAU",
-        title: "Full Stack Developer",
-        company: "Friends in flat",
-        description:
-          "Entwicklung von Next.js-Interfaces mit Prisma ORM für Datenbankmanagement, Verbesserung der Benutzererfahrung und Datenschicht-Architektur",
+          "Ein Vue.js- / Laravel-Produktionssystem erweitert und Cypress-End-to-End- sowie PHPUnit-Abdeckung ergänzt, um Regressionen zu reduzieren. (2024–2025)",
       },
     ],
     testimonials: [
       {
         img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo7tUBb6dq1l0_hXG2lh4C7wcYR-5VtwT7vw&s",
         name: "Tom Inglis",
-        email: "tom.inglis@toemach.com",
+        email: "tom.inglis@teomach.com",
         testimonial:
           "Chiheb ist ein selbstbewusster und fleißiger Entwickler, der sich schnell in komplexe Codebasen einarbeitet und effiziente Frontend-Lösungen mit React, TypeScript und Playwright liefert.",
       },
