@@ -1,6 +1,5 @@
 import hero from "../assets/hero.png";
 import ghostwire from "../assets/ghostwire.png";
-import swifltet from "../assets/swifltet.jpeg";
 import sentinel from "../assets/sentinel-dashboard.png";
 import flowforge from "../assets/flowforge.png";
 import ghostwatch from "../assets/ghostwatch.png";
@@ -12,6 +11,7 @@ export const textContent = {
       "About",
       "Work Experience",
       "Projects",
+      "Open Source",
       "Testimonials",
       "Contact",
     ],
@@ -66,14 +66,6 @@ export const textContent = {
         image: hero,
       },
       {
-        title: "Swiftlet — Zero-Dep Node.js Web Framework",
-        description:
-          "A typed, Jest-tested web framework built from scratch with pure Node.js HTTP — dynamic routing, body parsing, and CORS with zero dependencies. Authored and published on npm.",
-        technologies: ["Node.js", "TypeScript", "Jest", "HTTP", "npm Package"],
-        websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
-        image: swifltet,
-      },
-      {
         title: "FlowForge — Workflow Automation Engine",
         description:
           "Production-grade workflow automation platform (mini Zapier) — visual DAG builder, webhook/cron triggers, branching conditions, real-time execution monitoring, and Redis-backed queue processing.",
@@ -103,7 +95,7 @@ export const textContent = {
     "DevOps & Tools":
       "DevOps & Security: Docker, Kubernetes, Terraform, GitHub Actions, Bandit, Semgrep, Trivy, SAST/DAST",
     backendProjects: "Full-Stack Projects",
-    devopsProjects: "Security & Open Source",
+    devopsProjects: "DevOps & Security",
     workExperience: "Work Experience",
     workExperienceList: [
       {
@@ -147,21 +139,38 @@ export const textContent = {
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
         image: sentinel,
       },
+    ],
+    openSourceTitle: "Open Source",
+    openSource: [
       {
-        title: "Bandit (PyCQA) — Python SAST Contribution",
-        description:
-          "Extended the B704 check to catch locally-defined Markup subclasses, closing a false-negative linked to CVE-2025-54384 in the widely-used Python static-analysis security tool.",
-        technologies: ["Python", "SAST", "AST", "Open Source"],
-        websiteURL: "https://github.com/PyCQA/bandit",
-        image: sentinel,
-      },
-      {
-        title: "Next.js (Vercel · 139k★) — Contribution",
+        name: "Next.js",
+        org: "Vercel",
+        meta: "139k★",
+        badge: "Merged PR",
         description:
           "Contributed template-literal support to middleware config.matcher extraction, unlocking dynamic i18n matchers in one of the most-used React frameworks.",
-        technologies: ["Next.js", "TypeScript", "Open Source"],
-        websiteURL: "https://github.com/vercel/next.js/pull/93150",
-        image: ghostwire,
+        tech: ["TypeScript", "Middleware", "i18n"],
+        url: "https://github.com/vercel/next.js/pull/93150",
+      },
+      {
+        name: "Bandit",
+        org: "PyCQA",
+        meta: "Python SAST",
+        badge: "Security Fix",
+        description:
+          "Extended the B704 check to catch locally-defined Markup subclasses, closing a false-negative linked to CVE-2025-54384.",
+        tech: ["Python", "AST", "SAST"],
+        url: "https://github.com/PyCQA/bandit",
+      },
+      {
+        name: "Swiftlet",
+        org: "npm",
+        meta: "Published",
+        badge: "Author",
+        description:
+          "Authored and published a typed, Jest-tested, zero-dependency Node.js web framework — routing, body parsing, and CORS built from pure Node HTTP.",
+        tech: ["Node.js", "TypeScript", "Jest"],
+        url: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
       },
     ],
   },
@@ -171,6 +180,7 @@ export const textContent = {
       "Über uns",
       "Berufserfahrung",
       "Projekte",
+      "Open Source",
       "Testimonials",
       "Kontakt",
     ],
@@ -225,14 +235,6 @@ export const textContent = {
         image: hero,
       },
       {
-        title: "Swiftlet — Zero-Dep Node.js Web-Framework",
-        description:
-          "Ein typisiertes, mit Jest getestetes Web-Framework von Grund auf mit purem Node.js-HTTP gebaut — dynamisches Routing, Body-Parsing und CORS ohne Abhängigkeiten. Verfasst und auf npm veröffentlicht.",
-        technologies: ["Node.js", "TypeScript", "Jest", "HTTP", "npm Package"],
-        websiteURL: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
-        image: swifltet,
-      },
-      {
         title: "FlowForge — Workflow-Automatisierungs-Engine",
         description:
           "Produktionsreife Workflow-Automatisierungsplattform (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung.",
@@ -258,21 +260,38 @@ export const textContent = {
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
         image: sentinel,
       },
+    ],
+    openSourceTitle: "Open Source",
+    openSource: [
       {
-        title: "Bandit (PyCQA) — Python-SAST-Beitrag",
-        description:
-          "Den B704-Check erweitert, um lokal definierte Markup-Subklassen zu erkennen, und damit einen False-Negative im Zusammenhang mit CVE-2025-54384 im weit verbreiteten Python-Sicherheitsanalyse-Tool geschlossen.",
-        technologies: ["Python", "SAST", "AST", "Open Source"],
-        websiteURL: "https://github.com/PyCQA/bandit",
-        image: sentinel,
-      },
-      {
-        title: "Next.js (Vercel · 139k★) — Beitrag",
+        name: "Next.js",
+        org: "Vercel",
+        meta: "139k★",
+        badge: "Gemergter PR",
         description:
           "Template-Literal-Unterstützung zur Extraktion von middleware config.matcher beigetragen und damit dynamische i18n-Matcher in einem der meistgenutzten React-Frameworks ermöglicht.",
-        technologies: ["Next.js", "TypeScript", "Open Source"],
-        websiteURL: "https://github.com/vercel/next.js/pull/93150",
-        image: ghostwire,
+        tech: ["TypeScript", "Middleware", "i18n"],
+        url: "https://github.com/vercel/next.js/pull/93150",
+      },
+      {
+        name: "Bandit",
+        org: "PyCQA",
+        meta: "Python SAST",
+        badge: "Sicherheitsfix",
+        description:
+          "Den B704-Check erweitert, um lokal definierte Markup-Subklassen zu erkennen, und einen False-Negative im Zusammenhang mit CVE-2025-54384 geschlossen.",
+        tech: ["Python", "AST", "SAST"],
+        url: "https://github.com/PyCQA/bandit",
+      },
+      {
+        name: "Swiftlet",
+        org: "npm",
+        meta: "Veröffentlicht",
+        badge: "Autor",
+        description:
+          "Ein typisiertes, mit Jest getestetes, abhängigkeitsfreies Node.js-Web-Framework verfasst und veröffentlicht — Routing, Body-Parsing und CORS aus purem Node-HTTP.",
+        tech: ["Node.js", "TypeScript", "Jest"],
+        url: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
       },
     ],
     contactTitle: "KONTAKTIEREN SIE UNS",
@@ -288,7 +307,7 @@ export const textContent = {
     "DevOps & Tools":
       "DevOps & Sicherheit: Docker, Kubernetes, Terraform, GitHub Actions, Bandit, Semgrep, Trivy, SAST/DAST",
     backendProjects: "Full-Stack-Projekte",
-    devopsProjects: "Sicherheit & Open Source",
+    devopsProjects: "DevOps & Sicherheit",
     workExperience: "Berufserfahrung",
     workExperienceList: [
       {

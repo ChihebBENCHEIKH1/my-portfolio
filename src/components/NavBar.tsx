@@ -8,6 +8,7 @@ const SECTION_FOR_HREF: Record<string, string> = {
   "#About": "about",
   "#WorkExperience": "experience",
   "#Projects": "projects",
+  "#OpenSource": "opensource",
   "#Testimonials": "testimonials",
   "#Contact": "contact",
 };
@@ -38,8 +39,9 @@ export default function NavBar({ titles }: { titles: any }) {
     { label: t.navBar[1], href: "#About" },
     { label: t.navBar[2], href: "#WorkExperience" },
     { label: t.navBar[3], href: "#Projects" },
-    { label: t.navBar[4], href: "#Testimonials" },
-    { label: t.navBar[5], href: "#Contact" },
+    { label: t.navBar[4], href: "#OpenSource" },
+    { label: t.navBar[5], href: "#Testimonials" },
+    { label: t.navBar[6], href: "#Contact" },
   ];
 
   const langs = [

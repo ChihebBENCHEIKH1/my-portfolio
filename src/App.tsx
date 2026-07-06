@@ -9,6 +9,7 @@ import { Footer } from "./components/Footer";
 import { Contact } from "./components/Contact";
 import { WorkExperience } from "./components/WorkExperience";
 import { Testimonials } from "./components/Testimonials";
+import { OpenSource } from "./components/OpenSource";
 import NavBar from "./components/NavBar";
 import { BootSequence } from "./components/BootSequence";
 const SceneManager = lazy(() => import("./canvas/SceneManager").then(m => ({ default: m.SceneManager })));
@@ -141,6 +142,7 @@ const SECTIONS: { id: string; key: Section }[] = [
   { id: "About", key: "about" },
   { id: "WorkExperience", key: "experience" },
   { id: "Projects", key: "projects" },
+  { id: "OpenSource", key: "opensource" },
   { id: "Testimonials", key: "testimonials" },
   { id: "Contact", key: "contact" },
 ];
@@ -234,6 +236,7 @@ function App() {
         <About titles={textContent} />
         <WorkExperience titles={textContent} />
         <Portfolio titles={textContent} />
+        <OpenSource titles={textContent} />
         <Testimonials titles={textContent} />
         <Contact titles={textContent} />
         <Footer />

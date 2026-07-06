@@ -43,7 +43,7 @@ export function Contact({ titles }: { titles: any }) {
       padding: "140px 2rem", position: "relative", overflow: "hidden",
     }}>
       <span className="kanji-bg" style={{ bottom: "5%", right: "3%", fontSize: "clamp(6rem, 14vw, 13rem)" }}>接続</span>
-      <span className="ghost-num" aria-hidden="true">05</span>
+      <span className="ghost-num" aria-hidden="true">06</span>
       <span className="kanji-bg" style={{ top: "12%", left: "5%", fontSize: "clamp(3rem, 6vw, 6rem)", color: "rgba(255,184,0,0.015)" }}>通信</span>
 
       <div style={{
@@ -75,7 +75,7 @@ export function Contact({ titles }: { titles: any }) {
               fontFamily: '"JetBrains Mono"', fontSize: "10px",
               letterSpacing: "0.3em", color: "#00f0ff", textTransform: "uppercase",
             }}>
-              05 — {t.contactTitle}
+              06 — {t.contactTitle}
             </span>
           </motion.div>
 

@@ -264,7 +264,7 @@ export function Testimonials({ titles }: { titles: any }) {
             fontFamily: '"JetBrains Mono"', fontSize: "10px",
             letterSpacing: "0.3em", color: "#00f0ff", textTransform: "uppercase",
           }}>
-            04 — {t.testimonialsTitle}
+            05 — {t.testimonialsTitle}
           </span>
         </motion.div>
 

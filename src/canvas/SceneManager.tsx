@@ -3,18 +3,12 @@ import { Preload } from "@react-three/drei";
 import { Suspense } from "react";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import { ParticleField } from "./ParticleField";
-import { InteractiveField } from "./InteractiveField";
 import { useSceneStore } from "../store/sceneStore";
-
-const REDUCED =
-  typeof window !== "undefined" &&
-  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
 function Scene() {
   useSceneStore();
   return (
     <>
-      {!REDUCED && <InteractiveField />}
       <ParticleField />
       <EffectComposer multisampling={0}>
         <Bloom

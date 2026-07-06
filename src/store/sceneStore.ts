@@ -5,6 +5,7 @@ export type Section =
   | "about"
   | "experience"
   | "projects"
+  | "opensource"
   | "testimonials"
   | "contact";
 
