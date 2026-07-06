@@ -10,6 +10,7 @@ import { Contact } from "./components/Contact";
 import { WorkExperience } from "./components/WorkExperience";
 import { Testimonials } from "./components/Testimonials";
 import NavBar from "./components/NavBar";
+import { BootSequence } from "./components/BootSequence";
 const SceneManager = lazy(() => import("./canvas/SceneManager").then(m => ({ default: m.SceneManager })));
 const CityBackground = lazy(() => import("./canvas/CityBackground").then(m => ({ default: m.CityBackground })));
 import { useSceneStore, type Section } from "./store/sceneStore";
@@ -89,6 +90,36 @@ function Ticker() {
       </div>
     </div>
   );
+}
+
+function MagneticButtons() {
+  useEffect(() => {
+    if (window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const RADIUS = 130, PULL = 0.28;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        document.querySelectorAll<HTMLElement>(".btn-cyber, .btn-pink").forEach((btn) => {
+          const r = btn.getBoundingClientRect();
+          const dx = e.clientX - (r.left + r.width / 2);
+          const dy = e.clientY - (r.top + r.height / 2);
+          const dist = Math.hypot(dx, dy);
+          if (dist < RADIUS) {
+            const f = (1 - dist / RADIUS) * PULL;
+            btn.style.transform = `translate(${(dx * f).toFixed(1)}px, ${(dy * f).toFixed(1)}px)`;
+          } else if (btn.style.transform) {
+            btn.style.transform = "";
+          }
+        });
+      });
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+  }, []);
+  return null;
 }
 
 function ScrollProgress() {
@@ -192,6 +223,8 @@ function App() {
       <div className="grain-overlay" aria-hidden="true" />
       <ScrollProgress />
       <CursorFX />
+      <MagneticButtons />
+      <BootSequence />
 
       {/* HTML content — z-10 */}
       <main id="main-content" style={{ position: "relative", zIndex: 10 }}>

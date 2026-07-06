@@ -766,6 +766,67 @@ body {
   box-shadow: 0 0 20px rgba(255, 0, 127, 0.3);
 }
 
+/* ─── BOOT SEQUENCE (one-shot cinematic intro) ─── */
+.boot {
+  position: fixed; inset: 0; z-index: 9999;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(0,240,255,0.05), transparent 60%),
+    #04050a;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+}
+.boot-inner { width: min(560px, 86vw); }
+.boot-brand {
+  font-family: "Space Grotesk", sans-serif; font-weight: 700;
+  font-size: clamp(1.6rem, 5vw, 2.6rem); letter-spacing: 0.12em;
+  color: #fff; margin-bottom: 1.4rem;
+  text-shadow: 0 0 24px rgba(0,240,255,0.25);
+}
+.boot-brand .amp { color: #ff007f; text-shadow: 0 0 18px rgba(255,0,127,0.5); }
+.boot-line {
+  display: flex; align-items: baseline; gap: 8px;
+  font-family: "JetBrains Mono", monospace; font-size: 12px;
+  letter-spacing: 0.04em; line-height: 2.05; color: rgba(224,224,232,0.82);
+  animation: boot-in 0.25s ease both;
+}
+.boot-dots { flex: 1; border-bottom: 1px dotted rgba(0,240,255,0.25); transform: translateY(-3px); }
+.boot-ok { color: #00ff88; text-shadow: 0 0 8px rgba(0,255,136,0.4); font-size: 11px; }
+.boot-online {
+  font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700;
+  letter-spacing: 0.12em; color: #00f0ff; margin-top: 0.4rem;
+  text-shadow: 0 0 12px rgba(0,240,255,0.5);
+  animation: boot-in 0.25s ease both;
+}
+.boot-bar {
+  margin-top: 1.6rem; height: 2px; position: relative; overflow: hidden;
+  background: rgba(0,240,255,0.12);
+}
+.boot-bar-fill {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, #00f0ff, #ff007f);
+  box-shadow: 0 0 14px rgba(0,240,255,0.6);
+  transition: right 0.12s linear;
+}
+.boot-pct {
+  display: flex; justify-content: space-between; margin-top: 9px;
+  font-family: "JetBrains Mono", monospace; font-size: 9px;
+  letter-spacing: 0.3em; color: rgba(0,240,255,0.5);
+}
+.boot-skip {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  font-family: "JetBrains Mono", monospace; font-size: 8px;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: rgba(0,240,255,0.28);
+}
+.boot-exit { animation: boot-exit 0.5s cubic-bezier(0.7,0,0.84,0) forwards; }
+@keyframes boot-in { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+@keyframes boot-exit {
+  to { opacity: 0; visibility: hidden; transform: scale(1.05); filter: blur(6px); }
+}
+
+/* ─── MAGNETIC BUTTONS ─── */
+.btn-cyber, .btn-pink { will-change: transform; }
+
 /* ─── SYNTHWAVE FLOOR (hero perspective grid) ─── */
 .floor-wrap {
   position: absolute; left: 0; right: 0; bottom: 0;
