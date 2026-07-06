@@ -21,11 +21,19 @@ export function BootSequence() {
   const already =
     typeof sessionStorage !== "undefined" && sessionStorage.getItem("cb_booted");
 
-  const [visible, setVisible] = useState(!reduced && !already);
+  const willPlay = !reduced && !already;
+  const [visible, setVisible] = useState(willPlay);
   const [shown, setShown] = useState(0);
   const [pct, setPct] = useState(0);
   const [exiting, setExiting] = useState(false);
   const doneRef = useRef(false);
+
+  // If the boot won't play (reduced-motion / already seen this session), still
+  // signal the hero to run its decrypt reveal immediately.
+  useEffect(() => {
+    if (!willPlay) window.dispatchEvent(new Event("cb:boot-done"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!visible) return;
@@ -36,6 +44,7 @@ export function BootSequence() {
       doneRef.current = true;
       setPct(100);
       setExiting(true);
+      window.dispatchEvent(new Event("cb:boot-done"));
       window.setTimeout(() => setVisible(false), 520);
     };
 

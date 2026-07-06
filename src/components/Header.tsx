@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { ScrambleText } from "./ScrambleText";
 
 function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   const [displayed, setDisplayed] = useState("");
@@ -33,6 +34,40 @@ function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
 export function Header({ titles }: { titles: any }) {
   const { lang } = useLanguage();
   const t = titles[lang];
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Cursor "flashlight": reveal a hidden neon grid + parallax the kanji.
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    if (window.matchMedia("(hover: none)").matches ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        el.style.setProperty("--mx", `${(x * 100).toFixed(2)}%`);
+        el.style.setProperty("--my", `${(y * 100).toFixed(2)}%`);
+        el.style.setProperty("--px", (x - 0.5).toFixed(3));
+        el.style.setProperty("--py", (y - 0.5).toFixed(3));
+      });
+    };
+    const enter = () => el.classList.add("hero-has-cursor");
+    const leave = () => el.classList.remove("hero-has-cursor");
+    el.addEventListener("mousemove", onMove, { passive: true });
+    el.addEventListener("mouseenter", enter);
+    el.addEventListener("mouseleave", leave);
+    return () => {
+      el.removeEventListener("mousemove", onMove);
+      el.removeEventListener("mouseenter", enter);
+      el.removeEventListener("mouseleave", leave);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const stagger = (i: number) => ({
     initial: { opacity: 0, y: 20 },
@@ -41,11 +76,15 @@ export function Header({ titles }: { titles: any }) {
   });
 
   return (
-    <section id="Home" className="grid-pattern" style={{
+    <section id="Home" ref={heroRef} className="grid-pattern" style={{
       minHeight: "100svh", position: "relative",
       display: "flex", alignItems: "center", justifyContent: "center",
       padding: "6rem 2rem 4rem", overflow: "hidden",
     }}>
+      {/* Cursor flashlight — reveals a hidden neon grid + cyan spotlight */}
+      <div className="hero-grid-reveal" aria-hidden="true" />
+      <div className="hero-spotlight" aria-hidden="true" />
+
       {/* Japanese kanji */}
       <span className="kanji-bg" style={{ top: "8%", right: "8%", fontSize: "clamp(7rem, 18vw, 16rem)" }}>未来</span>
       <span className="kanji-bg" style={{ bottom: "8%", left: "20%", fontSize: "clamp(5rem, 12vw, 12rem)" }}>電脳</span>
@@ -138,11 +177,10 @@ export function Header({ titles }: { titles: any }) {
           {"// "}Software Engineer
         </motion.div>
 
-        {/* Name */}
+        {/* Name — decrypts into view on boot-lift / hover */}
         <motion.h1
           {...stagger(2)}
-          className="glitch-text"
-          data-text="CHIHEB BEN CHEIKH"
+          aria-label="Chiheb Ben Cheikh"
           style={{
             fontFamily: '"Space Grotesk", sans-serif',
             fontSize: "clamp(2.8rem, 9vw, 8.5rem)",
@@ -152,11 +190,9 @@ export function Header({ titles }: { titles: any }) {
             marginBottom: "0.5rem",
           }}
         >
-          <span className="text-shine">CHIHEB</span><br />
-          <span style={{ display: "inline" }}>
-            <span className="glow-cyan" style={{ color: "#00f0ff" }}>BEN </span>
-            <span className="glow-pink" style={{ color: "#ff007f" }}>CHEIKH</span>
-          </span>
+          <ScrambleText text="CHIHEB" className="text-shine" /><br />
+          <ScrambleText text="BEN" className="glow-cyan" style={{ color: "#00f0ff" }} />{" "}
+          <ScrambleText text="CHEIKH" className="glow-pink" style={{ color: "#ff007f" }} />
         </motion.h1>
 
         {/* Decorative line */}

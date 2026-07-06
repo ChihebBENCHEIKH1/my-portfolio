@@ -827,6 +827,32 @@ body {
 /* ─── MAGNETIC BUTTONS ─── */
 .btn-cyber, .btn-pink { will-change: transform; }
 
+/* ─── HERO CURSOR FLASHLIGHT (reveals a hidden neon grid) ─── */
+.hero-spotlight {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 42%),
+    rgba(0, 240, 255, 0.14), rgba(0, 240, 255, 0.04) 42%, transparent 70%);
+  opacity: 0; transition: opacity 0.5s ease;
+  mix-blend-mode: screen;
+}
+.hero-grid-reveal {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.55) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.55) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(210px circle at var(--mx, 50%) var(--my, 42%), #000 0%, rgba(0,0,0,0.4) 45%, transparent 68%);
+  mask-image: radial-gradient(210px circle at var(--mx, 50%) var(--my, 42%), #000 0%, rgba(0,0,0,0.4) 45%, transparent 68%);
+  opacity: 0; transition: opacity 0.5s ease;
+}
+.hero-has-cursor .hero-spotlight { opacity: 1; }
+.hero-has-cursor .hero-grid-reveal { opacity: 0.55; }
+/* Parallax the kanji with the cursor for depth */
+#Home .kanji-bg {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 22px));
+}
+
 /* ─── SYNTHWAVE FLOOR (hero perspective grid) ─── */
 .floor-wrap {
   position: absolute; left: 0; right: 0; bottom: 0;
