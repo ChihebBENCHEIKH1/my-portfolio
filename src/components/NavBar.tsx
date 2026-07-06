@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useSceneStore } from "../store/sceneStore";
+import { Logo } from "./Logo";
 
 const SECTION_FOR_HREF: Record<string, string> = {
   "#Home": "hero",
@@ -80,11 +81,11 @@ export default function NavBar({ titles }: { titles: any }) {
         )}
 
         {/* Logo */}
-        <a href="#Home" style={{
+        <a href="#Home" aria-label="Chiheb Ben Cheikh — home" style={{
           textDecoration: "none",
           display: "flex", alignItems: "center",
         }}>
-          <img src="/logo-meteor.svg" alt="Chiheb" style={{ height: "36px", width: "36px" }} />
+          <Logo size={40} />
         </a>
 
         {/* Desktop links */}

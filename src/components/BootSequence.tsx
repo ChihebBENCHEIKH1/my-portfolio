@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Logo } from "./Logo";
 
 const LINES = [
   { t: "CB.OS  v2.4.1  —  cold boot", ok: "" },
@@ -77,6 +78,7 @@ export function BootSequence() {
   return (
     <div className={`boot crt-scanline ${exiting ? "boot-exit" : ""}`} role="presentation" aria-hidden="true">
       <div className="boot-inner">
+        <div style={{ marginBottom: "1.3rem" }}><Logo size={116} animate /></div>
         <div className="boot-brand">CB<span className="amp">//</span>OS</div>
         {LINES.slice(0, shown).map((l, i) => (
           <div key={i} className="boot-line">
