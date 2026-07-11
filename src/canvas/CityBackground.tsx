@@ -70,21 +70,28 @@ export function CityBackground() {
         />
       </div>
 
-      {/* ═══ AURORA — soft colour wash drifting over the skyline ═══ */}
-      <div
-        style={{
-          position: "fixed",
-          top: "24vh",
-          left: "-12%",
-          right: "-12%",
-          height: "30vh",
-          background:
-            "linear-gradient(100deg, rgba(0,240,255,0.06) 0%, rgba(130,90,255,0.07) 34%, rgba(255,0,127,0.055) 64%, rgba(0,220,255,0.05) 100%)",
-          filter: "blur(48px)",
-          mixBlendMode: "screen",
+      {/* ═══ AURORA — visible flowing ribbon over the skyline ═══ */}
+      <div style={{
+        position: "fixed", top: "16vh", left: "-15%", right: "-15%", height: "34vh",
+        opacity: inHero ? 1 : 0, transition: "opacity 0.8s ease",
+        pointerEvents: "none", mixBlendMode: "screen",
+      }}>
+        {/* broad soft wash */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(100deg, rgba(0,240,255,0.14) 0%, rgba(130,90,255,0.17) 34%, rgba(255,0,127,0.13) 64%, rgba(0,220,255,0.12) 100%)",
+          filter: "blur(46px)",
           animation: "city-aurora 20s ease-in-out infinite",
-        }}
-      />
+        }} />
+        {/* brighter defined ribbon */}
+        <div style={{
+          position: "absolute", left: 0, right: 0, top: "42%", height: "22%",
+          background: "linear-gradient(90deg, transparent 0%, rgba(0,240,255,0.28) 22%, rgba(150,80,255,0.32) 48%, rgba(255,0,127,0.26) 72%, transparent 100%)",
+          filter: "blur(22px)",
+          borderRadius: "50%",
+          animation: "city-aurora 16s ease-in-out infinite reverse",
+        }} />
+      </div>
 
       {/* ═══ WIDE VOLUMETRIC LIGHT BEAMS ═══ */}
       {[
@@ -1590,19 +1597,55 @@ export function CityBackground() {
         </div>
       ))}
 
-      {/* ═══ TOWER-TOP GLOW ENHANCERS (screen-blend halos) ═══ */}
+      {/* ═══ TOWER GLOW HALOS (bold, screen-blend) ═══ */}
       <div style={{
-        position: "absolute", left: "76%", bottom: "40%", transform: "translateX(-50%)",
-        width: "clamp(160px, 20vw, 300px)", height: "46%",
-        background: "radial-gradient(ellipse at 50% 40%, rgba(0,225,255,0.15), rgba(140,90,255,0.07) 45%, transparent 72%)",
-        filter: "blur(10px)", mixBlendMode: "screen",
+        position: "absolute", left: "76%", bottom: "38%", transform: "translateX(-50%)",
+        width: "clamp(220px, 26vw, 380px)", height: "52%",
+        background: "radial-gradient(ellipse at 50% 42%, rgba(0,225,255,0.34), rgba(150,90,255,0.16) 42%, transparent 70%)",
+        filter: "blur(14px)", mixBlendMode: "screen",
       }} />
       <div style={{
-        position: "absolute", left: "12.5%", bottom: "12%", transform: "translateX(-50%)",
-        width: "clamp(130px, 16vw, 240px)", height: "40%",
-        background: "radial-gradient(ellipse at 50% 45%, rgba(255,160,50,0.14), rgba(255,90,20,0.06) 45%, transparent 72%)",
-        filter: "blur(10px)", mixBlendMode: "screen",
+        position: "absolute", left: "12.5%", bottom: "10%", transform: "translateX(-50%)",
+        width: "clamp(170px, 20vw, 300px)", height: "46%",
+        background: "radial-gradient(ellipse at 50% 46%, rgba(255,160,50,0.32), rgba(255,90,20,0.15) 42%, transparent 70%)",
+        filter: "blur(14px)", mixBlendMode: "screen",
       }} />
+
+      {/* ═══ TOWER SEARCHLIGHT BEAMS (sweeping) ═══ */}
+      <div style={{
+        position: "absolute", left: "76%", bottom: "74%", transform: "translateX(-50%)",
+        width: "130px", height: "26vh", transformOrigin: "50% 100%",
+        clipPath: "polygon(47% 100%, 53% 100%, 100% 0, 0 0)",
+        background: "linear-gradient(to top, rgba(0,240,255,0.22), transparent 78%)",
+        filter: "blur(3px)", mixBlendMode: "screen",
+        animation: "beam-sweep 9s ease-in-out infinite",
+      }} />
+      <div style={{
+        position: "absolute", left: "12.5%", bottom: "49%", transform: "translateX(-50%)",
+        width: "110px", height: "22vh", transformOrigin: "50% 100%",
+        clipPath: "polygon(47% 100%, 53% 100%, 100% 0, 0 0)",
+        background: "linear-gradient(to top, rgba(255,150,40,0.2), transparent 78%)",
+        filter: "blur(3px)", mixBlendMode: "screen",
+        animation: "beam-sweep 11s ease-in-out 2s infinite reverse",
+      }} />
+
+      {/* ═══ TOWER ENERGY PULSES (streaming up) ═══ */}
+      {[0, 1, 2].map((i) => (
+        <div key={`skp-${i}`} style={{
+          position: "absolute", left: "76%", transform: "translateX(-50%)",
+          width: "5px", height: "13px", borderRadius: "3px", background: "#aef6ff",
+          boxShadow: "0 0 10px #00f0ff, 0 0 22px rgba(0,240,255,0.6)",
+          animation: `sky-pulse 2.6s linear ${(i * 0.85).toFixed(2)}s infinite`,
+        }} />
+      ))}
+      {[0, 1, 2].map((i) => (
+        <div key={`ttp-${i}`} style={{
+          position: "absolute", left: "12.5%", transform: "translateX(-50%)",
+          width: "5px", height: "12px", borderRadius: "3px", background: "#ffdca0",
+          boxShadow: "0 0 10px #ffb000, 0 0 22px rgba(255,140,20,0.6)",
+          animation: `tt-pulse 3s linear ${(i * 1.0).toFixed(2)}s infinite`,
+        }} />
+      ))}
 
       {/* ═══ NEON REFLECTIONS on the wet street ═══ */}
       {[
@@ -1611,11 +1654,25 @@ export function CityBackground() {
       ].map((r, i) => (
         <div key={`refl-${i}`} style={{
           position: "absolute", bottom: 0, left: `${r.x}%`, transform: "translateX(-50%)",
-          width: "3%", height: "9%",
-          background: `linear-gradient(to bottom, rgba(${r.c},0.22), transparent)`,
-          filter: "blur(4px)", opacity: 0.55, mixBlendMode: "screen",
+          width: "3.2%", height: "12%",
+          background: `linear-gradient(to bottom, rgba(${r.c},0.4), transparent)`,
+          filter: "blur(4px)", opacity: 0.7, mixBlendMode: "screen",
         }} />
       ))}
+
+      {/* ═══ RISING EMBERS ═══ */}
+      {Array.from({ length: 16 }).map((_, i) => {
+        const x = (i * 7.3 + ((i * 13) % 11)) % 100;
+        const c = ["#00f0ff", "#ff007f", "#ffb800", "#a855f7"][i % 4];
+        return (
+          <div key={`em-${i}`} style={{
+            position: "absolute", left: `${x}%`, bottom: `${4 + (i % 5) * 7}%`,
+            width: "3px", height: "3px", borderRadius: "50%", background: c,
+            boxShadow: `0 0 6px ${c}, 0 0 12px ${c}90`,
+            animation: `ember-rise ${9 + (i % 5) * 2}s ease-in ${((i * 0.7) % 6).toFixed(2)}s infinite`,
+          }} />
+        );
+      })}
     </div>
   );
 }
