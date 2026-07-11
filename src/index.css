@@ -47,7 +47,11 @@ section[id] { scroll-margin-top: 72px; }
 }
 
 body {
-  background: #05050a;
+  background-color: #05050a;
+  background-image:
+    radial-gradient(ellipse 130% 90% at 50% -8%, rgba(46,20,92,0.42), transparent 58%),
+    radial-gradient(ellipse 90% 60% at 88% 8%, rgba(0,120,150,0.10), transparent 55%);
+  background-attachment: fixed;
   color: #e0e0e8;
   font-family: "JetBrains Mono", monospace;
   font-size: 13px;
@@ -574,6 +578,10 @@ body {
 @keyframes city-beam-pulse {
   0%, 100% { opacity: 0.03; }
   50% { opacity: 0.1; }
+}
+@keyframes city-aurora {
+  0%, 100% { transform: translateX(0) skewX(0deg); opacity: 0.7; }
+  50% { transform: translateX(4%) skewX(-4deg); opacity: 1; }
 }
 @keyframes city-neon-flicker {
   0%, 18%, 22%, 100% { opacity: 0.7; }

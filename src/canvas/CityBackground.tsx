@@ -12,6 +12,8 @@ const LAMP_DEFAULT = "#00f0ff";
 
 export function CityBackground() {
   const hoveredJobIndex = useSceneStore((s) => s.hoveredJobIndex);
+  const activeSection = useSceneStore((s) => s.activeSection);
+  const inHero = activeSection === "hero";
   const lampColor =
     hoveredJobIndex !== null
       ? (LAMP_COLORS[hoveredJobIndex] ?? LAMP_DEFAULT)
@@ -30,13 +32,57 @@ export function CityBackground() {
         zIndex: 1,
       }}
     >
-      {/* ═══ SKY — purple-indigo atmospheric gradient ═══ */}
+      {/* ═══ SKY — deep violet → indigo → teal atmospheric gradient ═══ */}
       <div
         style={{
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, transparent 0%, rgba(24,10,48,0.14) 30%, rgba(12,6,30,0.2) 60%, rgba(0,240,255,0.02) 100%)",
+            "linear-gradient(to bottom, rgba(26,12,52,0.0) 0%, rgba(34,14,66,0.22) 20%, rgba(24,12,54,0.34) 46%, rgba(14,16,52,0.28) 72%, rgba(0,220,255,0.05) 100%)",
+        }}
+      />
+
+      {/* ═══ MOON — distant glowing orb high in the sky ═══ */}
+      <div
+        style={{
+          position: "fixed",
+          top: "4vh",
+          left: "9vw",
+          width: "clamp(110px, 12vw, 188px)",
+          aspectRatio: "1",
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle at 42% 38%, #f2f6ff 0%, #d3ddff 26%, #9fb0ee 52%, rgba(110,110,210,0.18) 78%, transparent 100%)",
+          boxShadow:
+            "0 0 120px 26px rgba(150,170,255,0.16), 0 0 46px rgba(205,222,255,0.22)",
+          opacity: inHero ? 0.5 : 0,
+          transition: "opacity 0.8s ease",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle at 70% 64%, rgba(38,28,86,0.4), transparent 52%)",
+          }}
+        />
+      </div>
+
+      {/* ═══ AURORA — soft colour wash drifting over the skyline ═══ */}
+      <div
+        style={{
+          position: "fixed",
+          top: "24vh",
+          left: "-12%",
+          right: "-12%",
+          height: "30vh",
+          background:
+            "linear-gradient(100deg, rgba(0,240,255,0.06) 0%, rgba(130,90,255,0.07) 34%, rgba(255,0,127,0.055) 64%, rgba(0,220,255,0.05) 100%)",
+          filter: "blur(48px)",
+          mixBlendMode: "screen",
+          animation: "city-aurora 20s ease-in-out infinite",
         }}
       />
 
@@ -1542,6 +1588,33 @@ export function CityBackground() {
             }}
           />
         </div>
+      ))}
+
+      {/* ═══ TOWER-TOP GLOW ENHANCERS (screen-blend halos) ═══ */}
+      <div style={{
+        position: "absolute", left: "76%", bottom: "40%", transform: "translateX(-50%)",
+        width: "clamp(160px, 20vw, 300px)", height: "46%",
+        background: "radial-gradient(ellipse at 50% 40%, rgba(0,225,255,0.15), rgba(140,90,255,0.07) 45%, transparent 72%)",
+        filter: "blur(10px)", mixBlendMode: "screen",
+      }} />
+      <div style={{
+        position: "absolute", left: "12.5%", bottom: "12%", transform: "translateX(-50%)",
+        width: "clamp(130px, 16vw, 240px)", height: "40%",
+        background: "radial-gradient(ellipse at 50% 45%, rgba(255,160,50,0.14), rgba(255,90,20,0.06) 45%, transparent 72%)",
+        filter: "blur(10px)", mixBlendMode: "screen",
+      }} />
+
+      {/* ═══ NEON REFLECTIONS on the wet street ═══ */}
+      {[
+        { x: 76, c: "0,225,255" }, { x: 12.5, c: "255,150,50" },
+        { x: 42, c: "255,0,127" }, { x: 60, c: "0,240,255" }, { x: 88, c: "255,184,0" },
+      ].map((r, i) => (
+        <div key={`refl-${i}`} style={{
+          position: "absolute", bottom: 0, left: `${r.x}%`, transform: "translateX(-50%)",
+          width: "3%", height: "9%",
+          background: `linear-gradient(to bottom, rgba(${r.c},0.22), transparent)`,
+          filter: "blur(4px)", opacity: 0.55, mixBlendMode: "screen",
+        }} />
       ))}
     </div>
   );
