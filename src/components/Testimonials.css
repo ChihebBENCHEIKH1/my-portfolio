@@ -1,0 +1,40 @@
+/* ── Testimonials — social package ─────────────────────────────
+   Opaque holo data-pads: atmosphere in the chrome, not the letterforms. */
+
+.tst-card {
+  perspective: 800px;
+  outline: none;
+}
+
+/* Gradient-border frame (the 1px neon rim around the clipped panel) */
+.tst-frame {
+  transform-style: preserve-3d;
+  padding: 1px;
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+  transition: background 0.5s, box-shadow 0.5s, transform 0.15s ease-out, filter 0.2s;
+}
+
+.tst-card:focus-visible .tst-frame {
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.5), 0 0 30px rgba(0, 240, 255, 0.15);
+}
+
+/* Opaque panel — no backdrop-filter; depth via inset glow + grain, not blur */
+.tst-panel {
+  background: linear-gradient(165deg, #0a0c16 0%, #070810 55%, #0b0d18 100%);
+  box-shadow: inset 0 0 60px rgba(0, 240, 255, 0.04);
+  clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px));
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Touch analogue for the hover choreography */
+@media (hover: none) {
+  .tst-card:active .tst-frame {
+    transform: scale(0.97);
+    filter: brightness(1.35);
+    transition-duration: 0.08s;
+  }
+}

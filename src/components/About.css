@@ -1,0 +1,213 @@
+/* ── About / Neural Profile — package styles ─────────────────────────────
+   Owns: stat modules (gauged HUD tiles), profile + skills panels, hex skill
+   tags. Uses index.css utilities: .hud-corners, .scan-sweep, city-blink. */
+
+/* ── Stats row ── */
+.stats-row {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* ── Stat module: notched chassis + accent rule + live gauge ── */
+.stat-chip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 14px 22px 12px;
+  background: rgba(8, 10, 18, 0.9);
+  border: 1px solid color-mix(in srgb, var(--accent) 21%, transparent);
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--accent) 8%, transparent),
+    inset 0 0 20px color-mix(in srgb, var(--accent) 3%, transparent);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.stat-chip:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--accent) 14%, transparent),
+    inset 0 0 28px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+/* per-accent HUD brackets, scaled down for the small chassis */
+.stat-chip.hud-corners::before,
+.stat-chip.hud-corners::after {
+  width: 12px;
+  height: 12px;
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.stat-chip.hud-corners:hover::before,
+.stat-chip.hud-corners:hover::after {
+  border-color: color-mix(in srgb, var(--accent) 80%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+.stat-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.stat-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.stat-num {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.2rem, 3vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 33%, transparent);
+}
+.stat-num-digits {
+  display: inline-block;
+  text-align: right;
+}
+@keyframes stat-flare {
+  0% { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 20%, transparent); }
+  35% {
+    text-shadow:
+      0 0 30px color-mix(in srgb, var(--accent) 60%, transparent),
+      0 0 64px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  100% { text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 33%, transparent); }
+}
+.stat-num-flare {
+  animation: stat-flare 0.7s ease-out;
+}
+.stat-label {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(224, 224, 232, 0.75);
+  text-transform: uppercase;
+}
+/* segmented gauge — stats read as live meters */
+.stat-gauge {
+  display: flex;
+  gap: 2px;
+}
+.stat-cell {
+  width: 8px;
+  height: 3px;
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+}
+.stat-cell.on {
+  background: var(--accent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.stat-cell.live {
+  animation: city-blink 2s infinite;
+}
+
+/* ── Panels: opaque notched chassis (no backdrop-filter, no radius) ── */
+.about-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem;
+  background: linear-gradient(165deg, #0a0c16 0%, #070810 55%, #0b0d18 100%);
+  border: 1px solid rgba(0, 240, 255, 0.12);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  box-shadow: inset 0 0 60px rgba(0, 240, 255, 0.04);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+.about-panel:hover {
+  border-color: rgba(0, 240, 255, 0.28);
+}
+.about-panel-pink {
+  border-color: rgba(255, 0, 127, 0.14);
+  box-shadow: inset 0 0 60px rgba(255, 0, 127, 0.035);
+}
+.about-panel-pink:hover {
+  border-color: rgba(255, 0, 127, 0.32);
+}
+.panel-rule {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.7), transparent);
+  pointer-events: none;
+}
+.panel-rule-pink {
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 127, 0.7), transparent);
+}
+/* hover-gate the skills-panel sweep: no idle infinite animation over the page */
+.about-panel.scan-sweep::after {
+  animation-play-state: paused;
+}
+.about-panel.scan-sweep:hover::after {
+  animation-play-state: running;
+}
+
+/* ── Skill tags: hex chips, per-group accent via --accent ── */
+.skill-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  padding: 6px 16px;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0 50%);
+  border: 1px solid color-mix(in srgb, var(--accent) 19%, transparent);
+  background: color-mix(in srgb, var(--accent) 4%, rgba(8, 10, 18, 0.85));
+  color: rgba(224, 224, 232, 0.85);
+  transition: border-color 0.2s, color 0.2s, background-color 0.2s, text-shadow 0.2s;
+}
+.skill-tag:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, rgba(8, 10, 18, 0.85));
+  text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ── Touch feedback (house pattern) ── */
+@media (hover: none) {
+  .stat-chip:active {
+    transform: scale(0.97) !important;
+    filter: brightness(1.35);
+    transition-duration: 0.08s;
+  }
+  .skill-tag:active {
+    filter: brightness(1.35);
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+  .stat-chip {
+    align-items: center;
+    padding: 12px 6px;
+    gap: 7px;
+  }
+  .stat-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  .stat-num {
+    font-size: clamp(1.55rem, 6.5vw, 2.1rem);
+  }
+  .stat-label {
+    text-align: center;
+  }
+  .stat-gauge {
+    justify-content: center;
+  }
+  .about-panel {
+    padding: 1.6rem 1.2rem;
+  }
+}

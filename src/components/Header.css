@@ -1,0 +1,151 @@
+/* ============================================================
+   Hero package — Header.css
+   Legibility scrim, STDOUT terminal pane, quiet tech chips,
+   mobile CTA rescue. Theme: neon-noir HUD, never softened.
+   ============================================================ */
+
+/* ---- Subtitle: HUD console readout ------------------------- */
+/* The ONE permitted new backdrop-filter (static element, hero
+   viewport only). Occluder shadow first, neon glow second. */
+.hero-stdout {
+  position: relative;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(14px, 1.6vw, 18px);
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: rgba(232, 234, 240, 0.95);
+  text-align: left;
+  max-width: 620px;
+  margin-bottom: 2.5rem;
+  padding: 1.85rem 1.5rem 1.1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 5, 10, 0.78),
+    rgba(5, 5, 10, 0.5) 75%,
+    rgba(5, 5, 10, 0.25)
+  );
+  -webkit-backdrop-filter: blur(10px) saturate(1.2);
+  backdrop-filter: blur(10px) saturate(1.2);
+  border-left: 2px solid rgba(0, 240, 255, 0.5);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.hero-stdout-caption {
+  position: absolute;
+  top: 8px;
+  left: 1.5rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(0, 240, 255, 0.7);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+}
+
+.hero-stdout-prompt {
+  color: #00f0ff;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+/* ---- Tech chips: quiet metal plates ------------------------ */
+/* Metadata whispers; the name and CTAs shout. */
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.hero-chip {
+  flex: 0 0 auto;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 6px 16px;
+  background: rgba(8, 10, 18, 0.8);
+  border: 1px solid rgba(224, 224, 232, 0.18);
+  color: rgba(224, 224, 232, 0.75);
+  text-shadow: none;
+  clip-path: polygon(
+    6px 0,
+    calc(100% - 6px) 0,
+    100% 50%,
+    calc(100% - 6px) 100%,
+    6px 100%,
+    0 50%
+  );
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.hero-chip:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+  color: #00f0ff;
+}
+
+/* ---- Mobile: scrim + CTA rescue + chip scroller ------------ */
+.hero-mobile-scrim {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* Dark rise behind CTAs + chips so buttons never fight the
+     animated city. Content sits at z-index 2; city art below 1. */
+  .hero-mobile-scrim {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 55%;
+    background: linear-gradient(to top, rgba(5, 5, 10, 0.88) 30%, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* One-line horizontal scroller with edge fade — no wrap collisions. */
+  .hero-chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 100%;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    padding: 4px 12px;
+  }
+
+  .hero-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hero-stdout {
+    padding: 1.75rem 1.1rem 1rem;
+  }
+
+  .hero-stdout-caption {
+    left: 1.1rem;
+  }
+}

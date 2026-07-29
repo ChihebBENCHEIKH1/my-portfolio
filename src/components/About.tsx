@@ -1,29 +1,63 @@
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { useLanguage } from "../context/LanguageContext";
+import "./About.css";
 
 function CountUp({ value, inView }: { value: string; inView: boolean }) {
-  const [display, setDisplay] = useState("0");
+  const m = value.match(/^([\d.]+)(.*)$/);
+  const [num, setNum] = useState(m ? "0" : value);
+  const [flare, setFlare] = useState(false);
+
   useEffect(() => {
     if (!inView) return;
-    const m = value.match(/^([\d.]+)(.*)$/);
-    if (!m) { setDisplay(value); return; }
-    const target = parseFloat(m[1]);
-    const suffix = m[2];
-    const decimals = m[1].includes(".") ? 1 : 0;
+    const mm = value.match(/^([\d.]+)(.*)$/);
+    if (!mm) { setNum(value); return; }
+    const target = parseFloat(mm[1]);
+    const decimals = mm[1].includes(".") ? 1 : 0;
+    // Reduced motion: land on the final value immediately, no flare.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setNum(target.toFixed(decimals));
+      return;
+    }
     const duration = 1400;
     const start = performance.now();
     let raf = 0;
+    let flareTimer = 0;
     const tick = (now: number) => {
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3);
-      setDisplay((target * eased).toFixed(decimals) + (p === 1 ? suffix : ""));
-      if (p < 1) raf = requestAnimationFrame(tick);
+      setNum((target * eased).toFixed(decimals));
+      if (p < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        setFlare(true);
+        flareTimer = window.setTimeout(() => setFlare(false), 750);
+      }
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => { cancelAnimationFrame(raf); clearTimeout(flareTimer); };
   }, [inView, value]);
-  return <>{display}</>;
+
+  return (
+    <span className={flare ? "stat-num stat-num-flare" : "stat-num"}>
+      <span className="stat-num-digits" style={m ? { minWidth: `${m[1].length}ch` } : undefined}>{num}</span>
+      <span>{m ? m[2] : ""}</span>
+    </span>
+  );
+}
+
+function Gauge({ filled }: { filled: number }) {
+  return (
+    <div className="stat-gauge" aria-hidden="true">
+      {Array.from({ length: 6 }, (_, i) => (
+        <span
+          key={i}
+          className={i < filled ? (i === filled - 1 ? "stat-cell on live" : "stat-cell on") : "stat-cell"}
+        />
+      ))}
+    </div>
+  );
 }
 
 const SKILLS = [
@@ -34,29 +68,30 @@ const SKILLS = [
 ];
 
 const STATS = [
-  { value: "2+", label: "Years Exp", color: "#00f0ff" },
-  { value: "20+", label: "Projects", color: "#ff007f" },
-  { value: "99.9%", label: "Uptime", color: "#ffb800" },
+  { value: "2+", label: "Years Exp", color: "#00f0ff", gauge: 4 },
+  { value: "20+", label: "Projects", color: "#ff007f", gauge: 5 },
+  { value: "99.9%", label: "Uptime", color: "#ffb800", gauge: 6 },
 ];
 
 export function About({ titles }: { titles: any }) {
   const { lang } = useLanguage();
   const t = titles[lang];
-  const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-10%" });
+  const statsRef = useRef<HTMLDivElement>(null);
+  const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
 
   const reveal = (d: number) => ({
     initial: { opacity: 0, y: 24 } as const,
-    animate: inView ? { opacity: 1, y: 0 } : ({} as any),
+    whileInView: { opacity: 1, y: 0 } as const,
+    viewport: { once: true, margin: "-40px" } as const,
     transition: { delay: d, duration: 0.6, ease: [0.16, 1, 0.3, 1] } as const,
   });
 
   return (
-    <section id="About" ref={ref} className="grid-pattern" style={{
+    <section id="About" className="grid-pattern" style={{
       padding: "140px 2rem", position: "relative", overflow: "hidden",
     }}>
       <span className="kanji-bg" style={{ top: "10%", right: "3%", fontSize: "clamp(6rem, 12vw, 12rem)" }}>概要</span>
-      <span className="ghost-num" aria-hidden="true">01</span>
+      <span className="ghost-num" aria-hidden="true">02</span>
 
       <div style={{
         position: "absolute", top: 0, right: 0, width: "40%", height: "80%",
@@ -69,8 +104,9 @@ export function About({ titles }: { titles: any }) {
           <div style={{ width: "30px", height: "1px", background: "#00f0ff" }} />
           <span style={{
             fontFamily: '"JetBrains Mono"', fontSize: "10px",
-            letterSpacing: "0.3em", color: "#00f0ff", textTransform: "uppercase",
-          }}>01 — ABOUT</span>
+            letterSpacing: "0.28em", color: "#00f0ff", textTransform: "uppercase",
+            textShadow: "0 0 10px rgba(0,240,255,0.35)",
+          }}>02 — ABOUT</span>
         </motion.div>
 
         <motion.h2 {...reveal(0.1)} style={{
@@ -82,67 +118,44 @@ export function About({ titles }: { titles: any }) {
         </motion.h2>
         <motion.div {...reveal(0.15)} className="neon-line" style={{ width: "120px", marginBottom: "2.5rem" }} />
 
-        {/* Stats row */}
-        <motion.div {...reveal(0.12)} style={{
-          display: "flex", gap: "1.5rem", marginBottom: "2rem", flexWrap: "wrap",
-        }}>
-          {STATS.map((s) => (
-            <div key={s.label} style={{
-              display: "flex", alignItems: "baseline", gap: "8px",
-              padding: "10px 20px",
-              background: "rgba(8,10,18,0.6)",
-              border: `1px solid ${s.color}18`,
-              borderRadius: "6px",
-              backdropFilter: "blur(10px)",
-            }}>
-              <span style={{
-                fontFamily: '"Space Grotesk"', fontSize: "1.8rem",
-                fontWeight: 700, color: s.color,
-                textShadow: `0 0 20px ${s.color}30`,
-                lineHeight: 1,
-                fontVariantNumeric: "tabular-nums",
-              }}><CountUp value={s.value} inView={inView} /></span>
-              <span style={{
-                fontFamily: '"JetBrains Mono"', fontSize: "9px",
-                letterSpacing: "0.15em", color: "rgba(224,224,232,0.7)",
-                textTransform: "uppercase",
-              }}>{s.label}</span>
-            </div>
+        {/* Stats row — live gauge modules */}
+        <div ref={statsRef} className="stats-row">
+          {STATS.map((s, i) => (
+            <motion.div
+              key={s.label}
+              className="stat-chip hud-corners"
+              style={{ "--accent": s.color } as CSSProperties}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{
+                opacity: 1, y: 0,
+                transition: { delay: 0.12 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              }}
+              viewport={{ once: true, margin: "-40px" }}
+              whileHover={{ y: -4 }}
+              transition={{ type: "spring", stiffness: 340, damping: 24 }}
+            >
+              <div className="stat-rule" aria-hidden="true" />
+              <div className="stat-top">
+                <CountUp value={s.value} inView={statsInView} />
+                <span className="stat-label">{s.label}</span>
+              </div>
+              <Gauge filled={s.gauge} />
+            </motion.div>
           ))}
-        </motion.div>
+        </div>
 
         <div className="mobile-col" style={{
           display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: "1.5rem",
         }}>
           {/* Bio card */}
-          <motion.div {...reveal(0.15)} style={{
-            borderRadius: "12px",
-            background: "linear-gradient(135deg, rgba(8,10,18,0.85), rgba(12,14,24,0.75))",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(0,240,255,0.08)",
-            padding: "2.5rem",
-            position: "relative", overflow: "hidden",
-            boxShadow: "0 4px 30px rgba(0,0,0,0.25), 0 0 40px rgba(0,240,255,0.02)",
-          }}>
-            {/* Subtle top accent */}
-            <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: "1px",
-              background: "linear-gradient(90deg, transparent 10%, rgba(0,240,255,0.3) 50%, transparent 90%)",
-            }} />
-            {/* Corner accents */}
-            <div style={{ position: "absolute", top: 0, left: 0, width: "20px", height: "20px",
-              borderTop: "1.5px solid rgba(0,240,255,0.25)", borderLeft: "1.5px solid rgba(0,240,255,0.25)",
-              borderRadius: "2px 0 0 0",
-            }} />
-            <div style={{ position: "absolute", bottom: 0, right: 0, width: "20px", height: "20px",
-              borderBottom: "1.5px solid rgba(0,240,255,0.25)", borderRight: "1.5px solid rgba(0,240,255,0.25)",
-              borderRadius: "0 0 2px 0",
-            }} />
+          <motion.div {...reveal(0.15)} className="about-panel hud-corners">
+            <div className="panel-rule" aria-hidden="true" />
 
-            <div style={{
-              fontFamily: '"JetBrains Mono"', fontSize: "9px",
-              letterSpacing: "0.2em", color: "rgba(0,240,255,0.35)",
+            <div aria-hidden="true" style={{
+              fontFamily: '"JetBrains Mono"', fontSize: "10px",
+              letterSpacing: "0.28em", color: "rgba(0,240,255,0.6)",
               marginBottom: "1.5rem", textTransform: "uppercase",
+              textShadow: "0 0 10px rgba(0,240,255,0.25)",
             }}>
               {">"} profile.load()
             </div>
@@ -155,8 +168,8 @@ export function About({ titles }: { titles: any }) {
               <span style={{ color: "#00f0ff", textShadow: "0 0 20px rgba(0,240,255,0.2)" }}>&amp; Secure AI Builder</span>
             </h3>
             <p style={{
-              fontSize: "clamp(13px, 1.4vw, 16px)", lineHeight: "1.9", color: "rgba(224,224,232,0.8)",
-              textShadow: "0 0 18px rgba(0,240,255,0.1)",
+              fontSize: "clamp(13px, 1.4vw, 16px)", lineHeight: "1.9", color: "rgba(224,224,232,0.85)",
+              textShadow: "0 1px 2px rgba(0,0,0,0.7), 0 0 18px rgba(0,240,255,0.08)",
               borderLeft: "2px solid rgba(0,240,255,0.35)",
               paddingLeft: "0.75rem",
             }}>
@@ -175,12 +188,13 @@ export function About({ titles }: { titles: any }) {
               ].map(({ lbl, val, c }) => (
                 <div key={lbl}>
                   <div style={{
-                    fontFamily: '"JetBrains Mono"', fontSize: "9px",
-                    letterSpacing: "0.2em", color: c,
+                    fontFamily: '"JetBrains Mono"', fontSize: "10px",
+                    letterSpacing: "0.14em", color: c,
                     marginBottom: "4px", textTransform: "uppercase",
+                    textShadow: `0 0 8px ${c}40`,
                     display: "flex", alignItems: "center", gap: "6px",
                   }}>
-                    <div style={{ width: "8px", height: "8px", borderRadius: "2px", border: `1.5px solid ${c}50`, background: `${c}10` }} />
+                    <div aria-hidden="true" style={{ width: "8px", height: "8px", border: `1.5px solid ${c}50`, background: `${c}10` }} />
                     {lbl}
                   </div>
                   <div style={{ fontSize: "12px", color: "rgba(224,224,232,0.75)" }}>{val}</div>
@@ -190,33 +204,19 @@ export function About({ titles }: { titles: any }) {
           </motion.div>
 
           {/* Skills card */}
-          <motion.div {...reveal(0.25)} style={{
-            borderRadius: "12px",
-            background: "linear-gradient(135deg, rgba(8,10,18,0.85), rgba(12,14,24,0.75))",
-            backdropFilter: "blur(12px)",
-            border: "1px solid rgba(0,240,255,0.08)",
-            padding: "2.5rem",
-            position: "relative",
-            boxShadow: "0 4px 30px rgba(0,0,0,0.25), 0 0 40px rgba(0,240,255,0.02)",
-          }}>
-            {/* Top accent */}
-            <div style={{
-              position: "absolute", top: 0, left: 0, right: 0, height: "1px",
-              background: "linear-gradient(90deg, transparent 10%, rgba(255,0,127,0.3) 50%, transparent 90%)",
+          <motion.div {...reveal(0.25)} className="about-panel about-panel-pink scan-sweep">
+            <div className="panel-rule panel-rule-pink" aria-hidden="true" />
+            {/* Corner accents (pink — panel ::before/::after are taken by scan-sweep) */}
+            <div aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, width: "20px", height: "20px",
+              borderTop: "2px solid rgba(255,0,127,0.35)", borderLeft: "2px solid rgba(255,0,127,0.35)",
             }} />
-            {/* Corner accents */}
-            <div style={{ position: "absolute", top: 0, left: 0, width: "20px", height: "20px",
-              borderTop: "1.5px solid rgba(255,0,127,0.25)", borderLeft: "1.5px solid rgba(255,0,127,0.25)",
-              borderRadius: "2px 0 0 0",
-            }} />
-            <div style={{ position: "absolute", bottom: 0, right: 0, width: "20px", height: "20px",
-              borderBottom: "1.5px solid rgba(255,0,127,0.25)", borderRight: "1.5px solid rgba(255,0,127,0.25)",
-              borderRadius: "0 0 2px 0",
+            <div aria-hidden="true" style={{ position: "absolute", bottom: 0, right: 0, width: "20px", height: "20px",
+              borderBottom: "2px solid rgba(255,0,127,0.35)", borderRight: "2px solid rgba(255,0,127,0.35)",
             }} />
 
-            <div style={{
+            <div aria-hidden="true" style={{
               fontFamily: '"JetBrains Mono"', fontSize: "11px",
-              letterSpacing: "0.2em", color: "rgba(0,240,255,0.7)",
+              letterSpacing: "0.28em", color: "rgba(0,240,255,0.7)",
               marginBottom: "2rem", textTransform: "uppercase",
               textShadow: "0 0 10px rgba(0,240,255,0.25)",
             }}>
@@ -224,16 +224,16 @@ export function About({ titles }: { titles: any }) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "1.75rem" }}>
               {SKILLS.map((group, gi) => (
-                <div key={group.label}>
+                <div key={group.label} style={{ "--accent": group.color } as CSSProperties}>
                   <div style={{
                     fontFamily: '"JetBrains Mono"', fontSize: "11px",
-                    letterSpacing: "0.25em", color: group.color,
+                    letterSpacing: "0.14em", color: group.color,
                     textShadow: `0 0 8px ${group.color}40`,
                     marginBottom: "0.75rem",
                     display: "flex", alignItems: "center", gap: "0.5rem",
                     textTransform: "uppercase",
                   }}>
-                    <div style={{
+                    <div aria-hidden="true" style={{
                       width: "6px", height: "6px", borderRadius: "50%",
                       background: group.color, boxShadow: `0 0 8px ${group.color}40`,
                     }} />
@@ -243,18 +243,11 @@ export function About({ titles }: { titles: any }) {
                     {group.tags.map((tag, ti) => (
                       <motion.span
                         key={tag}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={inView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ delay: 0.3 + gi * 0.1 + ti * 0.05 }}
-                        style={{
-                          fontFamily: '"JetBrains Mono"', fontSize: "11px",
-                          padding: "6px 14px", letterSpacing: "0.08em",
-                          border: `1px solid ${group.color}30`,
-                          color: "rgba(224,224,232,0.8)",
-                          background: `${group.color}08`,
-                          borderRadius: "4px",
-                          transition: "all 0.2s",
-                        }}
+                        className="skill-tag"
+                        initial={{ opacity: 0, scale: 0.92, y: 6 }}
+                        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-40px" }}
+                        transition={{ delay: gi * 0.08 + ti * 0.04, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       >{tag}</motion.span>
                     ))}
                   </div>

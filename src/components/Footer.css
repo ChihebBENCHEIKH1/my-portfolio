@@ -1,0 +1,83 @@
+/* ── Footer — social package ───────────────────────────────────
+   EKG heartbeat top rule: the site is alive to the last pixel. */
+
+.footer-ekg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px;
+  height: 28px;
+  width: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.ekg-base {
+  fill: none;
+  stroke: rgba(0, 240, 255, 0.28);
+  stroke-width: 1.5;
+}
+.ekg-pink {
+  fill: none;
+  stroke: #ff007f;
+  stroke-width: 1.5;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 6px rgba(255, 0, 127, 0.6));
+}
+.ekg-dash {
+  fill: none;
+  stroke: #00f0ff;
+  stroke-width: 1.5;
+  filter: drop-shadow(0 0 6px rgba(0, 240, 255, 0.6));
+  stroke-dasharray: 90 1300;
+  animation: ekg-dash 4s linear infinite;
+}
+@keyframes ekg-dash {
+  from { stroke-dashoffset: 1390; }
+  to { stroke-dashoffset: 0; }
+}
+
+/* ── Links + back-to-top ── */
+.footer-link {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(224, 224, 232, 0.65);
+  text-decoration: none;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.footer-link:hover,
+.footer-link:focus-visible {
+  color: #00f0ff;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+  outline: none;
+}
+
+.footer-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: #00f0ff;
+  text-decoration: none;
+  font-size: 14px;
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+.footer-top:hover,
+.footer-top:focus-visible {
+  background: rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  border-color: rgba(0, 240, 255, 0.5);
+  outline: none;
+}
+@media (hover: none) {
+  .footer-top:active {
+    transform: scale(0.97);
+    filter: brightness(1.35);
+    transition-duration: 0.08s;
+  }
+}

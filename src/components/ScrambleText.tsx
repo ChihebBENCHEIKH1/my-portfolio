@@ -9,8 +9,11 @@ const GLYPHS = "アカサタナハマヤ0123456789ABCDEF#%&*<>/=+".split("");
  * and again on hover. Reduced-motion → renders the text plainly. The visible
  * layers are aria-hidden; give the parent element the accessible label.
  */
-export function ScrambleText({ text, className, style }: {
+export function ScrambleText({ text, className, style, active }: {
   text: string; className?: string; style?: CSSProperties;
+  /** Optional external trigger — re-runs the decrypt whenever this turns true
+   *  (e.g. wire it to whileInView). Boot/hover behavior is unchanged. */
+  active?: boolean;
 }) {
   const [out, setOut] = useState(text);
   const raf = useRef(0);
@@ -34,6 +37,10 @@ export function ScrambleText({ text, className, style }: {
     };
     raf.current = requestAnimationFrame(tick);
   }, [text]);
+
+  useEffect(() => {
+    if (active) run();
+  }, [active, run]);
 
   useEffect(() => {
     setOut(text);

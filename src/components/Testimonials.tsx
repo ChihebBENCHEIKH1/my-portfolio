@@ -1,71 +1,124 @@
-import React, { useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import "./Testimonials.css";
 
-function TestimonialCard({ item, i, inView }: {
+const GLYPHS = "アカサタナハマヤ0123456789ABCDEF#%&*<>/=+";
+
+/**
+ * Local decrypt: reveals `text` left→right over ~1.1s once `active` flips true.
+ * Reduced motion → renders the final text immediately. Runs once.
+ */
+function useDecrypt(text: string, active: boolean, delay: number) {
+  const [out, setOut] = useState(text);
+  const [running, setRunning] = useState(false);
+  const raf = useRef(0);
+
+  useEffect(() => {
+    if (!active) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setOut(text);
+      return;
+    }
+    let start = 0;
+    const dur = 1100;
+    const timer = window.setTimeout(() => {
+      setRunning(true);
+      const tick = (now: number) => {
+        if (!start) start = now;
+        const p = Math.min((now - start) / dur, 1);
+        const frontier = Math.floor(p * text.length);
+        let s = text.slice(0, frontier);
+        for (let idx = frontier; idx < text.length; idx++) {
+          const c = text[idx];
+          s += c === " " ? " " : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        }
+        setOut(s);
+        if (p < 1) raf.current = requestAnimationFrame(tick);
+        else {
+          setOut(text);
+          setRunning(false);
+        }
+      };
+      raf.current = requestAnimationFrame(tick);
+    }, delay);
+    return () => {
+      window.clearTimeout(timer);
+      cancelAnimationFrame(raf.current);
+    };
+  }, [text, active, delay]);
+
+  return { out, running };
+}
+
+function TestimonialCard({ item, i }: {
   item: { img: string; name: string; email: string; testimonial: string };
-  i: number; inView: boolean;
+  i: number;
 }) {
   const [hovering, setHovering] = useState(false);
+  const reduced = useReducedMotion();
+  const cardRef = useRef<HTMLDivElement>(null);
   const tiltRef = useRef<HTMLDivElement>(null);
+  const pointer = useRef<{ x: number; y: number } | null>(null);
+  const tiltRaf = useRef(0);
+  const cardInView = useInView(cardRef, { once: true, amount: 0.3 });
   const accent = i % 2 === 0 ? "#00f0ff" : "#ff007f";
   const accentAlt = i % 2 === 0 ? "#ff007f" : "#ffb800";
+  const { out: quote, running: decrypting } = useDecrypt(item.testimonial, cardInView, 350 + i * 180);
 
+  useEffect(() => () => cancelAnimationFrame(tiltRaf.current), []);
+
+  // rAF-throttled tilt: store the latest pointer, flush once per frame.
   const handleTilt = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = tiltRef.current;
-    if (!el) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.transform = `perspective(900px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg)`;
+    if (reduced) return;
+    pointer.current = { x: e.clientX, y: e.clientY };
+    if (tiltRaf.current) return;
+    tiltRaf.current = requestAnimationFrame(() => {
+      tiltRaf.current = 0;
+      const el = tiltRef.current;
+      const p = pointer.current;
+      if (!el || !p) return;
+      const r = el.getBoundingClientRect();
+      const px = (p.x - r.left) / r.width - 0.5;
+      const py = (p.y - r.top) / r.height - 0.5;
+      el.style.transform = `perspective(900px) rotateX(${(-py * 7).toFixed(2)}deg) rotateY(${(px * 9).toFixed(2)}deg)`;
+    });
   };
   const resetTilt = () => {
     if (tiltRef.current) tiltRef.current.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg)";
   };
 
+  const live = hovering && !reduced;
+
   return (
     <motion.div
+      ref={cardRef}
+      className="tst-card"
+      tabIndex={0}
       initial={{ opacity: 0, y: 40, rotateX: 6 }}
-      animate={inView ? { opacity: 1, y: 0, rotateX: 0 } : {}}
-      transition={{ delay: i * 0.18, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ delay: i * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => { setHovering(false); resetTilt(); }}
+      onFocus={() => setHovering(true)}
+      onBlur={() => { setHovering(false); resetTilt(); }}
       onMouseMove={handleTilt}
-      style={{
-        perspective: "800px",
-        animation: `float 6s ease-in-out infinite`,
-        animationDelay: `${i * 0.8}s`,
-      }}
     >
-      {/* Neon border wrapper for angled clip */}
-      <div ref={tiltRef} style={{
-        transformStyle: "preserve-3d",
-        padding: "1px",
-        background: hovering
-          ? `linear-gradient(135deg, ${accent}80, ${accentAlt}40, ${accent}80)`
-          : `linear-gradient(135deg, ${accent}30, transparent, ${accent}20)`,
-        clipPath: "polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px))",
-        transition: "background 0.5s, transform 0.15s ease-out",
-        boxShadow: hovering
-          ? `0 0 30px ${accent}15, 0 0 60px ${accent}08`
-          : "none",
-      }}>
-        <div style={{
-          background: "rgba(8,10,18,0.92)",
-          backdropFilter: "blur(12px)",
-          clipPath: "polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 22px 100%, 0 calc(100% - 22px))",
-          display: "flex", flexDirection: "column",
-          position: "relative", overflow: "hidden",
-        }}>
-          {/* Holographic shimmer overlay */}
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `linear-gradient(105deg, transparent 30%, ${accent}08 38%, ${accentAlt}05 44%, transparent 52%)`,
-            backgroundSize: "200% 100%",
-            animation: hovering ? "holo-shimmer 3s ease-in-out infinite" : "none",
-            pointerEvents: "none", zIndex: 1,
-          }} />
-
+      {/* Neon gradient rim around the angled clip */}
+      <div
+        ref={tiltRef}
+        className="tst-frame"
+        style={{
+          background: hovering
+            ? `linear-gradient(135deg, ${accent}80, ${accentAlt}40, ${accent}80)`
+            : `linear-gradient(135deg, ${accent}30, transparent, ${accent}20)`,
+          boxShadow: hovering
+            ? `0 0 30px ${accent}15, 0 0 60px ${accent}08`
+            : "none",
+        }}
+      >
+        <div className="tst-panel holo-shimmer">
           {/* Data-pad header bar */}
           <div style={{
             padding: "0.75rem 1.5rem",
@@ -75,22 +128,23 @@ function TestimonialCard({ item, i, inView }: {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={live ? { opacity: [0.4, 1, 0.4] } : { opacity: 0.7 }}
+                transition={live ? { duration: 2, repeat: Infinity } : { duration: 0.3 }}
                 style={{
                   width: "5px", height: "5px", borderRadius: "50%",
                   background: accent, boxShadow: `0 0 8px ${accent}`,
                 }}
               />
-              <span style={{
-                fontFamily: '"JetBrains Mono"', fontSize: "8px",
-                letterSpacing: "0.2em", color: `${accent}60`,
+              <span aria-hidden="true" style={{
+                fontFamily: '"JetBrains Mono"', fontSize: "10px",
+                letterSpacing: "0.28em", color: `${accent}b3`,
                 textTransform: "uppercase",
+                textShadow: `0 0 8px ${accent}30`,
               }}>
                 DATA_PAD //0{i + 1}
               </span>
             </div>
-            <div style={{ display: "flex", gap: "3px" }}>
+            <div aria-hidden="true" style={{ display: "flex", gap: "3px" }}>
               {[accent, accentAlt, "rgba(255,255,255,0.1)"].map((c, ci) => (
                 <div key={ci} style={{
                   width: "3px", height: "8px", background: c, opacity: 0.4,
@@ -106,8 +160,8 @@ function TestimonialCard({ item, i, inView }: {
               {/* Glowing avatar */}
               <div style={{ position: "relative", flexShrink: 0 }}>
                 <motion.div
-                  animate={hovering ? { scale: [1, 1.04, 1] } : {}}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  animate={live ? { scale: [1, 1.04, 1] } : { scale: 1 }}
+                  transition={live ? { duration: 2, repeat: Infinity } : { duration: 0.3 }}
                   style={{
                     width: "54px", height: "54px",
                     borderRadius: "6px", overflow: "hidden",
@@ -124,12 +178,12 @@ function TestimonialCard({ item, i, inView }: {
                   }} />
                 </motion.div>
                 {/* Corner brackets */}
-                <div style={{
+                <div aria-hidden="true" style={{
                   position: "absolute", top: -4, left: -4,
                   width: "12px", height: "12px",
                   borderTop: `2px solid ${accent}`, borderLeft: `2px solid ${accent}`,
                 }} />
-                <div style={{
+                <div aria-hidden="true" style={{
                   position: "absolute", bottom: -4, right: -4,
                   width: "12px", height: "12px",
                   borderBottom: `2px solid ${accent}`, borderRight: `2px solid ${accent}`,
@@ -137,48 +191,55 @@ function TestimonialCard({ item, i, inView }: {
               </div>
 
               <div style={{ flex: 1 }}>
-                {/* Neon name */}
+                {/* Neon name — dark occluder first, glow second */}
                 <div style={{
                   fontFamily: '"Space Grotesk"', fontSize: "1rem",
                   fontWeight: 700, color: "#fff",
                   textTransform: "uppercase", letterSpacing: "0.06em",
-                  textShadow: hovering ? `0 0 12px ${accent}60, 0 0 24px ${accent}30` : "none",
+                  textShadow: hovering
+                    ? `0 1px 2px rgba(0,0,0,0.7), 0 0 12px ${accent}60, 0 0 24px ${accent}30`
+                    : "0 1px 2px rgba(0,0,0,0.7)",
                   transition: "text-shadow 0.4s",
                 }}>
                   {item.name}
                 </div>
                 <div style={{
-                  fontFamily: '"JetBrains Mono"', fontSize: "9px",
-                  color: accent, opacity: 0.5, marginTop: "4px",
+                  fontFamily: '"JetBrains Mono"', fontSize: "10px",
+                  color: `${accent}bf`, marginTop: "4px",
                   letterSpacing: "0.1em",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.7)",
                 }}>
                   {item.email}
                 </div>
               </div>
 
-              {/* Decorative quote */}
-              <div style={{
+              {/* Decorative quote — pulses toward the accent while decrypting */}
+              <div aria-hidden="true" style={{
                 fontFamily: '"Space Grotesk"', fontSize: "4rem",
                 fontWeight: 700, lineHeight: 0.6,
-                color: `${accent}10`, userSelect: "none",
+                color: decrypting ? `${accent}30` : `${accent}10`,
+                textShadow: decrypting ? `0 0 20px ${accent}30` : "none",
+                transition: "color 0.4s, text-shadow 0.4s",
+                userSelect: "none",
               }}>"</div>
             </div>
 
             {/* Testimonial text with vertical accent */}
             <div style={{ position: "relative", flex: 1 }}>
-              <div style={{
+              <div aria-hidden="true" style={{
                 position: "absolute", top: 0, left: 0, width: "2px", height: "100%",
                 background: `linear-gradient(to bottom, ${accent}50, ${accentAlt}30, transparent)`,
                 boxShadow: `0 0 8px ${accent}20`,
               }} />
               <p style={{
                 fontSize: "clamp(13px, 1.3vw, 15px)", lineHeight: "1.95",
-                color: "rgba(224,224,232,0.8)",
-                textShadow: "0 0 12px rgba(0,240,255,0.06)",
+                color: "rgba(232,234,240,0.92)",
+                textShadow: "0 1px 2px rgba(0,0,0,0.7)",
                 paddingLeft: "1.25rem",
                 fontStyle: "italic",
               }}>
-                {item.testimonial}
+                <span className="sr-only">{item.testimonial}</span>
+                <span aria-hidden="true">{quote}</span>
               </p>
             </div>
 
@@ -190,24 +251,27 @@ function TestimonialCard({ item, i, inView }: {
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                 <motion.div
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.5 }}
+                  animate={live ? { opacity: [0.3, 1, 0.3] } : { opacity: 0.7 }}
+                  transition={live ? { duration: 2, repeat: Infinity } : { duration: 0.3 }}
                   style={{
                     width: "5px", height: "5px", borderRadius: "50%",
                     background: accent, boxShadow: `0 0 8px ${accent}`,
                   }}
                 />
                 <span style={{
-                  fontFamily: '"JetBrains Mono"', fontSize: "8px",
-                  color: "rgba(224,224,232,0.2)", letterSpacing: "0.15em",
+                  fontFamily: '"JetBrains Mono"', fontSize: "10px",
+                  color: "rgba(224,224,232,0.7)", letterSpacing: "0.14em",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.7)",
                 }}>VERIFIED</span>
-                {/* Signal bars */}
-                <div style={{ display: "flex", gap: "2px", alignItems: "flex-end", height: "10px" }}>
+                {/* Signal bars — animate only while hovered/focused */}
+                <div aria-hidden="true" style={{ display: "flex", gap: "2px", alignItems: "flex-end", height: "10px" }}>
                   {[3, 5, 7, 10].map((h, bi) => (
                     <motion.div
                       key={bi}
-                      animate={{ scaleY: [0.3, 1, 0.3] }}
-                      transition={{ duration: 1.5, repeat: Infinity, delay: bi * 0.2 }}
+                      animate={live ? { scaleY: [0.3, 1, 0.3] } : { scaleY: 0.55 }}
+                      transition={live
+                        ? { duration: 1.5, repeat: Infinity, delay: bi * 0.2 }
+                        : { duration: 0.3 }}
                       style={{
                         width: "2px", height: `${h}px`,
                         background: accent, borderRadius: "1px",
@@ -218,9 +282,9 @@ function TestimonialCard({ item, i, inView }: {
                   ))}
                 </div>
               </div>
-              <span style={{
-                fontFamily: '"JetBrains Mono"', fontSize: "8px",
-                color: `${accent}30`, letterSpacing: "0.1em",
+              <span aria-hidden="true" style={{
+                fontFamily: '"JetBrains Mono"', fontSize: "9px",
+                color: `${accent}66`, letterSpacing: "0.1em",
               }}>REF_0{i + 1}</span>
             </div>
           </div>
@@ -241,7 +305,7 @@ export function Testimonials({ titles }: { titles: any }) {
       padding: "140px 2rem", position: "relative", overflow: "hidden",
     }}>
       <span className="kanji-bg" style={{ top: "10%", right: "5%", fontSize: "clamp(5rem, 12vw, 11rem)" }}>証言</span>
-      <span className="ghost-num" aria-hidden="true">04</span>
+      <span className="ghost-num" aria-hidden="true">06</span>
 
       <div style={{
         position: "absolute", top: "10%", left: "5%", width: "40vw", height: "50vh",
@@ -262,9 +326,9 @@ export function Testimonials({ titles }: { titles: any }) {
           <div style={{ width: "30px", height: "1px", background: "#00f0ff" }} />
           <span style={{
             fontFamily: '"JetBrains Mono"', fontSize: "10px",
-            letterSpacing: "0.3em", color: "#00f0ff", textTransform: "uppercase",
+            letterSpacing: "0.28em", color: "#00f0ff", textTransform: "uppercase",
           }}>
-            05 — {t.testimonialsTitle}
+            06 — {t.testimonialsTitle}
           </span>
         </motion.div>
 
@@ -287,11 +351,11 @@ export function Testimonials({ titles }: { titles: any }) {
 
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))",
           gap: "1.75rem",
         }}>
           {t.testimonials.map((item: { img: string; name: string; email: string; testimonial: string }, i: number) => (
-            <TestimonialCard key={item.name} item={item} i={i} inView={inView} />
+            <TestimonialCard key={item.name} item={item} i={i} />
           ))}
         </div>
       </div>

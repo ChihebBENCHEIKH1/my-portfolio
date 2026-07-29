@@ -35,6 +35,14 @@ export default function NavBar({ titles }: { titles: any }) {
     return () => document.removeEventListener("click", close);
   }, [langOpen]);
 
+  // Lock body scroll while the mobile menu is open
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = prev; };
+  }, [menuOpen]);
+
   const items = [
     { label: t.navBar[0], href: "#Home" },
     { label: t.navBar[1], href: "#About" },
@@ -154,6 +162,7 @@ export default function NavBar({ titles }: { titles: any }) {
                 border: "1px solid rgba(0,240,255,0.15)",
                 color: "#00f0ff", fontSize: "11px", letterSpacing: "0.12em",
                 padding: "6px 14px", cursor: "pointer",
+                minHeight: "40px",
                 transition: "all 0.3s",
                 borderRadius: "4px",
                 display: "flex", alignItems: "center", gap: "8px",
@@ -247,7 +256,7 @@ export default function NavBar({ titles }: { titles: any }) {
                               transition: "all 0.2s",
                             }}>{l.full}</span>
                             <span style={{
-                              fontFamily: '"JetBrains Mono"', fontSize: "8px",
+                              fontFamily: '"JetBrains Mono"', fontSize: "10px",
                               letterSpacing: "0.15em",
                               color: active ? "rgba(0,240,255,0.6)" : "rgba(224,224,232,0.45)",
                             }}>{l.label}</span>
@@ -277,7 +286,9 @@ export default function NavBar({ titles }: { titles: any }) {
             aria-controls="mobile-menu"
             style={{
               background: "none", border: "none", cursor: "pointer",
-              display: "flex", flexDirection: "column", gap: "5px", padding: "4px",
+              display: "flex", flexDirection: "column", gap: "5px",
+              // 20px icon + 12px padding each side = 44px hit target
+              padding: "12px", margin: "-4px",
             }}
           >
             {[0, 1, 2].map(i => (
@@ -298,6 +309,24 @@ export default function NavBar({ titles }: { titles: any }) {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            key="menu-backdrop"
+            className="crt-scanline"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+            style={{
+              position: "fixed", inset: 0, top: "64px", zIndex: 98,
+              background: "rgba(3,3,8,0.7)",
+              backdropFilter: "blur(4px)",
+            }}
+          />
+        )}
+        {menuOpen && (
+          <motion.div
+            key="menu-panel"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -322,7 +351,9 @@ export default function NavBar({ titles }: { titles: any }) {
 
               {/* Nav items */}
               <div style={{ padding: "0.75rem 2rem 1.25rem" }}>
-                {items.map((item, i) => (
+                {items.map((item, i) => {
+                  const active = SECTION_FOR_HREF[item.href] === activeSection;
+                  return (
                   <motion.a
                     key={item.href} href={item.href}
                     onClick={() => setMenuOpen(false)}
@@ -331,39 +362,46 @@ export default function NavBar({ titles }: { titles: any }) {
                     transition={{ delay: 0.03 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
                     style={{
                       display: "flex", alignItems: "center", gap: "12px",
-                      padding: "0.85rem 0",
+                      padding: "0.85rem 0", minHeight: "48px",
                       fontFamily: '"JetBrains Mono", monospace',
                       fontSize: "12px", letterSpacing: "0.15em",
-                      color: "rgba(224,224,232,0.8)", textDecoration: "none",
-                      textShadow: "0 0 6px rgba(0,240,255,0.08)",
+                      color: active ? "#00f0ff" : "rgba(224,224,232,0.8)",
+                      textDecoration: "none",
+                      textShadow: active ? "0 0 10px rgba(0,240,255,0.5)" : "0 0 6px rgba(0,240,255,0.08)",
                       textTransform: "uppercase",
                       borderBottom: i < items.length - 1 ? "1px solid rgba(0,240,255,0.05)" : "none",
-                      transition: "all 0.2s",
+                      borderLeft: active ? "2px solid #00f0ff" : "2px solid transparent",
+                      paddingLeft: active ? "10px" : "0px",
+                      transition: "color 0.2s, text-shadow 0.2s, border-color 0.2s, padding-left 0.2s",
                     }}
                     onMouseEnter={e => {
                       (e.currentTarget as HTMLElement).style.color = "#00f0ff";
                       (e.currentTarget as HTMLElement).style.textShadow = "0 0 8px rgba(0,240,255,0.4)";
                     }}
                     onMouseLeave={e => {
-                      (e.currentTarget as HTMLElement).style.color = "rgba(224,224,232,0.8)";
-                      (e.currentTarget as HTMLElement).style.textShadow = "0 0 6px rgba(0,240,255,0.08)";
+                      if (!active) {
+                        (e.currentTarget as HTMLElement).style.color = "rgba(224,224,232,0.8)";
+                        (e.currentTarget as HTMLElement).style.textShadow = "0 0 6px rgba(0,240,255,0.08)";
+                      }
                     }}
                   >
                     <span style={{
                       fontFamily: '"JetBrains Mono"', fontSize: "10px",
-                      color: "rgba(0,240,255,0.65)", minWidth: "20px",
+                      color: active ? "#ff007f" : "rgba(0,240,255,0.65)", minWidth: "20px",
                       textShadow: "0 0 6px rgba(0,240,255,0.3)",
+                      transition: "color 0.2s",
                     }}>
                       0{i + 1}
                     </span>
                     {item.label}
                     <span style={{
                       marginLeft: "auto", fontSize: "10px",
-                      color: "rgba(0,240,255,0.45)",
+                      color: active ? "rgba(0,240,255,0.9)" : "rgba(0,240,255,0.45)",
                       textShadow: "0 0 4px rgba(0,240,255,0.2)",
-                    }}>→</span>
+                    }}>{active ? "◆" : "→"}</span>
                   </motion.a>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </motion.div>

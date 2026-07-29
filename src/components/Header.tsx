@@ -1,25 +1,35 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 import { ScrambleText } from "./ScrambleText";
+import "./Header.css";
 
 function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   const [displayed, setDisplayed] = useState("");
   const [started, setStarted] = useState(false);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayed(text);
+      setStarted(true);
+      return;
+    }
     const timeout = setTimeout(() => setStarted(true), delay * 1000);
     return () => clearTimeout(timeout);
-  }, [delay]);
+  }, [delay, text]);
 
   useEffect(() => {
     if (!started) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplayed(text);
+      return;
+    }
     let i = 0;
     const iv = setInterval(() => {
       i++;
       setDisplayed(text.slice(0, i));
       if (i >= text.length) clearInterval(iv);
-    }, 28);
+    }, 16);
     return () => clearInterval(iv);
   }, [started, text]);
 
@@ -35,6 +45,7 @@ export function Header({ titles }: { titles: any }) {
   const { lang } = useLanguage();
   const t = titles[lang];
   const heroRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
 
   // Cursor "flashlight": reveal a hidden neon grid + parallax the kanji.
   useEffect(() => {
@@ -128,6 +139,9 @@ export function Header({ titles }: { titles: any }) {
         <span className="hud-label" style={{ bottom: "22px", right: "56px" }}>BUILD v2077.06</span>
       </div>
 
+      {/* Mobile legibility scrim — dark rise behind CTAs + chips */}
+      <div className="hero-mobile-scrim" aria-hidden="true" />
+
       {/* Centered content */}
       <div style={{
         position: "relative", zIndex: 2, maxWidth: "1100px", width: "100%",
@@ -155,8 +169,8 @@ export function Header({ titles }: { titles: any }) {
               letterSpacing: "0.2em", textTransform: "uppercase",
             }}>
               <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={reduced ? { opacity: 0.7 } : { opacity: [0.4, 1, 0.4] }}
+                transition={reduced ? { duration: 0 } : { duration: 2, repeat: Infinity }}
                 style={{
                   width: "5px", height: "5px", borderRadius: "50%",
                   background: s.color, boxShadow: `0 0 12px ${s.color}`,
@@ -171,7 +185,8 @@ export function Header({ titles }: { titles: any }) {
         {/* Eyebrow */}
         <motion.div {...stagger(1)} style={{
           fontFamily: '"JetBrains Mono"', fontSize: "10px",
-          letterSpacing: "0.4em", color: "rgba(0,240,255,0.35)",
+          letterSpacing: "0.28em", color: "rgba(0,240,255,0.7)",
+          textShadow: "0 0 10px rgba(0,240,255,0.35)",
           textTransform: "uppercase", marginBottom: "1rem",
         }}>
           {"// "}Software Engineer
@@ -203,43 +218,32 @@ export function Header({ titles }: { titles: any }) {
           boxShadow: "0 0 12px rgba(0,240,255,0.3)",
         }} />
 
-        {/* Typewriter subtitle */}
-        <motion.div {...stagger(3)} style={{
-          fontSize: "clamp(14px, 1.6vw, 18px)", lineHeight: "1.8", color: "rgba(224,224,232,0.85)",
-          maxWidth: "620px", marginBottom: "2.5rem",
-          fontFamily: '"JetBrains Mono"',
-          textShadow: "0 0 20px rgba(0,240,255,0.15)",
-          borderLeft: "2px solid rgba(0,240,255,0.4)",
-          paddingLeft: "1rem",
-        }}>
-          <span style={{ color: "#00f0ff", textShadow: "0 0 8px rgba(0,240,255,0.6)" }}>{">"} </span>
+        {/* Typewriter subtitle — HUD console readout. Opacity-only entrance:
+            this pane carries a backdrop-filter, so its transform must stay static. */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 + 3 * 0.18, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="hero-stdout"
+        >
+          <span className="hero-stdout-caption" aria-hidden="true">STDOUT //</span>
+          <span className="hero-stdout-prompt" aria-hidden="true">{">"} </span>
           <TypewriterText text={t.headerTitle} delay={1.5} />
         </motion.div>
 
         {/* CTAs */}
         <motion.div {...stagger(4)} style={{
           display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "3rem",
-          justifyContent: "center",
+          justifyContent: "center", width: "100%",
         }}>
           <a href="#Contact" className="btn-cyber btn-solid">{t.getInTouch}</a>
-          <a href="#Projects" className="btn-pink">View Work →</a>
+          <a href="#Projects" className="btn-pink">View Work <span aria-hidden="true">→</span></a>
         </motion.div>
 
-        {/* Tech stack */}
-        <motion.div {...stagger(5)} style={{
-          display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center",
-        }}>
+        {/* Tech stack — quiet plates; scrolls on mobile */}
+        <motion.div {...stagger(5)} className="hero-chips">
           {["LLM", "RAG", "ReAct", "Python", "FastAPI", "TypeScript", "Next.js", "Docker"].map(tag => (
-            <span key={tag} style={{
-              fontFamily: '"JetBrains Mono"', fontSize: "11px",
-              padding: "6px 16px", letterSpacing: "0.15em",
-              border: "1px solid rgba(0,240,255,0.25)",
-              color: "rgba(0,240,255,0.85)",
-              background: "rgba(0,240,255,0.06)",
-              textShadow: "0 0 8px rgba(0,240,255,0.3)",
-              textTransform: "uppercase",
-              clipPath: "polygon(6px 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0 50%)",
-            }}>{tag}</span>
+            <span key={tag} className="hero-chip">{tag}</span>
           ))}
         </motion.div>
       </div>
@@ -250,11 +254,12 @@ export function Header({ titles }: { titles: any }) {
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
         className="hide-mobile"
+        aria-hidden="true"
         style={{
           position: "absolute", right: "1.5rem", top: "50%",
           transform: "translateY(-50%) rotate(90deg)",
           fontFamily: '"JetBrains Mono"',
-          fontSize: "9px", letterSpacing: "0.5em",
+          fontSize: "9px", letterSpacing: "0.28em",
           color: "rgba(0,240,255,0.08)", textTransform: "uppercase",
         }}
       >
@@ -275,15 +280,15 @@ export function Header({ titles }: { titles: any }) {
           textDecoration: "none", padding: "8px 14px",
         }}
       >
-        <span style={{
+        <span aria-hidden="true" style={{
           fontFamily: '"JetBrains Mono"',
-          fontSize: "8px", letterSpacing: "0.4em", color: "rgba(0,240,255,0.25)",
+          fontSize: "9px", letterSpacing: "0.28em", color: "rgba(0,240,255,0.25)",
           textTransform: "uppercase",
         }}>Scroll</span>
         <motion.div
           style={{ width: "1px", height: "32px", background: "#00f0ff", transformOrigin: "top" }}
-          animate={{ scaleY: [0, 1, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduced ? { scaleY: 1, opacity: 0.5 } : { scaleY: [0, 1, 0] }}
+          transition={reduced ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.a>
     </section>

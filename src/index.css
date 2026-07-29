@@ -8,6 +8,14 @@
   --color-yellow: #ffb800;
   --color-bg: #05050a;
   --color-surface: rgba(255, 255, 255, 0.03);
+  /* Type floor: 10px minimum for any informational text */
+  --text-2xs: 10px;
+  --text-xs: 11px;
+  --text-sm: 13px;
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0.02em;
+  --tracking-wide: 0.14em;
+  --tracking-widest: 0.28em;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -40,8 +48,20 @@ section[id] { scroll-margin-top: 72px; }
   transition: top 0.2s;
 }
 .skip-link:focus { top: 12px; }
-/* GPU-accelerate fixed backgrounds for smooth scrolling */
-[style*="position: fixed"] {
+
+/* Visually hidden, available to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* GPU-promote full-viewport fixed overlays for smooth scrolling */
+.gpu-layer {
   transform: translateZ(0);
   backface-visibility: hidden;
 }
@@ -146,14 +166,16 @@ body {
     transparent 58%
   );
   background-size: 200% 100%;
-  animation: holo-shimmer 4s ease-in-out infinite;
   pointer-events: none;
   z-index: 1;
   opacity: 0;
   transition: opacity 0.4s;
 }
-.holo-shimmer:hover::after {
+/* Animation only runs while hovered — zero idle GPU work */
+.holo-shimmer:hover::after,
+.holo-shimmer:focus-within::after {
   opacity: 1;
+  animation: holo-shimmer 4s ease-in-out infinite;
 }
 
 /* ─── HUD CORNERS (UPGRADED) ─── */
@@ -216,12 +238,14 @@ body {
 }
 .glitch-text::before {
   color: #00f0ff;
+  content: attr(data-text) / "";
   animation: glitch-slice-a 4.5s infinite steps(1);
   clip-path: inset(0 0 72% 0);
   opacity: 0.55;
 }
 .glitch-text::after {
   color: #ff007f;
+  content: attr(data-text) / "";
   animation: glitch-slice-b 5.5s infinite steps(1);
   clip-path: inset(62% 0 0 0);
   opacity: 0.55;
@@ -292,15 +316,19 @@ body {
   display: inline-flex; align-items: center; gap: 8px;
   text-decoration: none;
   padding: 14px 32px;
-  background: rgba(0,240,255,0.06);
-  border: 1px solid rgba(0,240,255,0.25);
+  background:
+    linear-gradient(rgba(0,240,255,0.09), rgba(0,240,255,0.05)),
+    rgba(4, 10, 12, 0.85);
+  border: 1px solid rgba(0,240,255,0.45);
   color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0,240,255,0.45);
+  box-shadow: 0 0 18px rgba(0,240,255,0.12);
   font-family: "JetBrains Mono", monospace;
   font-size: 11px; letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
   position: relative; overflow: hidden;
-  transition: all 0.3s;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
 }
 .btn-cyber:hover {
@@ -338,15 +366,24 @@ body {
   display: inline-flex; align-items: center; gap: 8px;
   text-decoration: none;
   padding: 14px 32px;
-  background: rgba(255,0,127,0.08);
-  border: 1px solid rgba(255,0,127,0.3);
-  color: #ff007f;
+  background:
+    linear-gradient(rgba(255,0,127,0.1), rgba(255,0,127,0.06)),
+    rgba(12, 4, 10, 0.85);
+  border: 1px solid rgba(255,0,127,0.55);
+  color: #ff6fb2;
+  text-shadow: 0 0 10px rgba(255,0,127,0.5);
+  box-shadow: 0 0 18px rgba(255,0,127,0.18);
+  animation: border-pulse-pink 3s ease-in-out infinite;
   font-family: "JetBrains Mono", monospace;
   font-size: 11px; letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background 0.3s, border-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+@keyframes border-pulse-pink {
+  0%, 100% { border-color: rgba(255,0,127,0.45); }
+  50% { border-color: rgba(255,0,127,0.8); }
 }
 .btn-pink:hover {
   background: #ff007f;
@@ -399,6 +436,18 @@ body {
   section[id]:not(#Home) { padding-top: 90px !important; padding-bottom: 90px !important; }
   /* 16px floor prevents iOS focus-zoom on form fields */
   input, textarea { font-size: 16px !important; }
+  /* Full-width centered CTAs — no more ghost buttons lost in the city */
+  .btn-cyber, .btn-pink {
+    width: min(100%, 320px);
+    justify-content: center;
+  }
+}
+
+/* Touch feedback parity — hover states don't exist here */
+html { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  .btn-cyber:active, .btn-pink:active { transform: scale(0.97); }
+  a:active, button:active { opacity: 0.85; }
 }
 
 /* ─── CYBERPUNK CARD (PREMIUM) ─── */
@@ -409,7 +458,9 @@ body {
   border: 1px solid rgba(0, 240, 255, 0.08);
   position: relative;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   clip-path: polygon(
     0 0, calc(100% - 18px) 0, 100% 18px,
     100% 100%, 18px 100%, 0 calc(100% - 18px)
@@ -443,7 +494,7 @@ body {
   background: rgba(5, 5, 10, 0.85);
   position: relative;
   overflow: hidden;
-  transition: all 0.4s;
+  transition: box-shadow 0.4s;
 }
 .clip-card:hover {
   box-shadow: 0 0 40px rgba(0,240,255,0.08);
@@ -456,7 +507,7 @@ body {
   clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 8px 100%, 0 50%);
   background: rgba(0,240,255,0.12);
   font-family: "JetBrains Mono", monospace;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #00f0ff;
@@ -507,7 +558,9 @@ body {
   border: 1px solid rgba(0,240,255,0.1);
   position: relative;
   overflow: hidden;
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   clip-path: polygon(
     0 0, calc(100% - 20px) 0, 100% 20px,
     100% 100%, 20px 100%, 0 calc(100% - 20px)
@@ -670,16 +723,16 @@ body {
 }
 
 /* ─── FILM GRAIN (cinematic texture over flat darks) ─── */
+/* Jitter the tile offset instead of transforming a 150% oversized layer */
 @keyframes grain-shift {
-  0%, 100% { transform: translate(0, 0); }
-  20% { transform: translate(-2%, -3%); }
-  40% { transform: translate(3%, 1%); }
-  60% { transform: translate(-1%, 3%); }
-  80% { transform: translate(2%, -2%); }
+  0%, 100% { background-position: 0 0; }
+  20% { background-position: -48px -32px; }
+  40% { background-position: 32px 16px; }
+  60% { background-position: -16px 48px; }
+  80% { background-position: 48px -48px; }
 }
 .grain-overlay {
-  position: fixed; top: -25%; left: -25%;
-  width: 150%; height: 150%;
+  position: fixed; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   /* Without an explicit size the SVG rasterizes as ONE viewport-sized tile — jank */
@@ -688,6 +741,9 @@ body {
   pointer-events: none;
   z-index: 120;
   animation: grain-shift 0.9s steps(5) infinite;
+}
+@media (max-width: 768px) {
+  .grain-overlay { animation: grain-shift 1.2s steps(3) infinite; }
 }
 
 /* ─── VIGNETTE (focus the center, deepen the edges) ─── */
@@ -823,12 +879,12 @@ body {
 }
 .boot-pct {
   display: flex; justify-content: space-between; margin-top: 9px;
-  font-family: "JetBrains Mono", monospace; font-size: 9px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
   letter-spacing: 0.3em; color: rgba(0,240,255,0.5);
 }
 .boot-skip {
   position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
-  font-family: "JetBrains Mono", monospace; font-size: 8px;
+  font-family: "JetBrains Mono", monospace; font-size: 10px;
   letter-spacing: 0.35em; text-transform: uppercase;
   color: rgba(0,240,255,0.28);
 }
@@ -931,7 +987,7 @@ body {
 .hud-label {
   position: absolute;
   font-family: "JetBrains Mono", monospace;
-  font-size: 8px; letter-spacing: 0.25em;
+  font-size: 10px; letter-spacing: 0.25em;
   color: rgba(0, 240, 255, 0.35);
   text-transform: uppercase;
   text-shadow: 0 0 8px rgba(0, 240, 255, 0.2);

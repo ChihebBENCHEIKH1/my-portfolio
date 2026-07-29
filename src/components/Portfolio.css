@@ -1,0 +1,172 @@
+/* ────────────────────────────────────────────────────────────
+   Mission Archive (Projects) — package-scoped styles
+   Palette: cyan #00f0ff / pink #ff007f / amber #ffb800 on #05050a
+   ──────────────────────────────────────────────────────────── */
+
+/* ── ARCHIVE_INDEX device frame ── */
+.archive-frame {
+  position: relative;
+  background: rgba(8, 10, 18, 0.9);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  box-shadow: inset 0 0 50px rgba(0, 240, 255, 0.04);
+}
+
+/* 2px accent top rule */
+.archive-frame > .archive-toprule {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00f0ff, #ff007f, transparent);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* CRT scanline texture over the whole device (matches PreviewPanel) */
+.archive-frame > .archive-crt {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px, rgba(0, 0, 0, 0.03) 4px
+  );
+}
+
+/* ── Frame header bar ── */
+.archive-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.08);
+  font-family: "JetBrains Mono", monospace;
+}
+.archive-head-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 240, 255, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 240, 255, 0.35);
+}
+.archive-dots {
+  display: flex;
+  gap: 5px;
+}
+.archive-dots i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Touch-only hint line */
+.proj-tap-hint {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 240, 255, 0.7);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 240, 255, 0.3);
+  padding: 8px 16px;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.06);
+}
+
+/* ── Group dividers inside the frame ── */
+.archive-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 2rem 1.4rem 0.6rem;
+}
+.archive-groups > div:first-child > .archive-divider {
+  margin-top: 1.25rem;
+}
+
+/* ── Rows ── */
+.proj-row {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.08);
+  transition: background 0.25s;
+}
+.proj-row-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.4rem;
+}
+
+/* Touch feedback (framer owns transform; brightness is ours) */
+@media (hover: none) {
+  .proj-row:active {
+    filter: brightness(1.35);
+    transition: filter 0.08s;
+  }
+}
+
+/* ── Frame footer tally ── */
+.archive-foot {
+  border-top: 1px solid rgba(0, 240, 255, 0.08);
+  padding: 0.9rem 1.4rem 1.1rem;
+  font-family: "JetBrains Mono", monospace;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.archive-tally {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tally-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-weight: 600;
+}
+.tally-cells {
+  display: flex;
+  gap: 2px;
+}
+.tally-cells i {
+  display: block;
+  width: 8px;
+  height: 3px;
+}
+.tally-count {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(224, 224, 232, 0.6);
+}
+.archive-status {
+  margin-top: 0.2rem;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 240, 255, 0.6);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 12px rgba(0, 240, 255, 0.25);
+}
+
+/* Tap-to-decrypt inline reveal (touch devices) */
+.proj-mobile-reveal-pad {
+  padding: 0 1.4rem 1.1rem;
+}
+
+/* ── Mobile compaction ── */
+@media (max-width: 480px) {
+  .archive-divider {
+    margin: 1.6rem 1rem 0.5rem;
+    flex-wrap: wrap;
+  }
+  .proj-row-main {
+    padding: 1rem;
+    gap: 0.7rem;
+  }
+  .archive-foot {
+    padding: 0.8rem 1rem 1rem;
+  }
+  .proj-mobile-reveal-pad {
+    padding: 0 1rem 1rem;
+  }
+}

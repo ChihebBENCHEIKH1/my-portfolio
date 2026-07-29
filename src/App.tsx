@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, MotionConfig } from "framer-motion";
 import { textContent } from "./utils/Text";
 import { Header } from "./components/Header";
 import { About } from "./components/About";
@@ -28,9 +28,24 @@ function CursorFX() {
     let rx = mx, ry = my;
     let visible = false;
     let rafId = 0;
+    let lastMove = 0;
 
+    const loop = () => {
+      rx += (mx - rx) * 0.16;
+      ry += (my - ry) * 0.16;
+      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px, ${ry}px)`;
+      // Idle-cancel: once the ring has caught up and the mouse has been still
+      // for ~1s, stop burning frames; onMove restarts the loop.
+      if (performance.now() - lastMove > 1000 && Math.abs(mx - rx) + Math.abs(my - ry) < 0.5) {
+        rafId = 0;
+        return;
+      }
+      rafId = requestAnimationFrame(loop);
+    };
     const onMove = (e: MouseEvent) => {
       mx = e.clientX; my = e.clientY;
+      lastMove = performance.now();
+      if (!rafId) rafId = requestAnimationFrame(loop);
       const dot = dotRef.current;
       if (dot) {
         dot.style.transform = `translate(${mx}px, ${my}px)`;
@@ -46,12 +61,6 @@ function CursorFX() {
         "a, button, input, textarea, [role='button']"
       );
       ringRef.current?.classList.toggle("cursor-ring-active", interactive);
-    };
-    const loop = () => {
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      if (ringRef.current) ringRef.current.style.transform = `translate(${rx}px, ${ry}px)`;
-      rafId = requestAnimationFrame(loop);
     };
 
     window.addEventListener("mousemove", onMove, { passive: true });
@@ -99,14 +108,30 @@ function MagneticButtons() {
         window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const RADIUS = 130, PULL = 0.28;
     let raf = 0;
+    // Rect cache — rebuilt lazily after scroll/resize/mutation instead of
+    // calling getBoundingClientRect on every button every frame.
+    let cache: { btn: HTMLElement; cx: number; cy: number }[] = [];
+    let dirty = true;
+    const invalidate = () => { dirty = true; };
+    const rebuild = () => {
+      cache = Array.from(
+        document.querySelectorAll<HTMLElement>(".btn-cyber, .btn-pink")
+      ).map((btn) => {
+        const r = btn.getBoundingClientRect();
+        return { btn, cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
+      });
+      dirty = false;
+    };
     const onMove = (e: MouseEvent) => {
       if (raf) return;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        document.querySelectorAll<HTMLElement>(".btn-cyber, .btn-pink").forEach((btn) => {
-          const r = btn.getBoundingClientRect();
-          const dx = e.clientX - (r.left + r.width / 2);
-          const dy = e.clientY - (r.top + r.height / 2);
+        if (dirty) rebuild();
+        const vh = window.innerHeight;
+        for (const { btn, cx, cy } of cache) {
+          if (cy < -RADIUS || cy > vh + RADIUS) continue; // offscreen
+          const dx = e.clientX - cx;
+          const dy = e.clientY - cy;
           const dist = Math.hypot(dx, dy);
           if (dist < RADIUS) {
             const f = (1 - dist / RADIUS) * PULL;
@@ -114,11 +139,18 @@ function MagneticButtons() {
           } else if (btn.style.transform) {
             btn.style.transform = "";
           }
-        });
+        }
       });
     };
     window.addEventListener("mousemove", onMove, { passive: true });
-    return () => { window.removeEventListener("mousemove", onMove); cancelAnimationFrame(raf); };
+    window.addEventListener("scroll", invalidate, { passive: true });
+    window.addEventListener("resize", invalidate);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", invalidate);
+      window.removeEventListener("resize", invalidate);
+      cancelAnimationFrame(raf);
+    };
   }, []);
   return null;
 }
@@ -209,7 +241,7 @@ function App() {
   }, [setMouse]);
 
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <a className="skip-link" href="#main-content">Skip to content</a>
 
       {/* Fixed city skyline + 3D background — deferred mount, not in LCP path */}
@@ -221,8 +253,8 @@ function App() {
       )}
 
       {/* Cinematic layers — vignette under nav, grain above everything */}
-      <div className="vignette-overlay" aria-hidden="true" />
-      <div className="grain-overlay" aria-hidden="true" />
+      <div className="vignette-overlay gpu-layer" aria-hidden="true" />
+      <div className="grain-overlay gpu-layer" aria-hidden="true" />
       <ScrollProgress />
       <CursorFX />
       <MagneticButtons />
@@ -241,7 +273,7 @@ function App() {
         <Contact titles={textContent} />
         <Footer />
       </main>
-    </>
+    </MotionConfig>
   );
 }
 

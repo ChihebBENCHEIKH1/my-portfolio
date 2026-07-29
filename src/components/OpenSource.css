@@ -1,0 +1,294 @@
+/* ─────────────────────────────────────────────────────────────
+   OpenSource — premium card rebuild.
+   Scoped: every selector is .os- prefixed (plus a.os-card guards
+   so overrides always beat index.css utility specificity).
+   Chassis is fully self-owned: no .cyber-card / .hud-corners /
+   .holo-shimmer stacking (their ::before/::after collide), and
+   NO backdrop-filter — cards animate transform (framer lift).
+   Reuses global keyframes: holo-shimmer (index.css).
+   ───────────────────────────────────────────────────────────── */
+
+.os-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  perspective: 900px; /* gives the per-card rotateX entrance its depth */
+}
+
+.os-statusline {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(0, 240, 255, 0.7);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+  margin-bottom: 2.5rem;
+}
+
+/* ── Card chassis ── */
+a.os-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem;
+  text-decoration: none;
+  overflow: hidden;
+  clip-path: polygon(
+    0 0, calc(100% - 18px) 0, 100% 18px,
+    100% 100%, 18px 100%, 0 calc(100% - 18px)
+  );
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 3px),
+    linear-gradient(165deg, #0a0c16 0%, #070810 55%, #0b0d18 100%);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  box-shadow:
+    0 4px 25px rgba(0, 0, 0, 0.35),
+    inset 0 0 46px color-mix(in srgb, var(--accent) 4%, transparent);
+  transition: border-color 0.4s, box-shadow 0.4s;
+}
+
+/* accent top rule */
+a.os-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* bottom hairline */
+a.os-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 30%, transparent), transparent);
+  pointer-events: none;
+}
+
+a.os-card:hover,
+a.os-card:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 0 60px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* ── HUD corner brackets (TL/BR — the clip notches own TR/BL) ── */
+.os-corner {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 0 solid color-mix(in srgb, var(--accent) 45%, transparent);
+  pointer-events: none;
+  z-index: 2;
+  transition: border-color 0.3s, filter 0.3s;
+}
+.os-corner-tl { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+.os-corner-br { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+a.os-card:hover .os-corner,
+a.os-card:focus-visible .os-corner {
+  border-color: color-mix(in srgb, var(--accent) 85%, transparent);
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 60%, transparent));
+}
+
+/* ── Neon seam along the top-right notch cut ── */
+.os-notch {
+  position: absolute;
+  top: 8px; right: -4px;
+  width: 26px;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0.55;
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 70%, transparent);
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s;
+}
+a.os-card:hover .os-notch,
+a.os-card:focus-visible .os-notch { opacity: 1; }
+
+/* ── Holo sheen — animation runs only while hovered/focused ── */
+.os-sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(0, 240, 255, 0.07) 38%,
+    rgba(255, 0, 127, 0.05) 44%,
+    rgba(255, 184, 0, 0.03) 50%,
+    transparent 58%
+  );
+  background-size: 200% 100%;
+  background-position: -200% 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+a.os-card:hover .os-sheen,
+a.os-card:focus-visible .os-sheen {
+  opacity: 1;
+  animation: holo-shimmer 1.6s ease-in-out infinite;
+}
+
+/* ── Ghost git-branch glyph ── */
+.os-glyph {
+  position: absolute;
+  right: -14px;
+  bottom: -14px;
+  width: 120px;
+  height: 120px;
+  color: var(--accent);
+  opacity: 0.05;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+a.os-card:hover .os-glyph,
+a.os-card:focus-visible .os-glyph { opacity: 0.1; }
+
+/* ── Header row ── */
+.os-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 1.1rem;
+}
+.os-badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  padding: 4px 10px;
+  clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+  white-space: nowrap;
+  transition: background-color 0.25s, box-shadow 0.25s;
+}
+a.os-card:hover .os-badge,
+a.os-card:focus-visible .os-badge {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.os-meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #ffb800;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 184, 0, 0.45);
+  white-space: nowrap;
+}
+
+/* ── Title row ── */
+.os-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+.os-name {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 18px rgba(255, 255, 255, 0.1);
+  transition: text-shadow 0.3s;
+}
+a.os-card:hover .os-name,
+a.os-card:focus-visible .os-name {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7), 0 0 22px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.os-org {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* ── Body ── */
+.os-desc {
+  font-size: 13px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  color: rgba(224, 224, 232, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+  flex: 1;
+  margin-bottom: 1.2rem;
+}
+
+/* ── Footer: hex tech chips + launch arrow ── */
+.os-foot {
+  position: relative;
+  z-index: 1; /* keeps chips/arrow above the ghost glyph */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.os-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.os-tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(224, 224, 232, 0.85);
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  padding: 3px 12px;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0 50%);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+a.os-card:hover .os-tag,
+a.os-card:focus-visible .os-tag {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.os-arrow {
+  color: var(--accent);
+  font-size: 15px;
+  line-height: 1;
+  transform: translate(0, 0);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), text-shadow 0.25s;
+}
+a.os-card:hover .os-arrow,
+a.os-card:focus-visible .os-arrow {
+  transform: translate(3px, -3px);
+  text-shadow: 0 0 12px var(--accent);
+}
+
+/* ── Touch feedback (scale handled by framer whileTap) ── */
+@media (hover: none) {
+  a.os-card:active {
+    filter: brightness(1.25);
+    transition: filter 0.08s;
+  }
+  a.os-card:active .os-arrow { text-shadow: 0 0 12px var(--accent); }
+  a.os-card:active .os-badge {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  a.os-card { padding: 1.25rem; }
+  .os-grid { gap: 1.1rem; }
+}
