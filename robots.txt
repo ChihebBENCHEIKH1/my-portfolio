@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
-Crawl-delay: 1
-
 Sitemap: https://www.chihebbencheikh.com/sitemap.xml
