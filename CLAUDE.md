@@ -8,11 +8,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 npm run dev        # Start dev server (node node_modules/vite/bin/vite.js)
-npm run build      # Production build via Vite (no tsc — Node 12 can't run tsc 5.x)
+npm run build      # Local preview build of both editions, including Dark Deco
+npm run build:cyberpunk # Publishable EN/DE build, excluding Dark Deco
 npm run preview    # Preview production build locally
 npm run verify:seo # Check built English/German HTML without JavaScript
 npm run lint       # ESLint with zero warnings allowed
-npm run deploy     # Build + deploy to GitHub Pages (gh-pages -d dist)
+npm run deploy     # Build cyberpunk only + deploy to GitHub Pages (gh-pages -d dist)
 ```
 
 Direct invocation (when system node is wrong version):
@@ -54,4 +55,6 @@ No test runner is configured.
 
 **Dark Deco edition:** Independent Vite entry `art-deco/index.html` → `src/art-deco/main.tsx`. The user clarified the style with Gotham/Batman animated-series references: deep ink, blue moonlight, crimson facades and heavy geometric architecture, replacing the earlier ivory/brass concept. The original generated painting `src/assets/dark-deco-city-v1.png` fills the hero; SVG foreground buildings become visible in the explorer. Their color blocks, paper texture, warm window slits and brief CB searchlight match the painting. Night is the default; twilight is the alternate lighting. Bebas Neue headings, dark project cards and shared real project previews continue the palette. English/German switching uses `?lang=de` within `/art-deco/`; do not wrap it in the main LanguageProvider, which normalizes routes. The keyboard-accessible explorer retains building count, light slider and tower illumination. Reduced motion removes transitions. This alternative is marked `noindex` and omitted from the public sitemap pending design approval.
 
-**GitHub Pages:** `public/CNAME` binds the custom domain. Vite uses `base: "/"` so assets resolve on `/`, `/de/` and `/art-deco/`. The postbuild script prerenders all three entries, removes the temporary preview origin from URLs, and rejects page errors or empty snapshots. Run `npm run verify:seo` after building. A browser snapshot contains completed animations, so the client mounts fresh rather than hydrating it. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.
+**Scroll performance:** Header background uses a 50px IntersectionObserver sentinel. Reading progress and the career spine/packet use native CSS scroll timelines, with static decoration in browsers without support. Repeated section CSS animations pause outside the viewport; Header and Contact gate their Framer loops separately. The career section uses `overflow: clip`; `hidden` would incorrectly make it the timeline scroll container. Preserve transform/opacity animations instead of animating layout properties (`left`, `top`, dimensions).
+
+**GitHub Pages:** `public/CNAME` binds the custom domain. Vite uses `base: "/"` so assets resolve on `/`, `/de/` and `/art-deco/`. The default local build includes both editions; `build:cyberpunk` and `predeploy` include only the main entry. The postbuild script prerenders EN/DE and includes Art Deco only if its built entry exists. It removes the temporary preview origin from URLs, and rejects page errors or empty snapshots. Run `npm run verify:seo` after building. A browser snapshot contains completed animations, so the client mounts fresh rather than hydrating it. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.

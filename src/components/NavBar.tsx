@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useSceneStore } from "../store/sceneStore";
@@ -18,14 +18,21 @@ export default function NavBar({ titles }: { titles: any }) {
   const { lang, setLang } = useLanguage();
   const t = titles[lang];
   const activeSection = useSceneStore((s) => s.activeSection);
+  const scrollSentinel = useRef<HTMLSpanElement>(null);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
+    const sentinel = scrollSentinel.current;
+    if (!sentinel) return;
+    // Only react when crossing the header threshold, including restored scroll.
+    // Reading scrollY on every scroll forced style/layout during animations.
+    const observer = new IntersectionObserver(([entry]) => {
+      setScrolled(!entry.isIntersecting && entry.boundingClientRect.top < 0);
+    });
+    observer.observe(sentinel);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -60,6 +67,7 @@ export default function NavBar({ titles }: { titles: any }) {
 
   return (
     <>
+      <span ref={scrollSentinel} aria-hidden="true" style={{ position: "absolute", top: 50, left: 0, width: 1, height: 1, pointerEvents: "none" }} />
       <motion.nav
         className="portfolio-nav"
         initial={{ y: -60, opacity: 0 }}

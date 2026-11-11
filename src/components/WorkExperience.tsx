@@ -4,9 +4,6 @@ import {
   motion,
   useInView,
   useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
 } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useSceneStore } from "../store/sceneStore";
@@ -249,21 +246,11 @@ export function WorkExperience({ titles }: { titles: any }) {
   const { lang } = useLanguage();
   const t = titles[lang];
   const ref = useRef<HTMLElement>(null);
-  const timelineRef = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
   const reduced = useReducedMotion();
   const jobs: { img: string; title: string; company: string; description: string }[] = t.workExperienceList;
 
   const colors = ["#00f0ff", "#ff007f", "#ffb800"];
-
-  // Scroll-driven spine: the gradient line draws itself as you scroll,
-  // a data packet riding its leading edge.
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start 0.75", "end 0.55"],
-  });
-  const spineProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 24, restDelta: 0.001 });
-  const packetTop = useTransform(spineProgress, [0, 1], ["0%", "100%"]);
 
   return (
     <section id="WorkExperience" ref={ref} className="grid-pattern cv-auto we-section">
@@ -316,15 +303,11 @@ export function WorkExperience({ titles }: { titles: any }) {
         />
 
         {/* Vertical timeline */}
-        <div ref={timelineRef} className="we-timeline">
+        <div className="we-timeline">
           <div className="we-spine-track" aria-hidden="true" />
-          <motion.div
-            className="we-spine"
-            aria-hidden="true"
-            style={{ scaleY: reduced ? 1 : spineProgress }}
-          />
+          <div className="we-spine" aria-hidden="true" />
           {!reduced && (
-            <motion.div className="we-packet" aria-hidden="true" style={{ top: packetTop }} />
+            <div className="we-packet-travel" aria-hidden="true"><div className="we-packet" /></div>
           )}
 
           {jobs.map((job, i) => (

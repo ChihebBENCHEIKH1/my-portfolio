@@ -1,6 +1,6 @@
 import "./App.css";
 import { useEffect, useRef, useState, lazy, Suspense } from "react";
-import { motion, useScroll, useSpring, MotionConfig } from "framer-motion";
+import { MotionConfig } from "framer-motion";
 import { textContent } from "./utils/Text";
 import { Header } from "./components/Header";
 import { About } from "./components/About";
@@ -136,17 +136,7 @@ function MagneticButtons() {
 }
 
 function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
-  return (
-    <motion.div style={{
-      position: "fixed", top: 0, left: 0, right: 0, height: "2px",
-      transformOrigin: "0% 50%", scaleX,
-      background: "linear-gradient(90deg, #00f0ff, #ff007f 55%, #ffb800)",
-      boxShadow: "0 0 12px rgba(0,240,255,0.5), 0 0 24px rgba(255,0,127,0.25)",
-      zIndex: 130, pointerEvents: "none",
-    }} />
-  );
+  return <div className="scroll-progress" aria-hidden="true" />;
 }
 
 const SECTIONS: { id: string; key: Section }[] = [

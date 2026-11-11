@@ -11,6 +11,8 @@ export function Contact({ titles }: { titles: any }) {
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { once: true, margin: "-8%" });
   const reduced = useReducedMotion();
+  const visible = useInView(ref);
+  const animateDecorations = visible && !reduced;
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
   const [phase, setPhase] = useState<"idle" | "charging" | "sent">("idle");
   const [btnLabel, setBtnLabel] = useState("TRANSMIT");
@@ -172,8 +174,8 @@ export function Contact({ titles }: { titles: any }) {
                 {[3, 5, 7, 10].map((h, bi) => (
                   <motion.div
                     key={bi}
-                    animate={reduced ? { scaleY: 0.6 } : { scaleY: [0.3, 1, 0.3] }}
-                    transition={reduced ? { duration: 0.3 } : { duration: 1.5, repeat: Infinity, delay: bi * 0.2 }}
+                    animate={!animateDecorations ? { scaleY: 0.6 } : { scaleY: [0.3, 1, 0.3] }}
+                    transition={!animateDecorations ? { duration: 0.3 } : { duration: 1.5, repeat: Infinity, delay: bi * 0.2 }}
                     style={{
                       width: "2px", height: `${h}px`,
                       background: "#00f0ff", borderRadius: "1px",
@@ -273,8 +275,8 @@ export function Contact({ titles }: { titles: any }) {
               <span>EDIT</span>
               <span style={{ color: "rgba(255,0,127,0.6)" }}>TRANSMIT</span>
               <motion.div
-                animate={reduced ? { opacity: 0.8 } : { opacity: [0.2, 1, 0.2] }}
-                transition={reduced ? { duration: 0.3 } : { duration: 1.5, repeat: Infinity }}
+                animate={!animateDecorations ? { opacity: 0.8 } : { opacity: [0.2, 1, 0.2] }}
+                transition={!animateDecorations ? { duration: 0.3 } : { duration: 1.5, repeat: Infinity }}
                 style={{
                   width: "4px", height: "4px", borderRadius: "50%",
                   background: "#00ff88",

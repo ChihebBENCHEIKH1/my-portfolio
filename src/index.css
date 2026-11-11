@@ -290,13 +290,13 @@ body {
 
 /* ─── SCAN SWEEP ─── */
 @keyframes scan-sweep {
-  0% { left: -100%; }
-  100% { left: 100%; }
+  0% { transform: translateX(-167%); }
+  100% { transform: translateX(167%); }
 }
 .scan-sweep::after {
   content: '';
   position: absolute; top: 0; bottom: 0;
-  width: 60%; left: -100%;
+  width: 60%; left: 0;
   background: linear-gradient(90deg, transparent, rgba(0,240,255,0.06), transparent);
   animation: scan-sweep 4s ease-in-out infinite;
   pointer-events: none;

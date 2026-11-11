@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, useInView } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 import { ScrambleText } from "./ScrambleText";
@@ -50,6 +50,8 @@ export function Header({ titles }: { titles: any }) {
   const t = titles[lang];
   const heroRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  const visible = useInView(heroRef);
+  const animateDecorations = visible && !reduced;
 
   // Cursor "flashlight": reveal a hidden neon grid + parallax the kanji.
   useEffect(() => {
@@ -173,8 +175,8 @@ export function Header({ titles }: { titles: any }) {
               letterSpacing: "0.2em", textTransform: "uppercase",
             }}>
               <motion.div
-                animate={reduced ? { opacity: 0.7 } : { opacity: [0.4, 1, 0.4] }}
-                transition={reduced ? { duration: 0 } : { duration: 2, repeat: Infinity }}
+                animate={!animateDecorations ? { opacity: 0.7 } : { opacity: [0.4, 1, 0.4] }}
+                transition={!animateDecorations ? { duration: 0 } : { duration: 2, repeat: Infinity }}
                 style={{
                   width: "5px", height: "5px", borderRadius: "50%",
                   background: s.color, boxShadow: `0 0 12px ${s.color}`,
@@ -291,8 +293,8 @@ export function Header({ titles }: { titles: any }) {
         }}>Scroll</span>
         <motion.div
           style={{ width: "1px", height: "32px", background: "#00f0ff", transformOrigin: "top" }}
-          animate={reduced ? { scaleY: 1, opacity: 0.5 } : { scaleY: [0, 1, 0] }}
-          transition={reduced ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={!animateDecorations ? { scaleY: 1, opacity: 0.5 } : { scaleY: [0, 1, 0] }}
+          transition={!animateDecorations ? { duration: 0 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
       </motion.a>
     </section>

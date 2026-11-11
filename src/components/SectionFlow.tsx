@@ -7,7 +7,7 @@ export function SectionFlow() {
   const daylight = useSceneStore(s => s.daylight);
   const interactive = useSceneStore(s => s.interactive);
   useEffect(() => {
-    const sections = document.querySelectorAll<HTMLElement>("main > section:not(#Home)");
+    const sections = document.querySelectorAll<HTMLElement>("#main-content > section");
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => { (entry.target as HTMLElement).dataset.inView = String(entry.isIntersecting); });
     }, { rootMargin: "-8% 0px -8% 0px", threshold: 0 });

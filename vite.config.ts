@@ -14,7 +14,7 @@ const HEAVY_DEFERRED = [
   "Icosphere",
 ];
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   // The custom domain serves both / and /de/; assets must resolve from either.
   base: "/",
   assetsInclude: ["**/*.png", "**/*.jpeg", "**/*.jpg"],
@@ -35,7 +35,8 @@ export default defineConfig({
         deps.filter((d) => !HEAVY_DEFERRED.some((name) => d.includes(name))),
     },
     rollupOptions: {
-      input: { main: "index.html", artDeco: "art-deco/index.html" },
+      // The alternate design stays available locally; publish only the approved edition.
+      input: mode === "cyberpunk" ? { main: "index.html" } : { main: "index.html", artDeco: "art-deco/index.html" },
       output: {
         manualChunks(id) {
           if (id.includes("node_modules/three") || id.includes("@react-three")) {
@@ -51,4 +52,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

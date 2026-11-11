@@ -103,3 +103,34 @@ html[data-city-time="day"] .hero-mobile-scrim { opacity: .3; }
 .tokyo-hit { left: calc(var(--tokyo-x, 15.5vw) - clamp(24px, 4vw, 55px)); top: var(--tokyo-top, 34vh); height: min(var(--tokyo-height, 38vh), 40vh); }
 .skytree-hit { left: calc(var(--skytree-x, 84vw) - clamp(24px, 4vw, 55px)); right: auto; top: var(--skytree-top, 20vh); height: min(var(--skytree-height, 42vh), 42vh); }
 @media (max-width: 768px) { .tokyo-hit, .skytree-hit { width: clamp(48px, 8vw, 110px); } }
+
+/* Keep decorative scroll motion on the compositor, without per-frame JS reads.
+   Browsers without scroll timelines retain the complete, static timeline. */
+.scroll-progress { display: none; }
+.we-packet-travel { display: none; }
+#main-content > section[data-in-view="false"] *,
+#main-content > section[data-in-view="false"] *::before,
+#main-content > section[data-in-view="false"] *::after { animation-play-state: paused !important; }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      display: block;
+      position: fixed; inset: 0 0 auto; height: 2px; z-index: 130;
+      pointer-events: none; transform-origin: left;
+      background: linear-gradient(90deg, #00f0ff, #ff007f 55%, #ffb800);
+      box-shadow: 0 0 12px #00f0ff80, 0 0 24px #ff007f40;
+      animation: reading-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+    .we-timeline { view-timeline: --career block; view-timeline-inset: 55% 25%; }
+    .we-spine { animation: career-progress linear both; animation-timeline: --career; }
+    .we-packet-travel {
+      display: block; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      animation: career-packet linear both; animation-timeline: --career;
+    }
+    .we-packet { top: 0; }
+  }
+}
+@keyframes reading-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes career-progress { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes career-packet { from { transform: translateY(0); } to { transform: translateY(100%); } }

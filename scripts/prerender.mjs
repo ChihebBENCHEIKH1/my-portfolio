@@ -45,7 +45,9 @@ try {
       "--enable-unsafe-swiftshader",
     ],
   });
-  for (const [route, language] of [["/", "en"], ["/de/", "de"], ["/art-deco/", "en"]]) {
+  const routes = [["/", "en"], ["/de/", "de"]];
+  if (fs.existsSync(path.join(DIST, "art-deco/index.html"))) routes.push(["/art-deco/", "en"]);
+  for (const [route, language] of routes) {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900 });
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);

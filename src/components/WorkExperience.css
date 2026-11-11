@@ -5,7 +5,8 @@
 .we-section {
   padding: 140px 2rem 90px;
   position: relative;
-  overflow: hidden;
+  /* Clip artwork without creating a nested scroll container for --career. */
+  overflow: clip;
 }
 
 .we-wrap {
