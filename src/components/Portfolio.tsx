@@ -136,6 +136,7 @@ function PreviewPanel({ project, scanning }: { project: Project | null; scanning
               <>
                 <img
                   src={project.image} alt={project.title}
+                  width="640" height="360" loading="lazy" decoding="async"
                   style={{
                     width: "100%", height: "100%", objectFit: "cover",
                     filter: "brightness(0.8) saturate(1.1)",
@@ -158,12 +159,12 @@ function PreviewPanel({ project, scanning }: { project: Project | null; scanning
           <div style={{ padding: "1rem 1.25rem 1.25rem" }}>
             {project ? (
               <>
-                <h4 style={{
+                <h3 style={{
                   fontFamily: '"Space Grotesk"', fontSize: "1.1rem",
                   fontWeight: 700, color: "#fff", textTransform: "uppercase",
                   lineHeight: 1.2, marginBottom: "0.5rem",
                   textShadow: "0 1px 2px rgba(0,0,0,0.7), 0 0 18px rgba(0,240,255,0.2)",
-                }}>{project.title}</h4>
+                }}>{project.title}</h3>
 
                 <p style={{
                   fontSize: "12px", lineHeight: 1.75, color: "rgba(224,224,232,0.75)",
@@ -340,7 +341,7 @@ function ProjectRow({ p, i, accent, active, touch, onEngage }: {
                   border: "1px solid rgba(0,240,255,0.12)", marginBottom: "0.6rem",
                   background: "rgba(0,0,0,0.3)",
                 }}>
-                  <img src={p.image} alt="" style={{
+                  <img src={p.image} alt="" width="640" height="360" loading="lazy" decoding="async" style={{
                     width: "100%", height: "100%", objectFit: "cover",
                     filter: "brightness(0.8) saturate(1.1)",
                   }} />

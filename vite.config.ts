@@ -15,12 +15,15 @@ const HEAVY_DEFERRED = [
 ];
 
 export default defineConfig({
-  base: "./",
+  // The custom domain serves both / and /de/; assets must resolve from either.
+  base: "/",
   assetsInclude: ["**/*.png", "**/*.jpeg", "**/*.jpg"],
   plugins: [
     react(),
     tailwindcss(),
     ViteImageOptimizer({
+      // SVG optimization needs optional svgo; leave these source vectors intact.
+      exclude: /\.svg$/i,
       png: { quality: 80 },
       jpeg: { quality: 75 },
       jpg: { quality: 75 },

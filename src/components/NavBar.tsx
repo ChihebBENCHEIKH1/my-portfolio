@@ -227,11 +227,19 @@ export default function NavBar({ titles }: { titles: any }) {
                     {langs.map((l) => {
                       const active = lang === l.code;
                       return (
-                        <button
+                        <a
                           key={l.code}
-                          onClick={() => { setLang(l.code); setLangOpen(false); }}
+                          href={l.code === "de" ? "/de/" : "/"}
+                          hrefLang={l.code === "de" ? "de" : "en"}
+                          onClick={(event) => {
+                            if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                            event.preventDefault();
+                            setLang(l.code);
+                            setLangOpen(false);
+                          }}
                           style={{
                             display: "flex", alignItems: "center", gap: "10px",
+                            textDecoration: "none",
                             width: "100%", padding: "10px 14px",
                             background: active ? "rgba(0,240,255,0.1)" : "transparent",
                             border: "none",
@@ -268,7 +276,7 @@ export default function NavBar({ titles }: { titles: any }) {
                               textShadow: "0 0 6px rgba(0,240,255,0.4)",
                             }}>✓</span>
                           )}
-                        </button>
+                        </a>
                       );
                     })}
                   </div>

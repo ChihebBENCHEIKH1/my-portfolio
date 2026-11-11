@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev        # Start dev server (node node_modules/vite/bin/vite.js)
 npm run build      # Production build via Vite (no tsc — Node 12 can't run tsc 5.x)
 npm run preview    # Preview production build locally
+npm run verify:seo # Check built English/German HTML without JavaScript
 npm run lint       # ESLint with zero warnings allowed
 npm run deploy     # Build + deploy to GitHub Pages (gh-pages -d dist)
 ```
@@ -43,4 +44,4 @@ No test runner is configured.
 
 **Scroll-driven timeline (`WorkExperience.tsx`):** Tall container (`height: Nxvh`) with a sticky inner div. Framer Motion `useScroll` + `useTransform` maps vertical scroll progress → horizontal `x` translate of the card strip.
 
-**Vite config** sets `base: "./"` for GitHub Pages. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.
+**GitHub Pages:** `public/CNAME` binds the custom domain. Vite uses `base: "/"` so assets resolve on both `/` (English) and `/de/` (German). The postbuild script prerenders both languages, removes the temporary preview origin from URLs, and rejects page errors or empty snapshots. Run `npm run verify:seo` after building. A browser snapshot contains completed animations, so the client mounts fresh rather than hydrating it. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.

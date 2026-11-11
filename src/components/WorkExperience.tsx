@@ -156,7 +156,7 @@ function DataNode({
         <div className="we-content">
           {/* Company logo — HUD target frame */}
           <div className="we-logo">
-            <img src={job.img} alt={job.company} />
+            <img src={job.img} alt={job.company} width="48" height="48" loading="lazy" decoding="async" />
             <span className="we-bracket we-bracket-tl" aria-hidden="true" />
             <span className="we-bracket we-bracket-tr" aria-hidden="true" />
             <span className="we-bracket we-bracket-bl" aria-hidden="true" />

@@ -4,13 +4,12 @@
 //
 // Flow:
 //   1) Serve the freshly built dist/ on a random port
-//   2) Headless-Chromium loads "/" and waits for the hero <h1>
+//   2) Headless Chromium loads each language and waits for real page content
 //   3) Scroll through the page to trigger framer-motion useInView reveals
 //      and lazy-loaded chunks
-//   4) Serialise document.documentElement → overwrite dist/index.html
-//   5) main.tsx detects hydration vs first-paint via #root.hasChildNodes()
+//   4) Serialize HTML with portable URLs into /index.html and /de/index.html
+//   5) main.tsx mounts the interactive app over the static browser snapshot
 
-import { spawn } from "node:child_process";
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -33,68 +32,93 @@ const PORT = server.address().port;
 const ORIGIN = `http://127.0.0.1:${PORT}`;
 console.log(`[prerender] serving dist on ${ORIGIN}`);
 
-const browser = await puppeteer.launch({
-  headless: "new",
-  args: [
-    "--no-sandbox",
-    "--disable-setuid-sandbox",
-    "--disable-gpu",
-    "--disable-dev-shm-usage",
-  ],
-});
-
+let browser;
 try {
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1440, height: 900 });
-
-  // Surface in-page errors during prerender so we don't ship blank HTML
-  page.on("pageerror", (err) => console.error("[prerender][pageerror]", err.message));
-  page.on("console", (msg) => {
-    if (msg.type() === "error") console.error("[prerender][console]", msg.text());
+  browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      // Use software WebGL so prerenders also work on build machines without a GPU.
+      "--use-angle=swiftshader",
+      "--enable-unsafe-swiftshader",
+    ],
   });
+  for (const [route, language] of [["/", "en"], ["/de/", "de"]]) {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
 
-  // Block third-party requests that keep network busy and aren't needed
-  // for the static snapshot (FontAwesome kit, Google Fonts external CSS).
-  await page.setRequestInterception(true);
-  page.on("request", (req) => {
-    const url = req.url();
-    if (url.includes("kit.fontawesome.com") || url.includes("fonts.googleapis.com") || url.includes("fonts.gstatic.com")) {
-      return req.abort();
+    const errors = [];
+    page.on("pageerror", (err) => errors.push(err.message));
+
+    // Block third-party requests that keep network busy and aren't needed
+    // for the static snapshot (FontAwesome kit, Google Fonts external CSS).
+    await page.setRequestInterception(true);
+    page.on("request", (req) => {
+      const url = req.url();
+      if (url.includes("kit.fontawesome.com") || url.includes("fonts.googleapis.com") || url.includes("fonts.gstatic.com")) {
+        return req.abort();
+      }
+      return req.continue();
+    });
+
+    // Use domcontentloaded — `networkidle0` never fires due to animation frames
+    // and lingering analytics. We synchronise on the hero <h1> instead.
+    await page.goto(`${ORIGIN}${route}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
+    await page.waitForSelector("h1", { timeout: 30_000 });
+    await page.waitForFunction(
+      (expected) => document.documentElement.lang === expected &&
+        (document.querySelector("#root main")?.textContent?.length || 0) > 500,
+      { timeout: 30_000 },
+      language,
+    );
+
+    // Trigger every IntersectionObserver / useInView by walking the page
+    await page.evaluate(async () => {
+      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const step = Math.max(200, Math.floor(window.innerHeight * 0.4));
+      const max = document.documentElement.scrollHeight;
+      for (let y = 0; y <= max; y += step) {
+        window.scrollTo(0, y);
+        await wait(80);
+      }
+      window.scrollTo(0, 0);
+      await wait(400);
+    });
+
+    // Give framer-motion / typewriter a beat to finish before snapshotting
+    await new Promise((r) => setTimeout(r, 1200));
+
+    if (errors.length) throw new Error(`${route}: ${errors.join("; ")}`);
+    const html = await page.evaluate(() => {
+      if (!document.querySelector("#root h1") || !document.querySelector("#root main")) {
+        throw new Error("Cannot publish an empty application snapshot");
+      }
+      // The full application is already present. Keep only the head's font fallback.
+      document.querySelectorAll("body > noscript").forEach(element => element.remove());
+      document.documentElement.classList.remove("custom-cursor");
+      return "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+    });
+    // Vite and image preloads can materialize the temporary server origin.
+    // Remove only this build's exact origin, preserving external HTTPS resources.
+    const portable = html.replaceAll(ORIGIN, "").replace(/[\t ]+$/gm, "");
+    if (/https?:\/\/(?:127\.0\.0\.1|localhost)(?::\d+)?/.test(portable)) {
+      throw new Error(`${route}: local URL leaked into the static page`);
     }
-    return req.continue();
-  });
 
-  // Use domcontentloaded — `networkidle0` never fires due to animation frames
-  // and lingering analytics. We synchronise on the hero <h1> instead.
-  await page.goto(`${ORIGIN}/`, { waitUntil: "domcontentloaded", timeout: 60_000 });
-  await page.waitForSelector("h1", { timeout: 30_000 });
-
-  // Trigger every IntersectionObserver / useInView by walking the page
-  await page.evaluate(async () => {
-    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-    const step = Math.max(200, Math.floor(window.innerHeight * 0.4));
-    const max = document.documentElement.scrollHeight;
-    for (let y = 0; y <= max; y += step) {
-      window.scrollTo(0, y);
-      await wait(80);
-    }
-    window.scrollTo(0, 0);
-    await wait(400);
-  });
-
-  // Give framer-motion / typewriter a beat to finish before snapshotting
-  await new Promise((r) => setTimeout(r, 1200));
-
-  const html = await page.evaluate(() => "<!DOCTYPE html>\n" + document.documentElement.outerHTML);
-
-  const outPath = path.join(DIST, "index.html");
-  fs.writeFileSync(outPath, html, "utf8");
-  const sizeKb = (fs.statSync(outPath).size / 1024).toFixed(1);
-  console.log(`[prerender] wrote ${outPath} (${sizeKb} KB)`);
+    const outPath = path.join(DIST, route, "index.html");
+    fs.mkdirSync(path.dirname(outPath), { recursive: true });
+    fs.writeFileSync(outPath, portable, "utf8");
+    const sizeKb = (fs.statSync(outPath).size / 1024).toFixed(1);
+    console.log(`[prerender] wrote ${outPath} (${sizeKb} KB)`);
+    await page.close();
+  }
 } catch (err) {
   console.error("[prerender] failed:", err);
   process.exitCode = 1;
 } finally {
-  await browser.close();
+  await browser?.close();
   server.close();
 }

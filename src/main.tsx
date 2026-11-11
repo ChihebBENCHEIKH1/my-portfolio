@@ -13,10 +13,7 @@ const tree = (
   </React.StrictMode>
 );
 
-// Prerendered output (postbuild SSG) ships static HTML inside #root — hydrate it.
-// Dev / first-paint without prerender → empty #root → mount fresh.
-if (container.firstElementChild) {
-  ReactDOM.hydrateRoot(container, tree);
-} else {
-  ReactDOM.createRoot(container).render(tree);
-}
+// The browser snapshot includes completed animations and optional WebGL nodes,
+// not React's initial state. Mount fresh to avoid invalid hydration; crawlers
+// and visitors without JavaScript retain the complete static snapshot.
+ReactDOM.createRoot(container).render(tree);
