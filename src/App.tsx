@@ -11,8 +11,8 @@ import { WorkExperience } from "./components/WorkExperience";
 import { Testimonials } from "./components/Testimonials";
 import { OpenSource } from "./components/OpenSource";
 import NavBar from "./components/NavBar";
-import { BootSequence } from "./components/BootSequence";
-const SceneManager = lazy(() => import("./canvas/SceneManager").then(m => ({ default: m.SceneManager })));
+import { CityPlayground } from "./components/CityPlayground";
+import { SectionFlow } from "./components/SectionFlow";
 const CityBackground = lazy(() => import("./canvas/CityBackground").then(m => ({ default: m.CityBackground })));
 import { useSceneStore, type Section } from "./store/sceneStore";
 
@@ -21,7 +21,7 @@ function CursorFX() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (window.matchMedia("(hover: none)").matches) return;
+    if (window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches) return;
     document.documentElement.classList.add("custom-cursor");
 
     let mx = window.innerWidth / 2, my = window.innerHeight / 2;
@@ -82,31 +82,11 @@ function CursorFX() {
   );
 }
 
-const TICKER_ITEMS = [
-  "Full_Stack_Engineer", "Go", "TypeScript", "React", "Next.js", "Node.js",
-  "Docker", "Kubernetes", "GCP", "Terraform", "CI/CD", "RabbitMQ",
-];
-
-function Ticker() {
-  return (
-    <div className="ticker-wrap" aria-hidden="true">
-      <div className="ticker-track">
-        {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-          <span key={i} className="ticker-item">
-            <span className={i % 2 ? "ticker-outline" : "ticker-solid"}>{item}</span>
-            <span className="ticker-sep">◆</span>
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 function MagneticButtons() {
   useEffect(() => {
     if (window.matchMedia("(hover: none)").matches ||
         window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const RADIUS = 130, PULL = 0.28;
+    const RADIUS = 100, PULL = 0.12;
     let raf = 0;
     // Rect cache — rebuilt lazily after scroll/resize/mutation instead of
     // calling getBoundingClientRect on every button every frame.
@@ -181,12 +161,10 @@ const SECTIONS: { id: string; key: Section }[] = [
 
 function App() {
   const setActiveSection = useSceneStore((s) => s.setActiveSection);
-  const setMouse = useSceneStore((s) => s.setMouse);
+  const setMouse = useSceneStore(s => s.setMouse);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Defer mounting the 3D scene until the browser is idle — keeps Three.js
-  // (~242 KiB) out of the LCP critical path. Falls back to setTimeout on
-  // browsers without requestIdleCallback.
+  // Mount the decorative city when idle; keep text and navigation first.
   const [showScene, setShowScene] = useState(false);
   useEffect(() => {
     const w = window as unknown as { requestIdleCallback?: Function; cancelIdleCallback?: Function };
@@ -209,7 +187,7 @@ function App() {
           }
         });
       },
-      { threshold: 0.35 }
+      { threshold: 0, rootMargin: "-25% 0px -55% 0px" }
     );
 
     SECTIONS.forEach(({ id }) => {
@@ -220,51 +198,43 @@ function App() {
     return () => observerRef.current?.disconnect();
   }, [setActiveSection]);
 
-  // Normalised mouse position for 3D parallax (throttled to rAF)
   useEffect(() => {
-    let rafId = 0;
-    const onMouseMove = (e: MouseEvent) => {
-      if (rafId) return;
-      rafId = requestAnimationFrame(() => {
-        setMouse(
-          (e.clientX / window.innerWidth) * 2 - 1,
-          -((e.clientY / window.innerHeight) * 2 - 1)
-        );
-        rafId = 0;
+    let raf = 0;
+    const move = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        setMouse(event.clientX / innerWidth * 2 - 1, -(event.clientY / innerHeight * 2 - 1));
+        raf = 0;
       });
     };
-    window.addEventListener("mousemove", onMouseMove, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", onMouseMove);
-      cancelAnimationFrame(rafId);
-    };
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => { window.removeEventListener("pointermove", move); cancelAnimationFrame(raf); };
   }, [setMouse]);
 
   return (
     <MotionConfig reducedMotion="user">
       <a className="skip-link" href="#main-content">Skip to content</a>
 
-      {/* Fixed city skyline + 3D background — deferred mount, not in LCP path */}
+      {/* Fixed city and 3D foreground — deferred mount, outside the content layer */}
       {showScene && (
         <Suspense fallback={null}>
           <CityBackground />
-          <SceneManager />
         </Suspense>
       )}
 
-      {/* Cinematic layers — vignette under nav, grain above everything */}
+      {/* Vignette keeps the content legible over the city. */}
       <div className="vignette-overlay gpu-layer" aria-hidden="true" />
-      <div className="grain-overlay gpu-layer" aria-hidden="true" />
+      <SectionFlow />
+      <CityPlayground />
       <ScrollProgress />
       <CursorFX />
       <MagneticButtons />
-      <BootSequence />
 
       {/* HTML content — z-10 */}
       <main id="main-content" style={{ position: "relative", zIndex: 10 }}>
         <NavBar titles={textContent} />
         <Header titles={textContent} />
-        <Ticker />
         <About titles={textContent} />
         <WorkExperience titles={textContent} />
         <Portfolio titles={textContent} />

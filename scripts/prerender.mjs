@@ -45,7 +45,7 @@ try {
       "--enable-unsafe-swiftshader",
     ],
   });
-  for (const [route, language] of [["/", "en"], ["/de/", "de"]]) {
+  for (const [route, language] of [["/", "en"], ["/de/", "de"], ["/art-deco/", "en"]]) {
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900 });
     await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: "reduce" }]);
@@ -96,9 +96,14 @@ try {
       if (!document.querySelector("#root h1") || !document.querySelector("#root main")) {
         throw new Error("Cannot publish an empty application snapshot");
       }
-      // The full application is already present. Keep only the head's font fallback.
+      // The full application is already present; remove the duplicate text fallback.
       document.querySelectorAll("body > noscript").forEach(element => element.remove());
       document.documentElement.classList.remove("custom-cursor");
+      // Canvas pixels are not serialized. Retain the CSS/SVG skyline for no-JS visitors.
+      document.querySelectorAll(".city-foreground-fallback, .city-landmarks-fallback").forEach(element => {
+        element.style.visibility = "visible";
+      });
+      document.querySelectorAll(".city-foreground-3d").forEach(element => element.remove());
       return "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
     });
     // Vite and image preloads can materialize the temporary server origin.

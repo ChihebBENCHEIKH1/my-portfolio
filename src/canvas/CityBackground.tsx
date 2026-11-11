@@ -1,5 +1,19 @@
-// Premium cyberpunk megacity — 10/10 — layered depth, atmospheric, pure CSS
+// Neon Tokyo: atmospheric CSS layers, detailed SVG landmarks and an optional 3D foreground.
+import { lazy, Suspense, useEffect, useState, Component, type ReactNode, type CSSProperties } from "react";
+import { getCityBuildings, getCityProfile } from "./cityModel";
+import { TokyoTower, Skytree } from "./TokyoLandmarks";
+import { TowerFireworks } from "./TowerFireworks";
 import { useSceneStore } from "../store/sceneStore";
+
+const Airship = lazy(() => import("./Airship").then(m => ({ default: m.Airship })));
+const SceneManager = lazy(() => import("./SceneManager").then(m => ({ default: m.SceneManager })));
+
+class SceneFallback extends Component<{ children: ReactNode; onFailure: () => void }, { failed: boolean }> {
+  state = { failed: false };
+  static getDerivedStateFromError() { return { failed: true }; }
+  componentDidCatch() { this.props.onFailure(); }
+  render() { return this.state.failed ? null : this.props.children; }
+}
 
 // Lamp colors mapped to work experience items
 const LAMP_COLORS = [
@@ -13,27 +27,91 @@ const LAMP_DEFAULT = "#00f0ff";
 export function CityBackground() {
   const hoveredJobIndex = useSceneStore((s) => s.hoveredJobIndex);
   const activeSection = useSceneStore((s) => s.activeSection);
-  const inHero = activeSection === "hero";
+  const interactive = useSceneStore(s => s.interactive);
+  const daylight = useSceneStore(s => s.daylight);
+  const buildingCount = useSceneStore(s => s.buildingCount);
+  const lightLevel = useSceneStore(s => s.lightLevel);
+  const setViewportWidth = useSceneStore(s => s.setViewportWidth);
+  const [viewportWidth, setWidth] = useState(window.innerWidth);
+  const profile = getCityProfile(viewportWidth);
+  const boostTokyo = useSceneStore(s => s.activateTokyo);
+  const boostSkytree = useSceneStore(s => s.activateSkytree);
+  const inHero = activeSection === "hero" || interactive;
+  const day = daylight;
+  const [sceneReady, setSceneReady] = useState(false);
+  const [use3D, setUse3D] = useState(false);
+  const [pageVisible, setPageVisible] = useState(!document.hidden);
+  useEffect(() => {
+    const resize = () => { setWidth(window.innerWidth); setViewportWidth(window.innerWidth); };
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, [setViewportWidth]);
+  useEffect(() => {
+    if (!inHero || interactive) return;
+    const click = (event: MouseEvent) => {
+      if (!(event.target instanceof Element) || event.target.closest("a, button, input, textarea, [role='button']")) return;
+      for (const [selector, activate] of [[".tokyo-hit", boostTokyo], [".skytree-hit", boostSkytree]] as const) {
+        const rect = document.querySelector(selector)?.getBoundingClientRect();
+        if (rect && event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom) { activate(); break; }
+      }
+    };
+    window.addEventListener("click", click);
+    return () => window.removeEventListener("click", click);
+  }, [inHero, interactive, boostTokyo, boostSkytree]);
+  useEffect(() => {
+    const visibility = () => setPageVisible(!document.hidden);
+    setUse3D(true);
+    document.addEventListener("visibilitychange", visibility);
+    return () => document.removeEventListener("visibilitychange", visibility);
+  }, []);
+  useEffect(() => {
+    if (sceneReady) return;
+    return useSceneStore.subscribe((state, previous) => {
+      for (const [changed, selector] of [
+        [state.tokyoPulse !== previous.tokyoPulse, ".tokyo-tower"],
+        [state.skytreePulse !== previous.skytreePulse, ".tokyo-skytree"],
+      ] as const) {
+        if (changed) document.querySelector(selector)?.animate(
+          [{ filter: "brightness(1)" }, { filter: "brightness(2.4)", offset: .15 }, { filter: "brightness(1)" }],
+          { duration: 1700, easing: "ease-out" },
+        );
+      }
+    });
+  }, [sceneReady]);
   const lampColor =
     hoveredJobIndex !== null
       ? (LAMP_COLORS[hoveredJobIndex] ?? LAMP_DEFAULT)
       : LAMP_DEFAULT;
 
   return (
+    <>
+    <div className="city-day-sky" data-day={day} aria-hidden="true"><div className="city-sun" /></div>
+    {!interactive && inHero && <div className="landmark-hit-zones">
+      <button className="landmark-hit tokyo-hit" type="button" aria-label="Tokyo Tower: lights or fireworks" onClick={boostTokyo} />
+      <button className="landmark-hit skytree-hit" type="button" aria-label="Skytree: lights or fireworks" onClick={boostSkytree} />
+    </div>}
+    <SceneFallback onFailure={() => {}}><Suspense fallback={null}><Airship active={inHero && pageVisible} /></Suspense></SceneFallback>
+    <TowerFireworks active={inHero && pageVisible} interactive={interactive} />
     <div
       className="city-layer"
+      aria-hidden="true"
+      data-active={inHero && pageVisible}
+      data-day={day}
+      data-interactive={interactive}
       style={{
         position: "fixed",
         bottom: 0,
         left: 0,
         right: 0,
-        height: "65vh",
+        height: interactive ? "80vh" : "65vh",
         pointerEvents: "none",
         zIndex: 1,
-      }}
+        "--city-light": lightLevel,
+      } as CSSProperties}
     >
       {/* ═══ SKY — deep violet → indigo → teal atmospheric gradient ═══ */}
-      <div
+      <div className="city-atmosphere-original"
         style={{
           position: "absolute",
           inset: 0,
@@ -43,7 +121,7 @@ export function CityBackground() {
       />
 
       {/* ═══ MOON — distant glowing orb high in the sky ═══ */}
-      <div
+      <div className="city-moon"
         style={{
           position: "fixed",
           top: "4vh",
@@ -479,507 +557,21 @@ export function CityBackground() {
         </div>
       ))}
 
-      {/* ═══ TOKYO SKYTREE — placed BEFORE near layer so buildings paint on top ═══
-           Full height tower from bottom=0 so body is hidden behind near-layer buildings.
-           Only the antenna needle + lamp peek above the tallest rooftops (~68%).
-           Top lamp reacts to Work Experience hover via zustand store. */}
-      <div
-        style={{
-          position: "absolute",
-          left: "75%",
-          bottom: 0,
-          width: "5%",
-          height: "100%",
-          pointerEvents: "none",
-        }}
-      >
-        {/* ── Tapered shaft — one clean silhouette, cylindrical shading ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "74%",
-            clipPath: "polygon(42% 0%, 58% 0%, 72% 100%, 28% 100%)",
-            background: `
-              linear-gradient(90deg, rgba(110,200,255,0.04) 0%, rgba(175,235,255,0.24) 50%, rgba(110,200,255,0.04) 100%),
-              linear-gradient(to top, rgba(0,180,230,0.18), rgba(0,220,255,0.1) 55%, rgba(150,235,255,0.16))
-            `,
-            filter:
-              "drop-shadow(0 0 10px rgba(0,0,5,0.75)) drop-shadow(0 0 18px rgba(0,240,255,0.14))",
-          }}
-        >
-          {/* Fine horizontal lattice */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "repeating-linear-gradient(0deg, transparent, transparent 6px, rgba(160,230,255,0.1) 6px, rgba(160,230,255,0.1) 7px)",
-            }}
-          />
-          {/* Diagonal cross-bracing */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: `
-              repeating-linear-gradient(55deg, transparent, transparent 7px, rgba(150,225,255,0.06) 7px, rgba(150,225,255,0.06) 8px),
-              repeating-linear-gradient(-55deg, transparent, transparent 7px, rgba(150,225,255,0.06) 7px, rgba(150,225,255,0.06) 8px)
-            `,
-            }}
-          />
-          {/* Structural spine columns */}
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: "46.5%", width: "1px", background: "rgba(200,245,255,0.22)" }} />
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: "53%", width: "1px", background: "rgba(200,245,255,0.22)" }} />
-        </div>
+      <div className="city-landmarks-fallback" style={{ visibility: sceneReady ? "hidden" : "visible" }}><TokyoTower />
+      <div className="skytree-light" style={{ color: lampColor }}><Skytree /></div></div>
 
-        {/* ── Bloom behind Tembo Deck ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "55.5%",
-            left: "-35%",
-            right: "-35%",
-            height: "9%",
-            background: "radial-gradient(ellipse, rgba(0,240,255,0.18), transparent 65%)",
-            filter: "blur(6px)",
-          }}
-        />
-        {/* ── TEMBO DECK — luminous observation band ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "58%",
-            left: "4%",
-            right: "4%",
-            height: "3.6%",
-            borderRadius: "3px",
-            background:
-              "linear-gradient(to top, rgba(0,200,255,0.3), rgba(215,250,255,0.55) 55%, rgba(0,200,255,0.28))",
-            boxShadow:
-              "0 0 12px rgba(0,240,255,0.45), 0 0 32px rgba(0,240,255,0.2), 0 2px 10px rgba(0,0,5,0.55)",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: "30% 6%",
-              background:
-                "repeating-linear-gradient(90deg, rgba(255,255,255,0.75) 0px, rgba(255,255,255,0.75) 1.2px, transparent 1.2px, transparent 3.4px)",
-            }}
-          />
-        </div>
-
-        {/* ── Bloom behind Tembo Gallery ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "68.5%",
-            left: "-20%",
-            right: "-20%",
-            height: "7%",
-            background: "radial-gradient(ellipse, rgba(0,240,255,0.14), transparent 65%)",
-            filter: "blur(5px)",
-          }}
-        />
-        {/* ── TEMBO GALLERY — upper luminous band ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "70.5%",
-            left: "16%",
-            right: "16%",
-            height: "3%",
-            borderRadius: "3px",
-            background:
-              "linear-gradient(to top, rgba(0,200,255,0.26), rgba(205,248,255,0.48) 55%, rgba(0,200,255,0.24))",
-            boxShadow:
-              "0 0 10px rgba(0,240,255,0.4), 0 0 26px rgba(0,240,255,0.16), 0 2px 8px rgba(0,0,5,0.5)",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: "30% 10%",
-              background:
-                "repeating-linear-gradient(90deg, rgba(255,255,255,0.65) 0px, rgba(255,255,255,0.65) 1px, transparent 1px, transparent 3px)",
-            }}
-          />
-        </div>
-
-        {/* ── BROADCAST ANTENNA — tall needle above rooftops ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "74%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "2px",
-            height: "16%",
-            background:
-              "linear-gradient(to top, rgba(170,235,255,0.55), rgba(0,240,255,0.2), rgba(0,240,255,0.03))",
-            boxShadow: "0 0 6px rgba(0,240,255,0.25)",
-          }}
-        >
-          {/* Crossbars */}
-          {[20, 42, 65, 85].map((p, i) => (
-            <div
-              key={`st-ax-${i}`}
-              style={{
-                position: "absolute",
-                top: `${p}%`,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: `${8 - i * 1.5}px`,
-                height: "1px",
-                background: "rgba(160,230,255,0.32)",
-              }}
-            />
-          ))}
-
-          {/* ★ TOP LAMP — reactive to Work Experience hover ★ */}
-          <div
-            style={{
-              position: "absolute",
-              top: "-7px",
-              left: "-7px",
-              width: "16px",
-              height: "16px",
-              borderRadius: "50%",
-              background: lampColor,
-              boxShadow: `0 0 18px ${lampColor}, 0 0 45px ${lampColor}aa, 0 0 90px ${lampColor}55, 0 0 140px ${lampColor}25`,
-              transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-              animation:
-                hoveredJobIndex !== null
-                  ? "none"
-                  : "city-blink 1.5s ease-in-out 0.4s infinite",
-            }}
-          />
-          {/* Glow ring on hover */}
-          <div
-            style={{
-              position: "absolute",
-              top: "-12px",
-              left: "-12px",
-              width: "26px",
-              height: "26px",
-              borderRadius: "50%",
-              border: `1px solid ${lampColor}30`,
-              boxShadow: `inset 0 0 8px ${lampColor}15`,
-              transition: "all 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
-              opacity: hoveredJobIndex !== null ? 1 : 0,
-            }}
-          />
-
-          {/* Mid beacon */}
-          <div
-            style={{
-              position: "absolute",
-              top: "40%",
-              left: "-2px",
-              width: "6px",
-              height: "6px",
-              borderRadius: "50%",
-              background: "rgba(0,240,255,0.6)",
-              boxShadow:
-                "0 0 8px rgba(0,240,255,0.4), 0 0 18px rgba(0,240,255,0.15)",
-              animation: "city-blink 2s ease-in-out 1s infinite",
-            }}
-          />
-        </div>
-
-        {/* ── Neon ring accents — widths follow the taper ── */}
-        {[
-          { b: 35, lr: 33 },
-          { b: 48, lr: 35 },
-          { b: 64, lr: 37 },
-        ].map((r, i) => (
-          <div
-            key={`st-ng-${i}`}
-            style={{
-              position: "absolute",
-              bottom: `${r.b}%`,
-              left: `${r.lr}%`,
-              right: `${r.lr}%`,
-              height: "1px",
-              background: "#00f0ff",
-              boxShadow: "0 0 5px #00f0ff, 0 0 12px #00f0ff40",
-              opacity: 0.5,
-              animation: `city-neon-flicker ${3.5 + i * 0.6}s ease-in-out ${i * 0.7}s infinite`,
-            }}
-          />
-        ))}
-
-        {/* ── "Miyabi" violet lighting mode — slow alternation like the real tower ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
-            height: "74%",
-            clipPath: "polygon(42% 0%, 58% 0%, 72% 100%, 28% 100%)",
-            background:
-              "linear-gradient(90deg, rgba(200,80,255,0.04) 0%, rgba(215,140,255,0.26) 50%, rgba(200,80,255,0.04) 100%)",
-            animation: "city-skytree-miyabi 18s ease-in-out infinite",
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* ── Red aviation beacons on deck edges ── */}
-        {[
-          { b: "61.8%", side: { left: "1.5%" }, d: 0 },
-          { b: "61.8%", side: { right: "1.5%" }, d: 0.6 },
-          { b: "73.7%", side: { left: "13%" }, d: 0.3 },
-          { b: "73.7%", side: { right: "13%" }, d: 0.9 },
-        ].map((av, i) => (
-          <div
-            key={`st-av-${i}`}
-            style={{
-              position: "absolute",
-              bottom: av.b,
-              ...av.side,
-              width: "3px",
-              height: "3px",
-              borderRadius: "50%",
-              background: "#ff3355",
-              boxShadow: "0 0 6px #ff3355, 0 0 12px #ff335580",
-              animation: `city-blink 1.4s ease-in-out ${av.d}s infinite`,
-            }}
-          />
-        ))}
-
-        {/* ── Rising data pulse along the shaft ── */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "45%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "3px",
-            height: "45%",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              top: 0,
-              height: "28px",
-              background:
-                "linear-gradient(to top, transparent, rgba(0,240,255,0.9), transparent)",
-              boxShadow: "0 0 10px rgba(0,240,255,0.6)",
-              animation: "city-skytree-rise 5s ease-in-out 1.2s infinite",
-            }}
-          />
-        </div>
-
-        {/* ── Volumetric haze — color follows lamp ── */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-5%",
-            left: "-50%",
-            right: "-50%",
-            bottom: "20%",
-            background: `radial-gradient(ellipse, ${lampColor}08 0%, ${lampColor}02 35%, transparent 60%)`,
-            pointerEvents: "none",
-            filter: "blur(8px)",
-            transition: "all 0.6s",
-          }}
-        />
-      </div>
-
-      {/* ═══ TOKYO TOWER — warm orange "Landmark Light", left skyline ═══
-           Same trick as Skytree: full-height container placed before the
-           near layer, so foreground buildings hide the street-level base. */}
-      <div
-        style={{
-          position: "absolute",
-          left: "7%",
-          bottom: 0,
-          width: "12%",
-          height: "100%",
-          pointerEvents: "none",
-        }}
-      >
-        {/* Hand-drawn SVG — real Bézier curves for the Eiffel-style concave
-            sweep, lattice pattern, lit edge ribs, glowing decks. */}
-        <svg
-          viewBox="0 0 200 400"
-          preserveAspectRatio="xMidYMax meet"
-          style={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            overflow: "visible",
-            filter: "drop-shadow(0 2px 10px rgba(0,0,5,0.7))",
-          }}
-        >
-          <defs>
-            <linearGradient id="tt-body" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#ffb056" stopOpacity="0.5" />
-              <stop offset="55%" stopColor="#ff7a1e" stopOpacity="0.44" />
-              <stop offset="100%" stopColor="#ff5505" stopOpacity="0.52" />
-            </linearGradient>
-            <linearGradient id="tt-deck" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="#ff7a1e" stopOpacity="0.8" />
-              <stop offset="50%" stopColor="#ffe9c4" stopOpacity="0.95" />
-              <stop offset="100%" stopColor="#ff8c2e" stopOpacity="0.8" />
-            </linearGradient>
-            <linearGradient id="tt-mast" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0%" stopColor="#ffd9a0" stopOpacity="0.75" />
-              <stop offset="100%" stopColor="#ffae5e" stopOpacity="0.1" />
-            </linearGradient>
-            <radialGradient id="tt-halo">
-              <stop offset="0%" stopColor="#ff7a1e" stopOpacity="0.16" />
-              <stop offset="60%" stopColor="#ff7a1e" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="#ff7a1e" stopOpacity="0" />
-            </radialGradient>
-            <pattern id="tt-lat" width="9" height="9" patternUnits="userSpaceOnUse">
-              <path d="M0 9 L9 0 M0 0 L9 9" stroke="#ffb066" strokeWidth="0.7" opacity="0.4" />
-            </pattern>
-            <pattern id="tt-strut" width="12" height="12" patternUnits="userSpaceOnUse">
-              <path d="M0 11.5 H12" stroke="#ffb066" strokeWidth="0.8" opacity="0.5" />
-            </pattern>
-            <pattern id="tt-win" width="3.6" height="6" patternUnits="userSpaceOnUse">
-              <rect x="0.9" y="0" width="1.6" height="6" fill="#fff5dd" opacity="0.85" />
-            </pattern>
-            <filter id="tt-blur" x="-80%" y="-80%" width="260%" height="260%">
-              <feGaussianBlur stdDeviation="4.5" />
-            </filter>
-            <clipPath id="tt-clip">
-              <path d="M 96 108 L 104 108 C 106 160 109 215 113 250 L 87 250 C 91 215 94 160 96 108 Z" />
-              <path
-                clipRule="evenodd"
-                d="M 85 254 L 115 254 C 119 300 133 350 152 388 L 48 388 C 67 350 81 300 85 254 Z M 100 318 C 112 348 120 368 126 388 L 74 388 C 80 368 88 348 100 318 Z"
-              />
-            </clipPath>
-          </defs>
-
-          {/* Atmosphere */}
-          <ellipse cx="100" cy="255" rx="115" ry="155" fill="url(#tt-halo)" />
-          <ellipse cx="100" cy="386" rx="78" ry="9" fill="#ff7a1e" opacity="0.16" filter="url(#tt-blur)" />
-
-          {/* Body fills — upper shaft + flared legs with arch opening */}
-          <path
-            d="M 96 108 L 104 108 C 106 160 109 215 113 250 L 87 250 C 91 215 94 160 96 108 Z"
-            fill="url(#tt-body)"
-          />
-          <path
-            fillRule="evenodd"
-            d="M 85 254 L 115 254 C 119 300 133 350 152 388 L 48 388 C 67 350 81 300 85 254 Z M 100 318 C 112 348 120 368 126 388 L 74 388 C 80 368 88 348 100 318 Z"
-            fill="url(#tt-body)"
-          />
-
-          {/* Lattice + horizontal struts, clipped to the silhouette */}
-          <g clipPath="url(#tt-clip)">
-            <rect x="40" y="100" width="120" height="295" fill="url(#tt-lat)" />
-            <rect x="40" y="100" width="120" height="295" fill="url(#tt-strut)" />
-            {/* Floodlight tiers */}
-            {[150, 180, 210, 272, 300, 330, 360].map((y, i) => (
-              <line
-                key={`tt-tier-${i}`}
-                x1="40" x2="160" y1={y} y2={y}
-                stroke="#ffe2b0" strokeWidth="1.4" opacity="0.55"
-              />
-            ))}
-            {/* Center rib */}
-            <line x1="100" x2="100" y1="110" y2="316" stroke="#ffd9a0" strokeWidth="1" opacity="0.3" />
-          </g>
-
-          {/* Lit edge ribs — these define the famous curve */}
-          <path
-            d="M 104 108 C 106 160 109 215 113 250 M 96 108 C 94 160 91 215 87 250"
-            fill="none" stroke="#ffc585" strokeWidth="1.2" strokeOpacity="0.55"
-          />
-          <path
-            d="M 115 254 C 119 300 133 350 152 388 M 85 254 C 81 300 67 350 48 388"
-            fill="none" stroke="#ffc585" strokeWidth="1.3" strokeOpacity="0.6"
-          />
-          {/* Arch rib */}
-          <path
-            d="M 74 388 C 80 368 88 348 100 318 C 112 348 120 368 126 388"
-            fill="none" stroke="#ffae5e" strokeWidth="1" strokeOpacity="0.5"
-          />
-
-          {/* Main observatory — glow + deck + windows */}
-          <rect x="71" y="241" width="58" height="11" rx="2" fill="#ff8c2e" opacity="0.55" filter="url(#tt-blur)" />
-          <rect x="71" y="241" width="58" height="11" rx="2" fill="url(#tt-deck)" />
-          <rect x="74" y="244" width="52" height="5" fill="url(#tt-win)" />
-          {/* Top observatory */}
-          <rect x="88.5" y="128" width="23" height="7.5" rx="1.5" fill="#ff8c2e" opacity="0.5" filter="url(#tt-blur)" />
-          <rect x="88.5" y="128" width="23" height="7.5" rx="1.5" fill="url(#tt-deck)" />
-          <rect x="91" y="130" width="18" height="3.8" fill="url(#tt-win)" />
-
-          {/* White aviation strobes at main deck edges */}
-          {[71, 129].map((x, i) => (
-            <circle
-              key={`tt-strobe-${i}`}
-              cx={x} cy="246.5" r="1.8" fill="#ffffff"
-              style={{ animation: `city-strobe ${3.4 + i * 0.5}s linear ${i * 1.7}s infinite` }}
-            />
-          ))}
-
-          {/* Antenna mast + crossbars + red beacon */}
-          <rect x="98.8" y="20" width="2.4" height="88" fill="url(#tt-mast)" />
-          <line x1="96" x2="104" y1="44" y2="44" stroke="#ffc585" strokeWidth="1" opacity="0.4" />
-          <line x1="97" x2="103" y1="68" y2="68" stroke="#ffc585" strokeWidth="1" opacity="0.35" />
-          <circle cx="100" cy="16" r="9" fill="#ff3355" opacity="0.3" filter="url(#tt-blur)" />
-          <circle
-            cx="100" cy="16" r="4" fill="#ff3355"
-            style={{ animation: "city-blink 1.6s ease-in-out 0.3s infinite" }}
-          />
-        </svg>
-
-        {/* Warm volumetric haze */}
-        <div
-          style={{
-            position: "absolute",
-            top: "30%",
-            left: "-50%",
-            right: "-50%",
-            bottom: "14%",
-            background:
-              "radial-gradient(ellipse, rgba(255,110,20,0.09) 0%, rgba(255,110,20,0.03) 40%, transparent 65%)",
-            filter: "blur(8px)",
-          }}
-        />
-      </div>
-
+      <div className="city-foreground-fallback" style={{ position: "absolute", inset: 0, visibility: sceneReady ? "hidden" : "visible" }}>
       {/* ═══════════ NEAR LAYER — foreground towers ═══════════ */}
-      {[
-        { x: -1, w: 5, h: 32, c: 1 },
-        { x: 5, w: 3, h: 52, c: 2 },
-        { x: 10, w: 4.5, h: 16, c: 3 },
-        { x: 18, w: 3, h: 60, c: 1 },
-        { x: 23, w: 5, h: 40, c: 2 },
-        { x: 30, w: 4, h: 64, c: 3 },
-        { x: 36, w: 6, h: 34, c: 1 },
-        { x: 44, w: 3, h: 56, c: 2 },
-        { x: 49, w: 5, h: 42, c: 3 },
-        { x: 56, w: 4, h: 68, c: 1 },
-        { x: 62, w: 6, h: 38, c: 2 },
-        { x: 70, w: 3, h: 54, c: 3 },
-        { x: 75, w: 5, h: 46, c: 1 },
-        { x: 82, w: 4, h: 62, c: 2 },
-        { x: 88, w: 6, h: 36, c: 3 },
-        { x: 95, w: 5, h: 50, c: 1 },
-      ].map((b, i) => {
+      {getCityBuildings(buildingCount, profile.widthScale).map((b, i) => {
         const nc = {
           1: {
             bg: "rgba(5,8,15,0.93)",
-            edge: "rgba(0,240,255,0.1)",
+            edge: "rgba(0,240,255,0.4)",
             glow: "#00f0ff",
           },
           2: {
             bg: "rgba(10,5,12,0.93)",
-            edge: "rgba(255,0,127,0.08)",
+            edge: "rgba(255,0,127,0.32)",
             glow: "#ff007f",
           },
           3: {
@@ -997,6 +589,7 @@ export function CityBackground() {
               bottom: 0,
               width: `${b.w}%`,
               height: `${b.h}%`,
+              maxHeight: Number.isFinite(profile.maxBuildingRatio) ? `${profile.maxBuildingRatio * 100}vw` : undefined,
               background: `
                 linear-gradient(90deg, rgba(0,0,8,0.5), transparent 18%, transparent 82%, rgba(0,0,8,0.5)),
                 linear-gradient(to top, ${nc.bg}, rgba(5,5,10,0.96))
@@ -1024,8 +617,8 @@ export function CityBackground() {
                 position: "absolute",
                 inset: "8px 3px 0",
                 backgroundImage: `
-              repeating-linear-gradient(0deg, ${nc.glow}12 0px, ${nc.glow}12 2px, transparent 2px, transparent 9px),
-              repeating-linear-gradient(90deg, ${nc.glow}0C 0px, ${nc.glow}0C 2.5px, transparent 2.5px, transparent 8px)
+              repeating-linear-gradient(0deg, ${nc.glow}50 0px, ${nc.glow}50 2px, transparent 2px, transparent 9px),
+              repeating-linear-gradient(90deg, ${nc.glow}24 0px, ${nc.glow}24 2.5px, transparent 2.5px, transparent 8px)
             `,
               }}
             />
@@ -1178,6 +771,13 @@ export function CityBackground() {
       })}
 
       {/* (Skytree is placed before near-layer so buildings cover it) */}
+
+      </div>
+      {use3D && <div className="city-foreground-3d" style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: interactive ? "100%" : "130%", pointerEvents: interactive ? "auto" : "none" }}>
+        <SceneFallback onFailure={() => setSceneReady(false)}><Suspense fallback={null}>
+          <SceneManager active={inHero && pageVisible} onReady={() => setSceneReady(true)} />
+        </Suspense></SceneFallback>
+      </div>}
 
       {/* ═══ ROOFTOP SEARCHLIGHT SWEEPS ═══ */}
       {[
@@ -1626,5 +1226,6 @@ export function CityBackground() {
         );
       })}
     </div>
+    </>
   );
 }

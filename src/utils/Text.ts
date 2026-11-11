@@ -1,4 +1,5 @@
 import hero from "../assets/hero.png";
+import ragAssistant from "../assets/rag-assistant.svg";
 import ghostwire from "../assets/ghostwire.png";
 import sentinel from "../assets/sentinel-dashboard.png";
 import flowforge from "../assets/flowforge.png";
@@ -45,6 +46,7 @@ export const textContent = {
           "Full-stack, real-time platform for designing API pipelines as node graphs (React Flow, Monaco) on Express + Socket.io, deployed to AWS ECS Fargate via Terraform with GitHub Actions CI/CD. Includes an agentic (ReAct) SRE loop that detects failures, pinpoints root cause, and auto-recovers pipelines.",
         technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        preview: "ghostwire",
         image: ghostwire,
       },
       {
@@ -53,7 +55,8 @@ export const textContent = {
           "Fine-tuned a local Qwen2.5-3B with LoRA (~1% of parameters) and paired it with RAG for grounded, domain-specific answers — delivering specialised performance at a fraction of full fine-tuning cost.",
         technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1",
-        image: hero,
+        preview: "rag",
+        image: ragAssistant,
       },
     ],
     backendProjectsList: [
@@ -63,6 +66,7 @@ export const textContent = {
           "Full-stack platform for managing dealership operations — OTP authentication, Stripe payments, automated invoicing, and modular architecture with CI/CD and end-to-end testing.",
         technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
+        preview: "motorcycle",
         image: hero,
       },
       {
@@ -71,6 +75,7 @@ export const textContent = {
           "Production-grade workflow automation platform (mini Zapier) — visual DAG builder, webhook/cron triggers, branching conditions, real-time execution monitoring, and Redis-backed queue processing.",
         technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
+        preview: "flowforge",
         image: flowforge,
       },
       {
@@ -79,6 +84,7 @@ export const textContent = {
           "Event-driven incident management system with real-time Kanban board, RabbitMQ event bus, full-text search, WebSocket live updates, and Prometheus/Grafana observability stack.",
         technologies: ["Spring Boot", "Angular", "RabbitMQ", "PostgreSQL", "Docker"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/GhostWatch",
+        preview: "ghostwatch",
         image: ghostwatch,
       },
     ],
@@ -137,6 +143,7 @@ export const textContent = {
           "Autonomous agent that remediates container vulnerabilities end-to-end: a ReAct loop reads scan findings, patches files / Dockerfiles, then rebuilds and validates the image before opening a pull request.",
         technologies: ["Go", "LLM Agents", "ReAct Loop", "Docker", "Next.js"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
+        preview: "sentinel",
         image: sentinel,
       },
     ],
@@ -214,6 +221,7 @@ export const textContent = {
           "Full-Stack-Echtzeitplattform zum Entwerfen von API-Pipelines als Knoten-Graphen (React Flow, Monaco) auf Express + Socket.io, per Terraform auf AWS ECS Fargate deployt mit GitHub-Actions-CI/CD. Enthält eine agentische (ReAct) SRE-Schleife, die Fehler erkennt, die Ursache lokalisiert und Pipelines automatisch wiederherstellt.",
         technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        preview: "ghostwire",
         image: ghostwire,
       },
       {
@@ -222,7 +230,8 @@ export const textContent = {
           "Ein lokales Qwen2.5-3B mit LoRA (~1% der Parameter) feinabgestimmt und mit RAG kombiniert für fundierte, domänenspezifische Antworten — spezialisierte Leistung zu einem Bruchteil der Kosten eines vollständigen Fine-Tunings.",
         technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1",
-        image: hero,
+        preview: "rag",
+        image: ragAssistant,
       },
     ],
     backendProjectsList: [
@@ -232,6 +241,7 @@ export const textContent = {
           "Full-Stack-Plattform für den Händlerbetrieb — OTP-Authentifizierung, Stripe-Zahlungen, automatisierte Rechnungsstellung und modulare Architektur mit CI/CD und End-to-End-Tests.",
         technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
+        preview: "motorcycle",
         image: hero,
       },
       {
@@ -240,6 +250,7 @@ export const textContent = {
           "Produktionsreife Workflow-Automatisierungsplattform (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung.",
         technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
+        preview: "flowforge",
         image: flowforge,
       },
       {
@@ -248,6 +259,7 @@ export const textContent = {
           "Event-gesteuertes Incident-Management-System mit Echtzeit-Kanban-Board, RabbitMQ-Event-Bus, Volltextsuche, WebSocket-Live-Updates und Prometheus/Grafana-Observability-Stack.",
         technologies: ["Spring Boot", "Angular", "RabbitMQ", "PostgreSQL", "Docker"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/GhostWatch",
+        preview: "ghostwatch",
         image: ghostwatch,
       },
     ],
@@ -258,6 +270,7 @@ export const textContent = {
           "Autonomer Agent, der Container-Schwachstellen End-to-End behebt: eine ReAct-Schleife liest Scan-Ergebnisse, patcht Dateien / Dockerfiles und baut das Image neu und validiert es, bevor ein Pull Request eröffnet wird.",
         technologies: ["Go", "LLM Agents", "ReAct Loop", "Docker", "Next.js"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator",
+        preview: "sentinel",
         image: sentinel,
       },
     ],

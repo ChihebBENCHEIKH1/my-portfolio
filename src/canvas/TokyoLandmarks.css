@@ -1,0 +1,24 @@
+.tokyo-landmark { position: absolute; bottom: 0; overflow: visible; }
+.tokyo-tower {
+  left: 5%;
+  width: clamp(140px, 17vw, 270px);
+  height: 105%;
+  filter: drop-shadow(0 0 9px #ff8f5b30);
+}
+.skytree-light { color: #00f0ff; transition: color 600ms ease; }
+.tokyo-skytree {
+  right: 13%;
+  width: clamp(85px, 10vw, 150px);
+  height: 115%;
+  filter: drop-shadow(0 0 8px #00f0ff25);
+}
+.tokyo-beacon { animation: city-blink 4s ease-in-out infinite; }
+@media (max-width: 768px) {
+  .tokyo-tower { left: -5%; width: 130px; height: 86%; }
+  .tokyo-skytree { right: -2%; width: 90px; height: 104%; }
+}
+@media (prefers-reduced-motion: reduce) { .tokyo-beacon { animation: none; } }
+@media (max-width: 600px) {
+  .tokyo-tower { left: -1%; width: 33%; height: min(86%, 108vw); }
+  .tokyo-skytree { right: 6%; width: 20%; height: min(104%, 132vw); }
+}

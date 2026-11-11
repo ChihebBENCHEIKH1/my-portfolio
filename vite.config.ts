@@ -35,6 +35,7 @@ export default defineConfig({
         deps.filter((d) => !HEAVY_DEFERRED.some((name) => d.includes(name))),
     },
     rollupOptions: {
+      input: { main: "index.html", artDeco: "art-deco/index.html" },
       output: {
         manualChunks(id) {
           if (id.includes("node_modules/three") || id.includes("@react-three")) {

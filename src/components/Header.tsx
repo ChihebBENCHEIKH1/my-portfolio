@@ -34,9 +34,13 @@ function TypewriterText({ text, delay = 0 }: { text: string; delay?: number }) {
   }, [started, text]);
 
   return (
-    <span>
-      {displayed}
-      {displayed.length < text.length && <span className="cursor-blink" />}
+    <span className="typewriter-stable">
+      <span aria-hidden="true" className="typewriter-space">{text}</span>
+      <span aria-hidden="true" className="typewriter-visible">
+        {displayed}
+        {displayed.length < text.length && <span className="cursor-blink" />}
+      </span>
+      <span className="sr-only">{text}</span>
     </span>
   );
 }
@@ -90,7 +94,7 @@ export function Header({ titles }: { titles: any }) {
     <section id="Home" ref={heroRef} className="grid-pattern" style={{
       minHeight: "100svh", position: "relative",
       display: "flex", alignItems: "center", justifyContent: "center",
-      padding: "6rem 2rem 4rem", overflow: "hidden",
+      padding: "clamp(9rem, 14vw, 12rem) 2rem 4rem", overflow: "hidden",
     }}>
       {/* Cursor flashlight — reveals a hidden neon grid + cyan spotlight */}
       <div className="hero-grid-reveal" aria-hidden="true" />
@@ -183,7 +187,7 @@ export function Header({ titles }: { titles: any }) {
         </motion.div>
 
         {/* Eyebrow */}
-        <motion.div {...stagger(1)} style={{
+        <motion.div {...stagger(1)} className="hero-eyebrow" style={{
           fontFamily: '"JetBrains Mono"', fontSize: "10px",
           letterSpacing: "0.28em", color: "rgba(0,240,255,0.7)",
           textShadow: "0 0 10px rgba(0,240,255,0.35)",

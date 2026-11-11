@@ -149,3 +149,8 @@
     left: 1.1rem;
   }
 }
+
+/* Reserve the finished subtitle's height so typing does not move the hero. */
+.typewriter-stable { display: inline-grid; vertical-align: top; width: calc(100% - 1.5em); }
+.typewriter-space, .typewriter-visible { grid-area: 1 / 1; }
+.typewriter-space { visibility: hidden; }

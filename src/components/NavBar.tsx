@@ -61,6 +61,7 @@ export default function NavBar({ titles }: { titles: any }) {
   return (
     <>
       <motion.nav
+        className="portfolio-nav"
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -97,7 +98,7 @@ export default function NavBar({ titles }: { titles: any }) {
         </a>
 
         {/* Desktop links */}
-        <div className="hidden md:flex" style={{ alignItems: "center", gap: "1.75rem" }}>
+        <div className="desktop-navigation hidden md:flex" style={{ alignItems: "center", gap: "1.75rem" }}>
           {items.map((item, i) => {
             const active = SECTION_FOR_HREF[item.href] === activeSection;
             return (
@@ -287,7 +288,7 @@ export default function NavBar({ titles }: { titles: any }) {
 
           {/* Hamburger */}
           <button
-            className="md:hidden"
+            className="mobile-menu-toggle"
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
             aria-expanded={menuOpen}
@@ -334,6 +335,7 @@ export default function NavBar({ titles }: { titles: any }) {
         )}
         {menuOpen && (
           <motion.div
+            id="mobile-menu"
             key="menu-panel"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
