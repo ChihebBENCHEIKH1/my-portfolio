@@ -17,15 +17,15 @@ const metadata = {
     path: "/",
     language: "en",
     locale: "en_US",
-    title: "Chiheb Ben Cheikh | Software Engineer, AI & Secure Systems",
-    description: "Software engineer building secure AI products with Python, TypeScript and Go. Explore Chiheb Ben Cheikh's projects, open-source work and experience.",
+    title: "Chiheb Ben Cheikh | Founder & Software Architect",
+    description: "Founder of BiancoToro Technologies. Software architecture, product engineering, agentic AI and cloud systems. Projects and open-source contributions.",
   },
   de: {
     path: "/de/",
     language: "de",
     locale: "de_DE",
-    title: "Chiheb Ben Cheikh | Software Engineer für sichere KI",
-    description: "Software Engineer für sichere KI-Produkte mit Python, TypeScript und Go. Projekte, Open-Source-Beiträge und Berufserfahrung von Chiheb Ben Cheikh.",
+    title: "Chiheb Ben Cheikh | Gründer & Softwarearchitekt",
+    description: "Gründer von BiancoToro Technologies. Softwarearchitektur, Produktentwicklung, agentische KI und Cloud-Systeme. Projekte und Open-Source-Beiträge.",
   },
 };
 

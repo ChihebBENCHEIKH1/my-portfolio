@@ -195,7 +195,7 @@ export function Header({ titles }: { titles: any }) {
           textShadow: "0 0 10px rgba(0,240,255,0.35)",
           textTransform: "uppercase", marginBottom: "1rem",
         }}>
-          {"// "}Software Engineer
+          {"// "}{t.myInfo}
         </motion.div>
 
         {/* Name — decrypts into view on boot-lift / hover */}

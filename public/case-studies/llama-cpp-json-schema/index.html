@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>llama.cpp JSON Schema fix | Chiheb Ben Cheikh</title>
+<meta name="description" content="A merged llama.cpp contribution by Chiheb Ben Cheikh: accepting escaped hyphens so JSON Schema string patterns are preserved during grammar conversion.">
+<meta name="author" content="Chiheb Ben Cheikh"><meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/"><link rel="stylesheet" href="/case-studies/styles.css">
+<meta property="og:type" content="article"><meta property="og:title" content="llama.cpp JSON Schema fix | Chiheb Ben Cheikh">
+<meta property="og:description" content="A merged llama.cpp contribution by Chiheb Ben Cheikh: accepting escaped hyphens so JSON Schema string patterns are preserved during grammar conversion."><meta property="og:url" content="https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Preserving JSON Schema constraints in llama.cpp", "description": "A merged llama.cpp contribution by Chiheb Ben Cheikh: accepting escaped hyphens so JSON Schema string patterns are preserved during grammar conversion.", "url": "https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/", "mainEntityOfPage": "https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/", "inLanguage": "en", "author": {"@type": "Person", "@id": "https://www.chihebbencheikh.com/#person", "name": "Chiheb Ben Cheikh", "url": "https://www.chihebbencheikh.com/"}, "citation": "https://github.com/ggml-org/llama.cpp/pull/29127"}</script>
+</head><body><main>
+<nav aria-label="Main"><a href="/">← Portfolio</a><a href="https://biancotoro.com/">BiancoToro Technologies</a><a href="https://github.com/ggml-org/llama.cpp/pull/29127">Source pull request ↗</a></nav>
+<article><p class="eyebrow">Open-source case study</p><h1>Preserving JSON Schema constraints in llama.cpp</h1>
+<p class="byline">By <a rel="author" href="/">Chiheb Ben Cheikh</a> · Founder, BiancoToro Technologies · PR status checked 14 November 2026</p>
+<p class="intro">A valid escaped hyphen in a JSON Schema pattern could cause llama.cpp’s grammar converter to discard that pattern and fall back to an unconstrained string.</p>
+<h2>The problem</h2>
+<p>Three parts of the grammar pipeline disagreed. The grammar parser accepted an escaped hyphen, the character-class builder could emit one, but <code>gbnf_escape_length()</code> rejected it during JSON Schema conversion.</p>
+<p>That inconsistency meant a pattern such as <code>^[a-z\-]+$</code> could reach the unsupported-pattern fallback. The conversion produced a warning rather than stopping, making the lost constraint easy to miss.</p>
+<h2>The recorded reproduction</h2>
+<pre><code>pattern ^[a-z\-]+$ is not supported
+(unsupported escape in character class: \-), accepting any string</code></pre>
+<h2>My contribution</h2>
+<p>I added the missing hyphen case to the escape-length function and a comment connecting it to the parser’s accepted escapes.</p>
+<p>I added regression tests and changed an older unsupported-pattern test to use a lookahead. Otherwise, fixing the hyphen case would have made that older test stop checking an actually unsupported pattern.</p>
+<h2>Verification and scope</h2>
+<p>The pull request records the new tests failing without the fix and passing with it, along with the grammar and chat test commands used for verification.</p>
+<p>I contributed this fix to llama.cpp, and pull request #29127 is merged. The linked PR documents the exact schema pattern and tests used for this change.</p>
+<h2>The engineering lesson</h2>
+<p>Parser, serializer and validation paths need to agree on their accepted syntax. A silent fallback can turn a small disagreement into a loss of constraints. A regression test should check the preserved behavior and keep the fallback path covered separately.</p>
+<section class="callout" aria-label="Project enquiry"><h2>Discuss your software architecture</h2><p>I offer product engineering, agentic AI workflows and architecture/security reviews through BiancoToro Technologies.</p><p><a href="https://biancotoro.com/#contact">Start an architecture and security review conversation →</a></p></section>
+</article><footer><p>Primary source: <a href="https://github.com/ggml-org/llama.cpp/pull/29127">the merged pull request and its verification notes</a>.</p><p>Next: <a href="/case-studies/hugging-face-filesystem-cache/">Fixing Hugging Face filesystem caching</a></p><p><a href="https://github.com/ChihebBENCHEIKH1">GitHub</a> · <a href="https://www.linkedin.com/in/chiheb-ben-cheikh/">LinkedIn</a></p></footer>
+</main></body></html>

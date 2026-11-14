@@ -4,7 +4,6 @@ import ghostwire from "../assets/ghostwire.png";
 import sentinel from "../assets/sentinel-dashboard.png";
 import flowforge from "../assets/flowforge.png";
 import ghostwatch from "../assets/ghostwatch.png";
-import teomach from "../assets/teomach.png";
 export const textContent = {
   eng: {
     navBar: [
@@ -27,11 +26,26 @@ export const textContent = {
       "Security-Minded",
       "Relentless",
     ],
-    myInfo: "Software Engineer · LLM & Secure Systems · Builder",
+    myInfo: "Founder · Software Architect",
     headerTitle:
-      "Hi, I'm Chiheb Ben Cheikh — a Software Engineer building LLM-powered, agentic AI systems and shipping them securely, end-to-end, from zero to production.",
+      "I'm Chiheb Ben Cheikh, founder of BiancoToro Technologies. I work on product engineering, agentic AI and cloud architecture.",
     headerDescription:
-      "I'm a Software Engineer focused on applied AI — I design LLM-powered, agentic systems (ReAct agents, RAG pipelines, LoRA / PEFT fine-tuning) and ship them as real products. I've built an autonomous agent that remediates container vulnerabilities end-to-end, an AI SRE loop that self-heals live pipelines, and a fine-tuned local Qwen assistant grounded with RAG. That AI work rides on a full production stack — Node.js / Express, FastAPI, Next.js / React — with security (SAST / DAST) and CI/CD built in. At Teomach I shipped real-time telemetry microservices on GCP handling thousands of events per minute, and I contribute to open source (Next.js, Bandit). Every system I build is designed for reliability, security, and velocity.",
+      "I founded BiancoToro Technologies SUARL in Tunisia to offer product engineering, agentic AI and application security. My experience spans backend microservices, web frontends, Android applications and cloud operations, including principal engineering work at Offmon. I currently work on ControlResell with Guimauve Digital and also take on Shopify development projects. My open-source work includes merged fixes in Hugging Face, llama.cpp and Strawberry GraphQL.",
+    aboutRole: "Founder & Software Architect",
+    aboutFocus: "Product engineering & applied AI",
+    educationLabel: "Research master’s",
+    education: "Information System Techniques (IST), ENIT, University of Tunis El Manar. Program offered in cooperation with TU Braunschweig, Germany.",
+    researchLabel: "Research in progress",
+    researchTitle: "Beyond Teacher Imitation: Provenance-Partitioned Distillation of Vision-Language Models",
+    researchDescription: "Distillation of vision-language models with field-level supervision from teacher outputs, verified ground truth and deterministic rules.",
+    researchRole: "Co-author · Research and writing · Unpublished manuscript",
+    businessLinkLabel: "Explore BiancoToro’s services",
+    contactDescription: "For product engineering, agentic AI workflows or an architecture and security review, get in touch or start a conversation with BiancoToro.",
+    businessContactLabel: "Discuss an architecture review",
+    openSourceSummary: "contributions and projects",
+    caseStudiesLabel: "Read the case studies",
+    profileFacts: [{"value": "AI", "label": "Product engineering · BiancoToro", "color": "#00f0ff", "gauge": 4}, {"value": "IST", "label": "Research master’s · ENIT", "color": "#ff007f", "gauge": 5}, {"value": "OSS", "label": "Merged contributions", "color": "#ffb800", "gauge": 6}],
+    caseStudies: [{"title": "Hugging Face filesystem caching", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp JSON Schema constraints", "url": "/case-studies/llama-cpp-json-schema/"}],
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "CV DOWNLOAD",
@@ -45,16 +59,16 @@ export const textContent = {
         description:
           "Full-stack, real-time platform for designing API pipelines as node graphs (React Flow, Monaco) on Express + Socket.io, deployed to AWS ECS Fargate via Terraform with GitHub Actions CI/CD. Includes an agentic (ReAct) SRE loop that detects failures, pinpoints root cause, and auto-recovers pipelines.",
         technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/ghostwire",
         preview: "ghostwire",
         image: ghostwire,
       },
       {
         title: "RAG + LoRA Assistant",
         description:
-          "Fine-tuned a local Qwen2.5-3B with LoRA (~1% of parameters) and paired it with RAG for grounded, domain-specific answers — delivering specialised performance at a fraction of full fine-tuning cost.",
+          "An SRE knowledge assistant combining a local Qwen2.5 model, LoRA fine-tuning and retrieval over runbooks.",
         technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/rag-lora-sre-assistant",
         preview: "rag",
         image: ragAssistant,
       },
@@ -65,14 +79,14 @@ export const textContent = {
         description:
           "Full-stack platform for managing dealership operations — OTP authentication, Stripe payments, automated invoicing, and modular architecture with CI/CD and end-to-end testing.",
         technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/motorcycle-dealership",
         preview: "motorcycle",
         image: hero,
       },
       {
         title: "FlowForge — Workflow Automation Engine",
         description:
-          "Production-grade workflow automation platform (mini Zapier) — visual DAG builder, webhook/cron triggers, branching conditions, real-time execution monitoring, and Redis-backed queue processing.",
+          "Workflow automation project (mini Zapier) — visual DAG builder, webhook/cron triggers, branching conditions, real-time execution monitoring, and Redis-backed queue processing.",
         technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
         preview: "flowforge",
@@ -105,19 +119,35 @@ export const textContent = {
     workExperience: "Work Experience",
     workExperienceList: [
       {
-        img: teomach,
-        title: "Software Engineer",
-        company: "Teomach",
-        description:
-          "Shipped real-time device-telemetry microservices on GCP (thousands of events/min, sub-second latency) with device-driven alerting and an Android companion app. Set up GitHub Actions CI/CD with automated AI code review and rebuilt the Cenefits React frontend in TypeScript. (2023–2025)",
+        "img": "/logo.svg",
+        "title": "Founder & Software Architect",
+        "company": "BiancoToro Technologies",
+        "description": "Founded BiancoToro Technologies SUARL in Tunisia. Offering product engineering, agentic AI workflows, application security and embedded engineering. Engagements start with a fixed-scope architecture and security review."
       },
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Software Engineer (Freelance)",
-        company: "K-tronik GmbH",
-        description:
-          "Extended a Vue.js / Laravel production system and added Cypress end-to-end and PHPUnit coverage to cut regressions. (2024–2025)",
+        "img": "/logo.svg",
+        "title": "Software Engineering Consultant",
+        "company": "Guimauve Digital · ControlResell",
+        "description": "Hands-on software engineering for ControlResell, a SaaS product for second-hand resellers."
       },
+      {
+        "img": "/logo.svg",
+        "title": "Principal Engineer",
+        "company": "Offmon",
+        "description": "Owned engineering across backend microservices, the web frontend, an Android application and cloud operations."
+      },
+      {
+        "img": "/logo.svg",
+        "title": "Software Engineer (Freelance)",
+        "company": "K-tronik GmbH",
+        "description": "Extended a Vue.js / Laravel system and added Cypress end-to-end and PHPUnit coverage."
+      },
+      {
+        "img": "/logo.svg",
+        "title": "Shopify Developer (Freelance)",
+        "company": "Independent projects",
+        "description": "Shopify development alongside product engineering and software architecture work."
+      }
     ],
     testimonialsTitle: "Testimonials",
     testimonials: [
@@ -150,35 +180,83 @@ export const textContent = {
     openSourceTitle: "Open Source",
     openSource: [
       {
-        name: "Next.js",
-        org: "Vercel",
-        meta: "139k★",
-        badge: "Merged PR",
-        description:
-          "Contributed template-literal support to middleware config.matcher extraction, unlocking dynamic i18n matchers in one of the most-used React frameworks.",
-        tech: ["TypeScript", "Middleware", "i18n"],
-        url: "https://github.com/vercel/next.js/pull/93150",
+        "name": "Hugging Face",
+        "org": "huggingface_hub",
+        "meta": "Filesystem caching",
+        "badge": "Merged PR",
+        "description": "Fixed duplicated and stale directory listings, including a file lookup that replaced its folder cache. Includes regression tests.",
+        "tech": [
+          "Python",
+          "Caching",
+          "Regression tests"
+        ],
+        "url": "https://github.com/huggingface/huggingface_hub/pull/5099"
       },
       {
-        name: "Bandit",
-        org: "PyCQA",
-        meta: "Python SAST",
-        badge: "Security Fix",
-        description:
-          "Extended the B704 check to catch locally-defined Markup subclasses, closing a false-negative linked to CVE-2025-54384.",
-        tech: ["Python", "AST", "SAST"],
-        url: "https://github.com/PyCQA/bandit",
+        "name": "llama.cpp",
+        "org": "ggml-org",
+        "meta": "JSON Schema constraints",
+        "badge": "Merged PR",
+        "description": "Fixed escaped hyphens being rejected during JSON Schema conversion, which could silently discard a string pattern constraint.",
+        "tech": [
+          "C++",
+          "JSON Schema",
+          "GBNF"
+        ],
+        "url": "https://github.com/ggml-org/llama.cpp/pull/29127"
       },
       {
-        name: "Swiftlet",
-        org: "npm",
-        meta: "Published",
-        badge: "Author",
-        description:
-          "Authored and published a typed, Jest-tested, zero-dependency Node.js web framework — routing, body parsing, and CORS built from pure Node HTTP.",
-        tech: ["Node.js", "TypeScript", "Jest"],
-        url: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
+        "name": "Strawberry GraphQL",
+        "org": "strawberry-graphql",
+        "meta": "Async DataLoader",
+        "badge": "Merged PR",
+        "description": "Cancel the DataLoader dispatch task when all waiting futures are cancelled.",
+        "tech": [
+          "Python",
+          "Async",
+          "GraphQL"
+        ],
+        "url": "https://github.com/strawberry-graphql/strawberry/pull/4379"
       },
+      {
+        "name": "Next.js",
+        "org": "Vercel",
+        "meta": "Middleware matcher",
+        "badge": "Open PR",
+        "description": "Proposed template-literal support for middleware config.matcher analysis. The pull request is open.",
+        "tech": [
+          "TypeScript",
+          "Middleware",
+          "i18n"
+        ],
+        "url": "https://github.com/vercel/next.js/pull/93150"
+      },
+      {
+        "name": "Bandit",
+        "org": "PyCQA",
+        "meta": "Python SAST",
+        "badge": "Open PR",
+        "description": "Proposed detection of locally defined Markup subclasses in the B704 security check. The pull request is open.",
+        "tech": [
+          "Python",
+          "AST",
+          "SAST"
+        ],
+        "url": "https://github.com/PyCQA/bandit/pull/1446"
+      },
+      {
+        "name": "Swiftlet",
+        "org": "npm",
+        "meta": "Published package",
+        "badge": "Author",
+        "description": "Published a TypeScript web framework for Node.js with routing, request-body parsing and CORS.",
+        "tech": [
+          "Node.js",
+          "TypeScript",
+          "HTTP"
+        ],
+        "url": "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet"
+      }
     ],
   },
   de: {
@@ -202,11 +280,26 @@ export const textContent = {
       "Sicherheitsbewusst",
       "Unermüdlich",
     ],
-    myInfo: "Software Engineer · LLM & sichere Systeme · Builder",
+    myInfo: "Gründer · Softwarearchitekt",
     headerTitle:
-      "Hallo, ich bin Chiheb Ben Cheikh — ein Software Engineer, der LLM-gestützte, agentische KI-Systeme baut und sie sicher End-to-End von null bis in die Produktion bringt.",
+      "Ich bin Chiheb Ben Cheikh, Gründer von BiancoToro Technologies. Mein Fokus liegt auf Produktentwicklung, agentischer KI und Cloud-Architektur.",
     headerDescription:
-      "Ich bin ein Software Engineer mit Fokus auf angewandte KI — ich entwerfe LLM-gestützte, agentische Systeme (ReAct-Agenten, RAG-Pipelines, LoRA / PEFT-Feinabstimmung) und liefere sie als echte Produkte aus. Ich habe einen autonomen Agenten gebaut, der Container-Schwachstellen End-to-End behebt, eine KI-SRE-Schleife, die Live-Pipelines selbst heilt, und einen feinabgestimmten lokalen Qwen-Assistenten mit RAG. Diese KI-Arbeit läuft auf einem vollständigen Produktions-Stack — Node.js / Express, FastAPI, Next.js / React — mit Sicherheit (SAST / DAST) und CI/CD von Anfang an. Bei Teomach habe ich Echtzeit-Telemetrie-Microservices auf GCP ausgeliefert (Tausende Events pro Minute), und ich trage zu Open Source bei (Next.js, Bandit). Jedes System, das ich baue, ist auf Zuverlässigkeit, Sicherheit und Geschwindigkeit ausgelegt.",
+      "Ich habe BiancoToro Technologies SUARL in Tunesien gegründet und biete Produktentwicklung, agentische KI und Anwendungssicherheit an. Meine Erfahrung umfasst Backend-Microservices, Web-Frontends, Android-Anwendungen und Cloud-Betrieb, einschließlich einer Principal-Engineering-Rolle bei Offmon. Aktuell arbeite ich mit Guimauve Digital an ControlResell und übernehme auch Shopify-Entwicklungsprojekte. Zu meiner Open-Source-Arbeit gehören gemergte Fixes in Hugging Face, llama.cpp und Strawberry GraphQL.",
+    aboutRole: "Gründer & Softwarearchitekt",
+    aboutFocus: "Produktentwicklung & angewandte KI",
+    educationLabel: "Forschungsmaster",
+    education: "Information System Techniques (IST), ENIT, Universität Tunis El Manar. Das Programm wird in Zusammenarbeit mit der TU Braunschweig angeboten.",
+    researchLabel: "Forschung in Arbeit",
+    researchTitle: "Beyond Teacher Imitation: Provenance-Partitioned Distillation of Vision-Language Models",
+    researchDescription: "Destillation von Vision-Language-Modellen mit feldweiser Supervision durch Lehrermodell-Ausgaben, verifizierte Referenzlabels und deterministische Regeln.",
+    researchRole: "Mitautor · Forschung und Textarbeit · Unveröffentlichtes Manuskript",
+    businessLinkLabel: "Leistungen von BiancoToro entdecken",
+    contactDescription: "Für Produktentwicklung, agentische KI-Workflows oder eine Architektur- und Sicherheitsanalyse: Kontakt aufnehmen oder ein Gespräch mit BiancoToro beginnen.",
+    businessContactLabel: "Eine Architekturanalyse besprechen",
+    openSourceSummary: "Beiträge und Projekte",
+    caseStudiesLabel: "Fallstudien lesen",
+    profileFacts: [{"value": "AI", "label": "Produktentwicklung · BiancoToro", "color": "#00f0ff", "gauge": 4}, {"value": "IST", "label": "Forschungsmaster · ENIT", "color": "#ff007f", "gauge": 5}, {"value": "OSS", "label": "Gemergte Beiträge", "color": "#ffb800", "gauge": 6}],
+    caseStudies: [{"title": "Hugging-Face-Dateisystem-Cache (Englisch)", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp: JSON-Schema-Constraints (Englisch)", "url": "/case-studies/llama-cpp-json-schema/"}],
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "Lebenslauf herunterladen",
@@ -220,16 +313,16 @@ export const textContent = {
         description:
           "Full-Stack-Echtzeitplattform zum Entwerfen von API-Pipelines als Knoten-Graphen (React Flow, Monaco) auf Express + Socket.io, per Terraform auf AWS ECS Fargate deployt mit GitHub-Actions-CI/CD. Enthält eine agentische (ReAct) SRE-Schleife, die Fehler erkennt, die Ursache lokalisiert und Pipelines automatisch wiederherstellt.",
         technologies: ["Next.js", "Express", "Socket.io", "AWS ECS", "Terraform", "React Flow"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/The-Live-Visual-API-Builder",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/ghostwire",
         preview: "ghostwire",
         image: ghostwire,
       },
       {
         title: "RAG + LoRA Assistant",
         description:
-          "Ein lokales Qwen2.5-3B mit LoRA (~1% der Parameter) feinabgestimmt und mit RAG kombiniert für fundierte, domänenspezifische Antworten — spezialisierte Leistung zu einem Bruchteil der Kosten eines vollständigen Fine-Tunings.",
+          "Ein SRE-Wissensassistent mit einem lokalen Qwen2.5-Modell, LoRA-Feinabstimmung und Retrieval über Runbooks.",
         technologies: ["Python", "Qwen2.5-3B", "LoRA / PEFT", "RAG", "LangGraph"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/rag-lora-sre-assistant",
         preview: "rag",
         image: ragAssistant,
       },
@@ -240,14 +333,14 @@ export const textContent = {
         description:
           "Full-Stack-Plattform für den Händlerbetrieb — OTP-Authentifizierung, Stripe-Zahlungen, automatisierte Rechnungsstellung und modulare Architektur mit CI/CD und End-to-End-Tests.",
         technologies: ["React", "Node.js", "Stripe", "Docker", "Cypress", "GitHub Actions"],
-        websiteURL: "https://github.com/ChihebBENCHEIKH1/Motorcyle-dealership",
+        websiteURL: "https://github.com/ChihebBENCHEIKH1/motorcycle-dealership",
         preview: "motorcycle",
         image: hero,
       },
       {
         title: "FlowForge — Workflow-Automatisierungs-Engine",
         description:
-          "Produktionsreife Workflow-Automatisierungsplattform (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung.",
+          "Workflow-Automatisierungsprojekt (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung.",
         technologies: ["Laravel", "Vue.js", "PostgreSQL", "Redis", "Tailwind"],
         websiteURL: "https://github.com/ChihebBENCHEIKH1/FlowForge",
         preview: "flowforge",
@@ -277,35 +370,83 @@ export const textContent = {
     openSourceTitle: "Open Source",
     openSource: [
       {
-        name: "Next.js",
-        org: "Vercel",
-        meta: "139k★",
-        badge: "Gemergter PR",
-        description:
-          "Template-Literal-Unterstützung zur Extraktion von middleware config.matcher beigetragen und damit dynamische i18n-Matcher in einem der meistgenutzten React-Frameworks ermöglicht.",
-        tech: ["TypeScript", "Middleware", "i18n"],
-        url: "https://github.com/vercel/next.js/pull/93150",
+        "name": "Hugging Face",
+        "org": "huggingface_hub",
+        "meta": "Dateisystem-Cache",
+        "badge": "Gemergter PR",
+        "description": "Doppelte und veraltete Verzeichniseinträge behoben, einschließlich eines Dateiabrufs, der den Ordner-Cache überschrieb. Mit Regressionstests.",
+        "tech": [
+          "Python",
+          "Caching",
+          "Regression tests"
+        ],
+        "url": "https://github.com/huggingface/huggingface_hub/pull/5099"
       },
       {
-        name: "Bandit",
-        org: "PyCQA",
-        meta: "Python SAST",
-        badge: "Sicherheitsfix",
-        description:
-          "Den B704-Check erweitert, um lokal definierte Markup-Subklassen zu erkennen, und einen False-Negative im Zusammenhang mit CVE-2025-54384 geschlossen.",
-        tech: ["Python", "AST", "SAST"],
-        url: "https://github.com/PyCQA/bandit",
+        "name": "llama.cpp",
+        "org": "ggml-org",
+        "meta": "JSON-Schema-Constraints",
+        "badge": "Gemergter PR",
+        "description": "Fehler bei maskierten Bindestrichen in der JSON-Schema-Konvertierung behoben, durch den eine String-Pattern-Bedingung unbemerkt entfallen konnte.",
+        "tech": [
+          "C++",
+          "JSON Schema",
+          "GBNF"
+        ],
+        "url": "https://github.com/ggml-org/llama.cpp/pull/29127"
       },
       {
-        name: "Swiftlet",
-        org: "npm",
-        meta: "Veröffentlicht",
-        badge: "Autor",
-        description:
-          "Ein typisiertes, mit Jest getestetes, abhängigkeitsfreies Node.js-Web-Framework verfasst und veröffentlicht — Routing, Body-Parsing und CORS aus purem Node-HTTP.",
-        tech: ["Node.js", "TypeScript", "Jest"],
-        url: "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet",
+        "name": "Strawberry GraphQL",
+        "org": "strawberry-graphql",
+        "meta": "Asynchroner DataLoader",
+        "badge": "Gemergter PR",
+        "description": "Den DataLoader-Dispatch-Task abbrechen, wenn alle wartenden Futures abgebrochen wurden.",
+        "tech": [
+          "Python",
+          "Async",
+          "GraphQL"
+        ],
+        "url": "https://github.com/strawberry-graphql/strawberry/pull/4379"
       },
+      {
+        "name": "Next.js",
+        "org": "Vercel",
+        "meta": "Middleware-Matcher",
+        "badge": "Offener PR",
+        "description": "Template-Literal-Unterstützung für die Analyse von middleware config.matcher vorgeschlagen. Der Pull Request ist offen.",
+        "tech": [
+          "TypeScript",
+          "Middleware",
+          "i18n"
+        ],
+        "url": "https://github.com/vercel/next.js/pull/93150"
+      },
+      {
+        "name": "Bandit",
+        "org": "PyCQA",
+        "meta": "Python-SAST",
+        "badge": "Offener PR",
+        "description": "Erkennung lokal definierter Markup-Unterklassen im B704-Sicherheitscheck vorgeschlagen. Der Pull Request ist offen.",
+        "tech": [
+          "Python",
+          "AST",
+          "SAST"
+        ],
+        "url": "https://github.com/PyCQA/bandit/pull/1446"
+      },
+      {
+        "name": "Swiftlet",
+        "org": "npm",
+        "meta": "Veröffentlichtes Paket",
+        "badge": "Autor",
+        "description": "Ein TypeScript-Web-Framework für Node.js mit Routing, Request-Body-Parsing und CORS veröffentlicht.",
+        "tech": [
+          "Node.js",
+          "TypeScript",
+          "HTTP"
+        ],
+        "url": "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet"
+      }
     ],
     contactTitle: "KONTAKTIEREN SIE UNS",
     codeProjects: "Programmierprojekte",
@@ -324,19 +465,35 @@ export const textContent = {
     workExperience: "Berufserfahrung",
     workExperienceList: [
       {
-        img: teomach,
-        title: "Software Engineer",
-        company: "Teomach",
-        description:
-          "Echtzeit-Gerätetelemetrie-Microservices auf GCP ausgeliefert (Tausende Events/Min, Latenz unter einer Sekunde) mit gerätegesteuertem Alerting und einer Android-Begleit-App. GitHub-Actions-CI/CD mit automatisiertem KI-Code-Review aufgesetzt und das Cenefits-React-Frontend in TypeScript neu gebaut. (2023–2025)",
+        "img": "/logo.svg",
+        "title": "Gründer & Softwarearchitekt",
+        "company": "BiancoToro Technologies",
+        "description": "BiancoToro Technologies SUARL in Tunesien gegründet. Angeboten werden Produktentwicklung, agentische KI-Workflows, Anwendungssicherheit und eingebettete Engineering-Unterstützung. Der Einstieg ist eine klar abgegrenzte Architektur- und Sicherheitsanalyse."
       },
       {
-        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIc86K_dp6Nk80hzIwl6G3tUjtz4iQBtVIxA&s",
-        title: "Software Engineer (Freelance)",
-        company: "K-tronik GmbH",
-        description:
-          "Ein Vue.js- / Laravel-Produktionssystem erweitert und Cypress-End-to-End- sowie PHPUnit-Abdeckung ergänzt, um Regressionen zu reduzieren. (2024–2025)",
+        "img": "/logo.svg",
+        "title": "Software Engineering Consultant",
+        "company": "Guimauve Digital · ControlResell",
+        "description": "Praktische Softwareentwicklung für ControlResell, ein SaaS-Produkt für Secondhand-Händler."
       },
+      {
+        "img": "/logo.svg",
+        "title": "Principal Engineer",
+        "company": "Offmon",
+        "description": "Verantwortung für Backend-Microservices, das Web-Frontend, eine Android-Anwendung und den Cloud-Betrieb."
+      },
+      {
+        "img": "/logo.svg",
+        "title": "Software Engineer (Freelance)",
+        "company": "K-tronik GmbH",
+        "description": "Ein Vue.js-/Laravel-System erweitert und Cypress-End-to-End- sowie PHPUnit-Testabdeckung ergänzt."
+      },
+      {
+        "img": "/logo.svg",
+        "title": "Shopify-Entwickler (Freelance)",
+        "company": "Eigenständige Projekte",
+        "description": "Shopify-Entwicklung neben Produktentwicklung und Softwarearchitektur."
+      }
     ],
     testimonials: [
       {

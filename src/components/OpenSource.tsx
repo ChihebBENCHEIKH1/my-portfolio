@@ -71,7 +71,7 @@ export function OpenSource({ titles }: { titles: any }) {
           viewport={{ once: true, margin: "-40px" }}
           transition={{ delay: 0.25, duration: 0.5 }}
         >
-          {"> git fetch upstream :: "}{items.length}{" refs merged "}
+          {"> git fetch upstream :: "}{items.length}{" "}{t.openSourceSummary}{" "}
           <span className="cursor-blink" aria-hidden="true" />
         </motion.p>
 
@@ -132,6 +132,16 @@ export function OpenSource({ titles }: { titles: any }) {
               </motion.a>
             );
           })}
+        </div>
+        <div style={{ marginTop: "2rem", lineHeight: 1.8 }}>
+          <p style={{ color: "rgba(224,224,232,0.85)", marginBottom: "0.75rem" }}>{t.caseStudiesLabel}</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem 1.5rem" }}>
+            {t.caseStudies.map((study: { title: string; url: string }) => (
+              <a key={study.url} href={study.url} style={{ color: "#00f0ff", textUnderlineOffset: "4px" }}>
+                {study.title} →
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>

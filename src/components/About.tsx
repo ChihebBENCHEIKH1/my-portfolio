@@ -67,15 +67,10 @@ const SKILLS = [
   { label: "DevOps & Security", color: "#00f0ff", tags: ["Docker", "Kubernetes", "Terraform", "GitHub Actions", "Bandit", "Semgrep", "Trivy", "SAST/DAST"] },
 ];
 
-const STATS = [
-  { value: "2+", label: "Years Exp", color: "#00f0ff", gauge: 4 },
-  { value: "20+", label: "Projects", color: "#ff007f", gauge: 5 },
-  { value: "99.9%", label: "Uptime", color: "#ffb800", gauge: 6 },
-];
-
 export function About({ titles }: { titles: any }) {
   const { lang } = useLanguage();
   const t = titles[lang];
+  const facts: { value: string; label: string; color: string; gauge: number }[] = t.profileFacts;
   const statsRef = useRef<HTMLDivElement>(null);
   const statsInView = useInView(statsRef, { once: true, margin: "-40px" });
 
@@ -120,7 +115,7 @@ export function About({ titles }: { titles: any }) {
 
         {/* Stats row — live gauge modules */}
         <div ref={statsRef} className="stats-row">
-          {STATS.map((s, i) => (
+          {facts.map((s, i) => (
             <motion.div
               key={s.label}
               className="stat-chip hud-corners"
@@ -164,8 +159,8 @@ export function About({ titles }: { titles: any }) {
               fontWeight: 700, color: "#fff", lineHeight: 1.05,
               marginBottom: "1.5rem", textTransform: "uppercase",
             }}>
-              Software Engineer<br />
-              <span style={{ color: "#00f0ff", textShadow: "0 0 20px rgba(0,240,255,0.2)" }}>&amp; Secure AI Builder</span>
+              {t.aboutRole}<br />
+              <span style={{ color: "#00f0ff", textShadow: "0 0 20px rgba(0,240,255,0.2)" }}>{t.aboutFocus}</span>
             </h3>
             <p style={{
               fontSize: "clamp(13px, 1.4vw, 16px)", lineHeight: "1.9", color: "rgba(224,224,232,0.85)",
@@ -175,6 +170,20 @@ export function About({ titles }: { titles: any }) {
             }}>
               {t.headerDescription}
             </p>
+
+            <p style={{ fontSize: "13px", lineHeight: 1.8, color: "rgba(224,224,232,0.8)", marginTop: "1rem" }}>
+              <strong>{t.educationLabel}: </strong>{t.education}
+            </p>
+            <div id="Research" style={{ marginTop: "1.5rem", paddingTop: "1.25rem", borderTop: "1px solid rgba(0,240,255,0.16)" }}>
+              <p style={{ color: "#00f0ff", fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase" }}>{t.researchLabel}</p>
+              <h4 style={{ color: "#fff", fontSize: "16px", lineHeight: 1.5, margin: "0.5rem 0" }}>{t.researchTitle}</h4>
+              <p style={{ color: "rgba(224,224,232,0.8)", fontSize: "13px", lineHeight: 1.8 }}>{t.researchDescription}</p>
+              <p style={{ color: "rgba(224,224,232,0.7)", fontSize: "12px", lineHeight: 1.7, marginTop: "0.5rem" }}>{t.researchRole}</p>
+            </div>
+            <a href="https://biancotoro.com/" target="_blank" rel="noopener noreferrer"
+              style={{ display: "inline-block", marginTop: "1rem", color: "#00f0ff", textUnderlineOffset: "4px" }}>
+              {t.businessLinkLabel} ↗
+            </a>
 
             {/* Tech summary */}
             <div style={{

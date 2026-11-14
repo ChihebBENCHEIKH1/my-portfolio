@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hugging Face cache fix | Chiheb Ben Cheikh</title>
+<meta name="description" content="A merged huggingface_hub contribution by Chiheb Ben Cheikh: replacing stale directory listings and preventing a file lookup from corrupting its folder cache.">
+<meta name="author" content="Chiheb Ben Cheikh"><meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/"><link rel="stylesheet" href="/case-studies/styles.css">
+<meta property="og:type" content="article"><meta property="og:title" content="Hugging Face cache fix | Chiheb Ben Cheikh">
+<meta property="og:description" content="A merged huggingface_hub contribution by Chiheb Ben Cheikh: replacing stale directory listings and preventing a file lookup from corrupting its folder cache."><meta property="og:url" content="https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Fixing Hugging Face filesystem caching", "description": "A merged huggingface_hub contribution by Chiheb Ben Cheikh: replacing stale directory listings and preventing a file lookup from corrupting its folder cache.", "url": "https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/", "mainEntityOfPage": "https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/", "inLanguage": "en", "author": {"@type": "Person", "@id": "https://www.chihebbencheikh.com/#person", "name": "Chiheb Ben Cheikh", "url": "https://www.chihebbencheikh.com/"}, "citation": "https://github.com/huggingface/huggingface_hub/pull/5099"}</script>
+</head><body><main>
+<nav aria-label="Main"><a href="/">← Portfolio</a><a href="https://biancotoro.com/">BiancoToro Technologies</a><a href="https://github.com/huggingface/huggingface_hub/pull/5099">Source pull request ↗</a></nav>
+<article><p class="eyebrow">Open-source case study</p><h1>Fixing Hugging Face filesystem caching</h1>
+<p class="byline">By <a rel="author" href="/">Chiheb Ben Cheikh</a> · Founder, BiancoToro Technologies · PR status checked 14 November 2026</p>
+<p class="intro">A bucket folder with 28 files could appear to contain just one after listing a single file. The files were still present; the cached directory listing was wrong.</p>
+<h2>The problem</h2>
+<p><code>HfFileSystem._ls_tree</code> appended entries to its parent directory’s cached listing while walking a tree. Repeated listings could accumulate duplicates, a refresh could retain deleted entries, and an interrupted walk could leave a partial result cached.</p>
+<p>There was also a bucket-specific case: listing one file could cache that entry alone as its parent folder’s listing. Later checks could incorrectly report that sibling files did not exist.</p>
+<h2>The observed behavior</h2>
+<p>The reproduction recorded in the pull request compares the cached folder with a fresh filesystem instance:</p>
+<pre><code>Before the fix:
+ls(bucket folder) after ls() on one file: 1 vs 28 on a fresh instance
+exists(sibling file): False
+
+With the fix:
+ls(bucket folder) after ls() on one file: 28 vs 28 on a fresh instance
+exists(sibling file): True</code></pre>
+<h2>My contribution</h2>
+<p>I changed the listing logic to build the directory listings during the walk, then store them after the listing completes. The completed listings replace the previous cache entries instead of appending to them.</p>
+<p>The entry matching the requested file path is not cached as its parent folder’s listing. This handles the bucket response without treating a single file as a complete directory.</p>
+<h2>Verification and scope</h2>
+<p>The pull request includes offline regression tests for repeated folder listings, an interrupted listing, and listing a bucket file before its folder. Its description records the before-and-after reproduction and the checks run for that contribution.</p>
+<p>I contributed this fix to the open-source <code>huggingface_hub</code> project. Pull request #5099 is merged; its description contains the reproduction and verification notes.</p>
+<h2>The engineering lesson</h2>
+<p>A directory cache represents a complete snapshot. Updating it incrementally can expose an incomplete result as authoritative state. The fix aligns the cache update with the point at which the walk has actually completed.</p>
+<section class="callout" aria-label="Project enquiry"><h2>Discuss your software architecture</h2><p>I offer product engineering, agentic AI workflows and architecture/security reviews through BiancoToro Technologies.</p><p><a href="https://biancotoro.com/#contact">Start an architecture and security review conversation →</a></p></section>
+</article><footer><p>Primary source: <a href="https://github.com/huggingface/huggingface_hub/pull/5099">the merged pull request and its verification notes</a>.</p><p>Next: <a href="/case-studies/llama-cpp-json-schema/">Preserving JSON Schema constraints in llama.cpp</a></p><p><a href="https://github.com/ChihebBENCHEIKH1">GitHub</a> · <a href="https://www.linkedin.com/in/chiheb-ben-cheikh/">LinkedIn</a></p></footer>
+</main></body></html>

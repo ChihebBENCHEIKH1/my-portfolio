@@ -145,8 +145,13 @@ export function Contact({ titles }: { titles: any }) {
               paddingLeft: "0.75rem",
             }}
           >
-            Open to full-time roles, freelance projects, and interesting collaborations.
+            {t.contactDescription}
           </motion.p>
+
+          <a href="https://biancotoro.com/#contact" target="_blank" rel="noopener noreferrer"
+            style={{ color: "#00f0ff", display: "inline-block", marginBottom: "1.5rem", textUnderlineOffset: "4px" }}>
+            {t.businessContactLabel} ↗
+          </a>
 
           {/* Contact links — angled terminal panel */}
           <motion.div
