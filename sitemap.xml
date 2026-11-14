@@ -13,4 +13,6 @@
     <xhtml:link rel="alternate" hreflang="de" href="https://www.chihebbencheikh.com/de/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.chihebbencheikh.com/" />
   </url>
+  <url><loc>https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/</loc></url>
+  <url><loc>https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/</loc></url>
 </urlset>
