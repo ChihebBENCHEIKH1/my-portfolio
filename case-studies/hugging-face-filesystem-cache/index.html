@@ -29,7 +29,7 @@ exists(sibling file): True</code></pre>
 <p>I changed the listing logic to build the directory listings during the walk, then store them after the listing completes. The completed listings replace the previous cache entries instead of appending to them.</p>
 <p>The entry matching the requested file path is not cached as its parent folder’s listing. This handles the bucket response without treating a single file as a complete directory.</p>
 <h2>Verification and scope</h2>
-<p>The pull request includes offline regression tests for repeated folder listings, an interrupted listing, and listing a bucket file before its folder. Its description records the before-and-after reproduction and the checks run for that contribution.</p>
+<p>The merged pull request adds a regression test that lists a file, runs find(), refreshes its parent directory, and checks the complete expected directory contents. The pull request description separately records the before-and-after reproduction and additional checks reported during development.</p>
 <p>I contributed this fix to the open-source <code>huggingface_hub</code> project. Pull request #5099 is merged; its description contains the reproduction and verification notes.</p>
 <h2>The engineering lesson</h2>
 <p>A directory cache represents a complete snapshot. Updating it incrementally can expose an incomplete result as authoritative state. The fix aligns the cache update with the point at which the walk has actually completed.</p>
