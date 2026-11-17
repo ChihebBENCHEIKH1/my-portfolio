@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
@@ -153,11 +153,46 @@ function Buildings({ active }: { active: boolean }) {
   </>;
 }
 
+function PrepareScene({ onPrepared, onFirstFrame }: { onPrepared: () => void; onFirstFrame: () => void }) {
+  const { gl, scene, camera } = useThree();
+  const compiled = useRef(false);
+  const firstFrame = useRef(false);
+  const revealFrame = useRef(0);
+  const [failure, setFailure] = useState<Error | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+    // Three uses KHR_parallel_shader_compile when available. Queue scene
+    // programs together rather than waiting on them one by one during paint.
+    gl.compileAsync(scene, camera).then(() => {
+      if (cancelled) return;
+      compiled.current = true;
+      onPrepared();
+    }).catch(error => {
+      if (!cancelled) setFailure(error instanceof Error ? error : new Error(String(error)));
+    });
+    return () => { cancelled = true; cancelAnimationFrame(revealFrame.current); };
+  }, [gl, scene, camera, onPrepared]);
+  useFrame(() => {
+    if (!compiled.current || firstFrame.current) return;
+    firstFrame.current = true;
+    // This callback runs before the composer draws. Reveal on the next frame,
+    // after the first complete scene has been submitted, not at context creation.
+    revealFrame.current = requestAnimationFrame(onFirstFrame);
+  });
+  if (failure) throw failure;
+  return null;
+}
+
 export function SceneManager({ active, onReady }: { active: boolean; onReady: () => void }) {
   const interactive = useSceneStore(s => s.interactive);
+  const [prepared, setPrepared] = useState(false);
+  const readyCallback = useRef(onReady);
+  readyCallback.current = onReady;
+  const markPrepared = useCallback(() => setPrepared(true), []);
+  const markFirstFrame = useCallback(() => readyCallback.current(), []);
   return <Canvas
     orthographic
-    frameloop="demand"
+    frameloop={prepared ? "demand" : "never"}
     camera={{ position: [1.4,3,28], near: .1, far: 80 }}
     dpr={1}
     gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}
@@ -166,8 +201,7 @@ export function SceneManager({ active, onReady }: { active: boolean; onReady: ()
       // Driver info-log queries can synchronously wait for every shader to
       // compile. Keep diagnostics in development, out of production startup.
       gl.debug.checkShaderErrors = !import.meta.env.PROD;
-      onReady();
     }}
     fallback={null}
-  ><Buildings active={active} /></Canvas>;
+  ><Buildings active={active} /><PrepareScene onPrepared={markPrepared} onFirstFrame={markFirstFrame} /></Canvas>;
 }

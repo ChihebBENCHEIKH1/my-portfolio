@@ -83,6 +83,11 @@ export function CityBackground() {
     hoveredJobIndex !== null
       ? (LAMP_COLORS[hoveredJobIndex] ?? LAMP_DEFAULT)
       : LAMP_DEFAULT;
+  const fallbackStyle: CSSProperties = {
+    opacity: sceneReady ? 0 : 1,
+    visibility: sceneReady ? "hidden" : "visible",
+    transition: sceneReady ? "opacity .4s ease, visibility 0s .4s" : "none",
+  };
 
   return (
     <>
@@ -557,10 +562,10 @@ export function CityBackground() {
         </div>
       ))}
 
-      <div className="city-landmarks-fallback" style={{ visibility: sceneReady ? "hidden" : "visible" }}><TokyoTower />
+      <div className="city-landmarks-fallback" style={fallbackStyle}><TokyoTower />
       <div className="skytree-light" style={{ color: lampColor }}><Skytree /></div></div>
 
-      <div className="city-foreground-fallback" style={{ position: "absolute", inset: 0, visibility: sceneReady ? "hidden" : "visible" }}>
+      <div className="city-foreground-fallback" style={{ position: "absolute", inset: 0, ...fallbackStyle }}>
       {/* ═══════════ NEAR LAYER — foreground towers ═══════════ */}
       {getCityBuildings(buildingCount, profile.widthScale).map((b, i) => {
         const nc = {
@@ -773,7 +778,7 @@ export function CityBackground() {
       {/* (Skytree is placed before near-layer so buildings cover it) */}
 
       </div>
-      {use3D && <div className="city-foreground-3d" style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: interactive ? "100%" : "130%", pointerEvents: interactive ? "auto" : "none" }}>
+      {use3D && <div className="city-foreground-3d" style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: interactive ? "100%" : "130%", pointerEvents: interactive ? "auto" : "none", opacity: sceneReady ? 1 : 0, transition: "opacity .4s ease" }}>
         <SceneFallback onFailure={() => setSceneReady(false)}><Suspense fallback={null}>
           <SceneManager active={inHero && pageVisible} onReady={() => setSceneReady(true)} />
         </Suspense></SceneFallback>
