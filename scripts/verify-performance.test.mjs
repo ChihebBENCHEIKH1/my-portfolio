@@ -16,6 +16,16 @@ test("the original 3D city loads automatically and its controls remain usable", 
     });
     for (const [route, width, reduced] of [["/", 1280, false], ["/de/", 390, true]]) {
       const page = await browser.newPage();
+      await page.evaluateOnNewDocument(() => {
+        window.shaderDebugQueries = 0;
+        for (const name of ["getProgramInfoLog", "getShaderInfoLog"]) {
+          const original = WebGL2RenderingContext.prototype[name];
+          WebGL2RenderingContext.prototype[name] = function (...args) {
+            window.shaderDebugQueries++;
+            return original.apply(this, args);
+          };
+        }
+      });
       await page.setViewport({ width, height: 900 });
       await page.emulateMediaFeatures([{ name: "prefers-reduced-motion", value: reduced ? "reduce" : "no-preference" }]);
       const requests = [];
@@ -31,6 +41,7 @@ test("the original 3D city loads automatically and its controls remain usable", 
         return fallback && getComputedStyle(fallback).visibility === "hidden" && document.querySelector(".city-foreground-3d canvas");
       }, { timeout: 25000 });
       assert(requests.some(url => /vendor-three/.test(url)), `${route}: full 3D loads automatically`);
+      assert.equal(await page.evaluate(() => window.shaderDebugQueries), 0, `${route}: production startup avoids synchronous shader-debug queries`);
       assert.equal(await page.$eval(".city-layer", el => el.getAttribute("data-active")), "true");
       assert(await page.$(".tokyo-tower"), `${route}: fallback landmarks are retained for WebGL failure`);
       await page.click(".city-day-toggle");

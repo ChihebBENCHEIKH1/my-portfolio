@@ -162,7 +162,12 @@ export function SceneManager({ active, onReady }: { active: boolean; onReady: ()
     dpr={1}
     gl={{ alpha: true, antialias: false, powerPreference: "low-power" }}
     style={{ position: "absolute", inset: 0, pointerEvents: interactive ? "auto" : "none" }}
-    onCreated={onReady}
+    onCreated={({ gl }) => {
+      // Driver info-log queries can synchronously wait for every shader to
+      // compile. Keep diagnostics in development, out of production startup.
+      gl.debug.checkShaderErrors = !import.meta.env.PROD;
+      onReady();
+    }}
     fallback={null}
   ><Buildings active={active} /></Canvas>;
 }
