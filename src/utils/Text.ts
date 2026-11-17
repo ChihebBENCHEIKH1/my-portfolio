@@ -1,4 +1,4 @@
-import hero from "../assets/hero.png";
+import hero from "../assets/hero.webp";
 import ragAssistant from "../assets/rag-assistant.svg";
 import ghostwire from "../assets/ghostwire.png";
 import sentinel from "../assets/sentinel-dashboard.png";

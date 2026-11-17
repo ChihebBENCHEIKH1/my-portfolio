@@ -86,10 +86,6 @@ function Buildings({ active }: { active: boolean }) {
 
   useEffect(() => () => textures.forEach(texture => texture.dispose()), [textures]);
   useEffect(() => () => decks.forEach(texture => texture.dispose()), [decks]);
-  useEffect(() => () => {
-    for (const tower of ["tokyo", "skytree"]) for (const property of ["x", "top", "height"]) document.documentElement.style.removeProperty(`--${tower}-${property}`);
-  }, []);
-
   // Render on pointer input, then stop once the camera settles. No idle WebGL loop.
   useFrame((_, delta) => {
     const x = reduced ? 1.4 : 1.4 + mouse.current.x * 1.4;
@@ -101,14 +97,20 @@ function Buildings({ active }: { active: boolean }) {
     camera.updateMatrixWorld();
     // Keep touch targets and fireworks aligned with the actual responsive 3D landmarks.
     for (const [name, x, height, z] of [["tokyo", -14, tokyoHeight, -2], ["skytree", 13.4, skytreeHeight, -3]] as const) {
+      const target = document.querySelector<HTMLElement>(`.${name}-hit`);
+      if (!target) continue;
       projected.set(x, -worldHeight / 2 - .6 + height, z).project(camera);
       const left = (projected.x + 1) / 2 * size.width;
       const top = (1 - projected.y) / 2 * size.height + innerHeight - size.height;
       projected.set(x, -worldHeight / 2 - .6, z).project(camera);
       const bottom = (1 - projected.y) / 2 * size.height + innerHeight - size.height;
-      document.documentElement.style.setProperty(`--${name}-x`, `${left.toFixed(1)}px`);
-      document.documentElement.style.setProperty(`--${name}-top`, `${top.toFixed(1)}px`);
-      document.documentElement.style.setProperty(`--${name}-height`, `${(bottom - top).toFixed(1)}px`);
+      // These variables are consumed by one hit target, not the whole page.
+      // Avoid invalidating inherited styles across every section on each frame.
+      for (const [property, value] of [["x", left], ["top", top], ["height", bottom - top]] as const) {
+        const key = `--${name}-${property}`;
+        const next = `${value.toFixed(1)}px`;
+        if (target.style.getPropertyValue(key) !== next) target.style.setProperty(key, next);
+      }
     }
     if (Math.abs(camera.position.x - x) + Math.abs(camera.position.y - y) > .003) invalidate();
   });

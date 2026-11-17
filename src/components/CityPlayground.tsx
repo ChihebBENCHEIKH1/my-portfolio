@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSceneStore } from "../store/sceneStore";
 import { useLanguage } from "../context/LanguageContext";
+import { preloadSceneManager } from "../canvas/loadScene";
 import "./CityPlayground.css";
 
 export function CityPlayground() {
@@ -77,7 +78,7 @@ export function CityPlayground() {
     <button type="button" className="city-day-toggle" aria-label={de ? "Tagmodus" : "Day mode"} aria-pressed={daylight} onClick={() => setDaylight(!daylight)}>
       <span aria-hidden="true">{daylight ? "☀" : "☾"}</span>{daylight ? (de ? "Tag" : "Day") : (de ? "Nacht" : "Night")}
     </button>
-    <button ref={launch} type="button" className="city-launch" onClick={() => setInteractive(true)}>
+    <button ref={launch} type="button" className="city-launch" onPointerEnter={preloadSceneManager} onFocus={preloadSceneManager} onClick={() => setInteractive(true)}>
       <span aria-hidden="true">◈</span>{de ? "Tokyo erkunden" : "Explore Tokyo"}<span className="city-launch-dot" />
     </button>
   </div>;
