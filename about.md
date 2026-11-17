@@ -4,7 +4,7 @@ Founder of BiancoToro Technologies. Software architecture, product engineering, 
 
 Source: <https://www.chihebbencheikh.com/>
 Language: en
-Export generated: 2026-11-17T22:33:31.586Z
+Export generated: 2026-11-17T22:42:37.074Z
 JSON: <https://www.chihebbencheikh.com/profile.json>
 
 ## Home
