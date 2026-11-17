@@ -4,10 +4,9 @@ import { getCityBuildings, getCityProfile } from "./cityModel";
 import { TokyoTower, Skytree } from "./TokyoLandmarks";
 import { TowerFireworks } from "./TowerFireworks";
 import { useSceneStore } from "../store/sceneStore";
-import { loadSceneManager } from "./loadScene";
 
 const Airship = lazy(() => import("./Airship").then(m => ({ default: m.Airship })));
-const SceneManager = lazy(loadSceneManager);
+const SceneManager = lazy(() => import("./SceneManager").then(m => ({ default: m.SceneManager })));
 
 class SceneFallback extends Component<{ children: ReactNode; onFailure: () => void }, { failed: boolean }> {
   state = { failed: false };
@@ -62,12 +61,10 @@ export function CityBackground() {
   }, [inHero, interactive, boostTokyo, boostSkytree]);
   useEffect(() => {
     const visibility = () => setPageVisible(!document.hidden);
+    setUse3D(true);
     document.addEventListener("visibilitychange", visibility);
     return () => document.removeEventListener("visibilitychange", visibility);
   }, []);
-  useEffect(() => {
-    if (interactive) setUse3D(true);
-  }, [interactive]);
   useEffect(() => {
     if (sceneReady) return;
     return useSceneStore.subscribe((state, previous) => {

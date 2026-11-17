@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { MotionConfig } from "framer-motion";
 import { textContent } from "./utils/Text";
 import { Header } from "./components/Header";
@@ -13,7 +13,7 @@ import { OpenSource } from "./components/OpenSource";
 import NavBar from "./components/NavBar";
 import { CityPlayground } from "./components/CityPlayground";
 import { SectionFlow } from "./components/SectionFlow";
-import { CityBackground } from "./canvas/CityBackground";
+const CityBackground = lazy(() => import("./canvas/CityBackground").then(m => ({ default: m.CityBackground })));
 import { useSceneStore, type Section } from "./store/sceneStore";
 
 function CursorFX() {
@@ -154,6 +154,18 @@ function App() {
   const setMouse = useSceneStore(s => s.setMouse);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
+  // Mount the decorative city when idle; keep text and navigation first.
+  const [showScene, setShowScene] = useState(false);
+  useEffect(() => {
+    const w = window as unknown as { requestIdleCallback?: Function; cancelIdleCallback?: Function };
+    if (typeof w.requestIdleCallback === "function") {
+      const id = w.requestIdleCallback(() => setShowScene(true), { timeout: 2500 });
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const t = window.setTimeout(() => setShowScene(true), 800);
+    return () => window.clearTimeout(t);
+  }, []);
+
   // Track active section via IntersectionObserver → drives 3D scene state
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -194,8 +206,12 @@ function App() {
     <MotionConfig reducedMotion="user">
       <a className="skip-link" href="#main-content">Skip to content</a>
 
-      {/* Lightweight skyline paints immediately; Explore loads the 3D foreground. */}
-      <CityBackground />
+      {/* Fixed city and 3D foreground — deferred mount, outside the content layer */}
+      {showScene && (
+        <Suspense fallback={null}>
+          <CityBackground />
+        </Suspense>
+      )}
 
       {/* Vignette keeps the content legible over the city. */}
       <div className="vignette-overlay gpu-layer" aria-hidden="true" />
