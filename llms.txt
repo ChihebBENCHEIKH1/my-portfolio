@@ -1,0 +1,14 @@
+# Chiheb Ben Cheikh | Founder & Software Architect
+
+Founder of BiancoToro Technologies. Software architecture, product engineering, agentic AI and cloud systems. Projects and open-source contributions.
+
+## Public sources
+
+- HTML (en): https://www.chihebbencheikh.com/
+- Markdown (en): https://www.chihebbencheikh.com/about.md
+- JSON (en): https://www.chihebbencheikh.com/profile.json
+- HTML (de): https://www.chihebbencheikh.com/de/
+- Markdown (de): https://www.chihebbencheikh.com/de/about.md
+- JSON (de): https://www.chihebbencheikh.com/de/profile.json
+
+JSON Schema: https://www.chihebbencheikh.com/profile.schema.json

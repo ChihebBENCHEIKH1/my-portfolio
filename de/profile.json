@@ -1,0 +1,295 @@
+{
+  "schema_version": "1.0",
+  "canonical_url": "https://www.chihebbencheikh.com/de/",
+  "language": "de",
+  "generated_at": "2026-11-17T20:18:27.900Z",
+  "title": "Chiheb Ben Cheikh | Gründer & Softwarearchitekt",
+  "description": "Gründer von BiancoToro Technologies. Softwarearchitektur, Produktentwicklung, agentische KI und Cloud-Systeme. Projekte und Open-Source-Beiträge.",
+  "structured_data": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://www.chihebbencheikh.com/#person",
+      "name": "Chiheb Ben Cheikh",
+      "givenName": "Chiheb",
+      "familyName": "Ben Cheikh",
+      "url": "https://www.chihebbencheikh.com/",
+      "image": "https://www.chihebbencheikh.com/og-image.png",
+      "email": "mailto:contact@chihebbencheikh.com",
+      "description": "Founder of BiancoToro Technologies SUARL in Tunisia. Software architecture, product engineering, agentic AI and cloud operations. Current work includes ControlResell with Guimauve Digital.",
+      "jobTitle": [
+        "Founder",
+        "Software Architect"
+      ],
+      "knowsAbout": [
+        "Applied AI",
+        "LLM Engineering",
+        "Retrieval-Augmented Generation (RAG)",
+        "AI Agents (ReAct)",
+        "LangGraph",
+        "LoRA / PEFT Fine-Tuning",
+        "Software Engineering",
+        "Distributed Systems",
+        "Microservices",
+        "Go",
+        "TypeScript",
+        "JavaScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Vue.js",
+        "Angular",
+        "React Native",
+        "Python",
+        "FastAPI",
+        "Django",
+        "PHP",
+        "Laravel",
+        "Java",
+        "Spring Boot",
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "GCP",
+        "Google Cloud Platform",
+        "RabbitMQ",
+        "WebSockets",
+        "PostgreSQL",
+        "Redis",
+        "CI/CD",
+        "GitHub Actions",
+        "Cypress",
+        "Playwright",
+        "Prometheus",
+        "Grafana"
+      ],
+      "knowsLanguage": [
+        {
+          "@type": "Language",
+          "name": "English",
+          "alternateName": "en"
+        },
+        {
+          "@type": "Language",
+          "name": "German",
+          "alternateName": "de"
+        },
+        {
+          "@type": "Language",
+          "name": "French",
+          "alternateName": "fr"
+        },
+        {
+          "@type": "Language",
+          "name": "Arabic",
+          "alternateName": "ar"
+        }
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Software Architect",
+        "occupationLocation": {
+          "@type": "Country",
+          "name": "Tunisia"
+        },
+        "skills": "LLM, RAG, ReAct Agents, LangGraph, LoRA/PEFT, Python, TypeScript, Go, Node.js, FastAPI, Next.js, Docker, Kubernetes, Terraform, GCP, SAST/DAST"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "BiancoToro Technologies SUARL",
+        "url": "https://biancotoro.com/"
+      },
+      "sameAs": [
+        "https://github.com/ChihebBENCHEIKH1",
+        "https://www.linkedin.com/in/chiheb-ben-cheikh/",
+        "https://www.npmjs.com/~chiheb_ben_cheikh"
+      ],
+      "alumniOf": {
+        "@type": "CollegeOrUniversity",
+        "name": "National Engineering School of Tunis (ENIT)",
+        "parentOrganization": {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Tunis El Manar"
+        }
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.chihebbencheikh.com/#website",
+      "name": "Chiheb Ben Cheikh — Portfolio",
+      "url": "https://www.chihebbencheikh.com/",
+      "inLanguage": [
+        "en",
+        "de"
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Chiheb Ben Cheikh"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "@id": "https://www.chihebbencheikh.com/de/#webpage",
+      "url": "https://www.chihebbencheikh.com/de/",
+      "name": "Chiheb Ben Cheikh | Gründer & Softwarearchitekt",
+      "inLanguage": "de",
+      "isPartOf": {
+        "@id": "https://www.chihebbencheikh.com/#website"
+      },
+      "mainEntity": {
+        "@id": "https://www.chihebbencheikh.com/#person"
+      }
+    }
+  ],
+  "sections": [
+    {
+      "id": "Home",
+      "heading": "Home",
+      "text": "未来電脳東京渋谷 SYS:ONLINE MODE:LLM_SECURE // Gründer · Softwarearchitekt Ich bin Chiheb Ben Cheikh, Gründer von BiancoToro Technologies. Mein Fokus liegt auf Produktentwicklung, agentischer KI und Cloud-Architektur. KONTAKTIEREN SIE UNSView Work LLMRAGReActPythonFastAPITypeScriptNext.jsDocker",
+      "source_url": "https://www.chihebbencheikh.com/de/#Home",
+      "links": [
+        {
+          "label": "KONTAKTIEREN SIE UNS",
+          "url": "https://www.chihebbencheikh.com/de/#Contact"
+        },
+        {
+          "label": "View Work",
+          "url": "https://www.chihebbencheikh.com/de/#Projects"
+        },
+        {
+          "label": "",
+          "url": "https://www.chihebbencheikh.com/de/#About"
+        }
+      ]
+    },
+    {
+      "id": "About",
+      "heading": "Neural Profile",
+      "text": "概要 02 — ABOUT Neural Profile AIProduktentwicklung · BiancoToro ISTForschungsmaster · ENIT OSSGemergte Beiträge Gründer & Softwarearchitekt Produktentwicklung & angewandte KI Ich habe BiancoToro Technologies SUARL in Tunesien gegründet und biete Produktentwicklung, agentische KI und Anwendungssicherheit an. Meine Erfahrung umfasst Backend-Microservices, Web-Frontends, Android-Anwendungen und Cloud-Betrieb, einschließlich einer Principal-Engineering-Rolle bei Offmon. Aktuell arbeite ich mit Guimauve Digital an ControlResell und übernehme auch Shopify-Entwicklungsprojekte. Zu meiner Open-Source-Arbeit gehören gemergte Fixes in Hugging Face, llama.cpp und Strawberry GraphQL. Forschungsmaster: Information System Techniques (IST), ENIT, Universität Tunis El Manar. Das Programm wird in Zusammenarbeit mit der TU Braunschweig angeboten. Forschung in Arbeit Beyond Teacher Imitation: Provenance-Partitioned Distillation of Vision-Language Models Destillation von Vision-Language-Modellen mit feldweiser Supervision durch Lehrermodell-Ausgaben, verifizierte Referenzlabels und deterministische Regeln. Mitautor · Forschung und Textarbeit · Unveröffentlichtes Manuskript Leistungen von BiancoToro entdecken ↗AI Systems ReAct · RAG · LoRA/PEFT · LangGraph Stack & Security Python · TypeScript · FastAPI · Next.js · SAST/DAST LLM / AI ReAct AgentsRAGLoRA / PEFTLangGraphLLM Integration Languages & Backend PythonTypeScriptGoNode.jsExpressFastAPI Frontend Next.jsReactTailwindReact FlowSocket.io DevOps & Security DockerKubernetesTerraformGitHub ActionsBanditSemgrepTrivySAST/DAST",
+      "source_url": "https://www.chihebbencheikh.com/de/#About",
+      "links": [
+        {
+          "label": "Leistungen von BiancoToro entdecken ↗",
+          "url": "https://biancotoro.com/"
+        }
+      ]
+    },
+    {
+      "id": "WorkExperience",
+      "heading": "WorkExperience",
+      "text": "経験 03 — Berufserfahrung Gründer & SoftwarearchitektBiancoToro Technologies BiancoToro Technologies SUARL in Tunesien gegründet. Angeboten werden Produktentwicklung, agentische KI-Workflows, Anwendungssicherheit und eingebettete Engineering-Unterstützung. Der Einstieg ist eine klar abgegrenzte Architektur- und Sicherheitsanalyse. Software Engineering ConsultantGuimauve Digital · ControlResell Praktische Softwareentwicklung für ControlResell, ein SaaS-Produkt für Secondhand-Händler. Principal EngineerOffmon Verantwortung für Backend-Microservices, das Web-Frontend, eine Android-Anwendung und den Cloud-Betrieb. Software Engineer (Freelance)K-tronik GmbH Ein Vue.js-/Laravel-System erweitert und Cypress-End-to-End- sowie PHPUnit-Testabdeckung ergänzt. Shopify-Entwickler (Freelance)Eigenständige Projekte Shopify-Entwicklung neben Produktentwicklung und Softwarearchitektur.",
+      "source_url": "https://www.chihebbencheikh.com/de/#WorkExperience",
+      "links": []
+    },
+    {
+      "id": "Projects",
+      "heading": "Ideen. Code. Echte Systeme.",
+      "text": "04 / PROJEKTEIdeen. Code. Echte Systeme. KI, Full-Stack und Infrastruktur. Von der ersten Idee bis zum laufenden Produkt. Flagship & KI01 Ghostwire — Live Visual API Builder Full-Stack-Echtzeitplattform zum Entwerfen von API-Pipelines als Knoten-Graphen (React Flow, Monaco) auf Express + Socket.io, per Terraform auf AWS ECS Fargate deployt mit GitHub-Actions-CI/CD. Enthält eine agentische (ReAct) SRE-Schleife, die Fehler erkennt, die Ursache lokalisiert und Pipelines automatisch wiederherstellt. Next.jsExpressSocket.ioAWS ECSTerraformReact Flow Projekt ansehen (öffnet in einem neuen Tab)Flagship & KI02 RAG + LoRA Assistant Ein SRE-Wissensassistent mit einem lokalen Qwen2.5-Modell, LoRA-Feinabstimmung und Retrieval über Runbooks. PythonQwen2.5-3BLoRA / PEFTRAGLangGraph Projekt ansehen (öffnet in einem neuen Tab)Full-Stack-Projekte03 Motorrad-Händler-Plattform Full-Stack-Plattform für den Händlerbetrieb — OTP-Authentifizierung, Stripe-Zahlungen, automatisierte Rechnungsstellung und modulare Architektur mit CI/CD und End-to-End-Tests. ReactNode.jsStripeDockerCypressGitHub Actions Projekt ansehen (öffnet in einem neuen Tab)Full-Stack-Projekte04 FlowForge — Workflow-Automatisierungs-Engine Workflow-Automatisierungsprojekt (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung. LaravelVue.jsPostgreSQLRedisTailwind Projekt ansehen (öffnet in einem neuen Tab)Full-Stack-Projekte05 GhostWatch — Incident-Management-Plattform Event-gesteuertes Incident-Management-System mit Echtzeit-Kanban-Board, RabbitMQ-Event-Bus, Volltextsuche, WebSocket-Live-Updates und Prometheus/Grafana-Observability-Stack. Spring BootAngularRabbitMQPostgreSQLDocker Projekt ansehen (öffnet in einem neuen Tab)DevOps & Sicherheit06 Sentinel-Remediator — KI-Schwachstellen-Agent Autonomer Agent, der Container-Schwachstellen End-to-End behebt: eine ReAct-Schleife liest Scan-Ergebnisse, patcht Dateien / Dockerfiles und baut das Image neu und validiert es, bevor ein Pull Request eröffnet wird. GoLLM AgentsReAct LoopDockerNext.js Projekt ansehen (öffnet in einem neuen Tab)",
+      "source_url": "https://www.chihebbencheikh.com/de/#Projects",
+      "links": [
+        {
+          "label": "Flagship & KI01 Ghostwire — Live Visual API Builder Full-Stack-Echtzeitplattform zum Entwerfen von API-Pipelines als Knoten-Graphen (React Flow, Monaco) auf Express + Socket.io, per Terraform auf AWS ECS Fargate deployt mit GitHub-Actions-CI/CD. Enthält eine agentische (ReAct) SRE-Schleife, die Fehler erkennt, die Ursache lokalisiert und Pipelines automatisch wiederherstellt. Next.jsExpressSocket.ioAWS ECSTerraformReact Flow Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/ghostwire"
+        },
+        {
+          "label": "Flagship & KI02 RAG + LoRA Assistant Ein SRE-Wissensassistent mit einem lokalen Qwen2.5-Modell, LoRA-Feinabstimmung und Retrieval über Runbooks. PythonQwen2.5-3BLoRA / PEFTRAGLangGraph Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/rag-lora-sre-assistant"
+        },
+        {
+          "label": "Full-Stack-Projekte03 Motorrad-Händler-Plattform Full-Stack-Plattform für den Händlerbetrieb — OTP-Authentifizierung, Stripe-Zahlungen, automatisierte Rechnungsstellung und modulare Architektur mit CI/CD und End-to-End-Tests. ReactNode.jsStripeDockerCypressGitHub Actions Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/motorcycle-dealership"
+        },
+        {
+          "label": "Full-Stack-Projekte04 FlowForge — Workflow-Automatisierungs-Engine Workflow-Automatisierungsprojekt (Mini-Zapier) — visueller DAG-Builder, Webhook-/Cron-Trigger, Verzweigungsbedingungen, Echtzeit-Ausführungsüberwachung und Redis-gestützte Queue-Verarbeitung. LaravelVue.jsPostgreSQLRedisTailwind Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/FlowForge"
+        },
+        {
+          "label": "Full-Stack-Projekte05 GhostWatch — Incident-Management-Plattform Event-gesteuertes Incident-Management-System mit Echtzeit-Kanban-Board, RabbitMQ-Event-Bus, Volltextsuche, WebSocket-Live-Updates und Prometheus/Grafana-Observability-Stack. Spring BootAngularRabbitMQPostgreSQLDocker Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/GhostWatch"
+        },
+        {
+          "label": "DevOps & Sicherheit06 Sentinel-Remediator — KI-Schwachstellen-Agent Autonomer Agent, der Container-Schwachstellen End-to-End behebt: eine ReAct-Schleife liest Scan-Ergebnisse, patcht Dateien / Dockerfiles und baut das Image neu und validiert es, bevor ein Pull Request eröffnet wird. GoLLM AgentsReAct LoopDockerNext.js Projekt ansehen (öffnet in einem neuen Tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1/Sentinel-Remediator"
+        }
+      ]
+    },
+    {
+      "id": "OpenSource",
+      "heading": "Open Source",
+      "text": "貢献 05 — Open Source Open Source Gemergter PRDateisystem-Cache Hugging Face / huggingface_hub Doppelte und veraltete Verzeichniseinträge behoben, einschließlich eines Dateiabrufs, der den Ordner-Cache überschrieb. Mit Regressionstests. PythonCachingRegression tests (opens in new tab) Gemergter PRJSON-Schema-Constraints llama.cpp / ggml-org Fehler bei maskierten Bindestrichen in der JSON-Schema-Konvertierung behoben, durch den eine String-Pattern-Bedingung unbemerkt entfallen konnte. C++JSON SchemaGBNF (opens in new tab) Gemergter PRAsynchroner DataLoader Strawberry GraphQL / strawberry-graphql Den DataLoader-Dispatch-Task abbrechen, wenn alle wartenden Futures abgebrochen wurden. PythonAsyncGraphQL (opens in new tab) Offener PRMiddleware-Matcher Next.js / Vercel Template-Literal-Unterstützung für die Analyse von middleware config.matcher vorgeschlagen. Der Pull Request ist offen. TypeScriptMiddlewarei18n (opens in new tab) Offener PRPython-SAST Bandit / PyCQA Erkennung lokal definierter Markup-Unterklassen im B704-Sicherheitscheck vorgeschlagen. Der Pull Request ist offen. PythonASTSAST (opens in new tab) AutorVeröffentlichtes Paket Swiftlet / npm Ein TypeScript-Web-Framework für Node.js mit Routing, Request-Body-Parsing und CORS veröffentlicht. Node.jsTypeScriptHTTP (opens in new tab) Fallstudien lesen Hugging-Face-Dateisystem-Cache (Englisch) →llama.cpp: JSON-Schema-Constraints (Englisch) →",
+      "source_url": "https://www.chihebbencheikh.com/de/#OpenSource",
+      "links": [
+        {
+          "label": "Gemergter PRDateisystem-Cache Hugging Face / huggingface_hub Doppelte und veraltete Verzeichniseinträge behoben, einschließlich eines Dateiabrufs, der den Ordner-Cache überschrieb. Mit Regressionstests. PythonCachingRegression tests (opens in new tab)",
+          "url": "https://github.com/huggingface/huggingface_hub/pull/5099"
+        },
+        {
+          "label": "Gemergter PRJSON-Schema-Constraints llama.cpp / ggml-org Fehler bei maskierten Bindestrichen in der JSON-Schema-Konvertierung behoben, durch den eine String-Pattern-Bedingung unbemerkt entfallen konnte. C++JSON SchemaGBNF (opens in new tab)",
+          "url": "https://github.com/ggml-org/llama.cpp/pull/29127"
+        },
+        {
+          "label": "Gemergter PRAsynchroner DataLoader Strawberry GraphQL / strawberry-graphql Den DataLoader-Dispatch-Task abbrechen, wenn alle wartenden Futures abgebrochen wurden. PythonAsyncGraphQL (opens in new tab)",
+          "url": "https://github.com/strawberry-graphql/strawberry/pull/4379"
+        },
+        {
+          "label": "Offener PRMiddleware-Matcher Next.js / Vercel Template-Literal-Unterstützung für die Analyse von middleware config.matcher vorgeschlagen. Der Pull Request ist offen. TypeScriptMiddlewarei18n (opens in new tab)",
+          "url": "https://github.com/vercel/next.js/pull/93150"
+        },
+        {
+          "label": "Offener PRPython-SAST Bandit / PyCQA Erkennung lokal definierter Markup-Unterklassen im B704-Sicherheitscheck vorgeschlagen. Der Pull Request ist offen. PythonASTSAST (opens in new tab)",
+          "url": "https://github.com/PyCQA/bandit/pull/1446"
+        },
+        {
+          "label": "AutorVeröffentlichtes Paket Swiftlet / npm Ein TypeScript-Web-Framework für Node.js mit Routing, Request-Body-Parsing und CORS veröffentlicht. Node.jsTypeScriptHTTP (opens in new tab)",
+          "url": "https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet"
+        },
+        {
+          "label": "Hugging-Face-Dateisystem-Cache (Englisch) →",
+          "url": "https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/"
+        },
+        {
+          "label": "llama.cpp: JSON-Schema-Constraints (Englisch) →",
+          "url": "https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/"
+        }
+      ]
+    },
+    {
+      "id": "Testimonials",
+      "heading": "Signal Intercepts",
+      "text": "証言 06 — Testimonials Signal Intercepts Tom Inglis tom.inglis@teomach.com Chiheb ist ein selbstbewusster und fleißiger Software Engineer, der sich schnell in komplexe Codebasen einarbeitet und effiziente, gut getestete Lösungen mit React, TypeScript und Playwright liefert. VERIFIED Mathias Molnar mathias.molnar@friends-in-flats.at Chiheb ist ein talentierter und detailorientierter Software Engineer, der sich darauf spezialisiert hat, performante und zuverlässige Systeme mit Next.js und modernen JavaScript-Frameworks zu erstellen. VERIFIED",
+      "source_url": "https://www.chihebbencheikh.com/de/#Testimonials",
+      "links": []
+    },
+    {
+      "id": "Contact",
+      "heading": "Open A Channel",
+      "text": "接続通信 07 — KONTAKTIEREN SIE UNS Open A Channel Für Produktentwicklung, agentische KI-Workflows oder eine Architektur- und Sicherheitsanalyse: Kontakt aufnehmen oder ein Gespräch mit BiancoToro beginnen. Eine Architekturanalyse besprechen ↗// SECURE CHANNELS contact@chihebbencheikh.comgithub.com/ChihebBENCHEIKH1(opens in new tab)linkedin/chiheb-ben-cheikh(opens in new tab)STATUS: ACTIVE | SIGNAL: STRONG",
+      "source_url": "https://www.chihebbencheikh.com/de/#Contact",
+      "links": [
+        {
+          "label": "Eine Architekturanalyse besprechen ↗",
+          "url": "https://biancotoro.com/#contact"
+        },
+        {
+          "label": "contact@chihebbencheikh.com",
+          "url": "mailto:contact@chihebbencheikh.com"
+        },
+        {
+          "label": "github.com/ChihebBENCHEIKH1(opens in new tab)",
+          "url": "https://github.com/ChihebBENCHEIKH1"
+        },
+        {
+          "label": "linkedin/chiheb-ben-cheikh(opens in new tab)",
+          "url": "https://www.linkedin.com/in/chiheb-ben-cheikh/"
+        }
+      ]
+    }
+  ],
+  "representations": {
+    "html": "https://www.chihebbencheikh.com/de/",
+    "markdown": "https://www.chihebbencheikh.com/de/about.md",
+    "json": "https://www.chihebbencheikh.com/de/profile.json"
+  }
+}
