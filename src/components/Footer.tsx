@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
+import { useLanguage } from "../context/LanguageContext";
 import "./Footer.css";
 
 // Flatline with a heartbeat spike every ~240 units (viewBox 0 0 1200 28, baseline y=14).
@@ -8,6 +9,8 @@ const EKG_PINK = `M776 14 H800 ${EKG_SPIKE} H848`;
 
 export const Footer = () => {
   const reduced = useReducedMotion();
+  const { lang } = useLanguage();
+  const profilePath = lang === "de" ? "/de/" : "/";
 
   return (
     <footer style={{
@@ -60,7 +63,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div style={{ display: "flex", gap: "2rem" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "1.25rem 2rem" }}>
         {[
           { label: "GitHub", href: "https://github.com/ChihebBENCHEIKH1" },
           { label: "LinkedIn", href: "https://www.linkedin.com/in/chiheb-ben-cheikh/" },
@@ -74,6 +77,14 @@ export const Footer = () => {
             <span className="sr-only">(opens in new tab)</span>
           </motion.a>
         ))}
+        <a className="footer-link" href={`${profilePath}about.md`}
+          aria-label={lang === "de" ? "Öffentliches Profil als Markdown" : "Public profile as Markdown"}>
+          Markdown
+        </a>
+        <a className="footer-link" href={`${profilePath}profile.json`}
+          aria-label={lang === "de" ? "Öffentliches Profil als JSON" : "Public profile as JSON"}>
+          JSON
+        </a>
       </div>
 
       <div style={{ display: "flex", alignItems: "center", gap: "1.25rem" }}>

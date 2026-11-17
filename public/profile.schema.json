@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Public website profile export",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "canonical_url", "language", "generated_at", "title", "description", "structured_data", "sections", "representations"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "canonical_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "language": {"type": "string", "minLength": 2},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "title": {"type": "string", "minLength": 1},
+    "description": {"type": "string", "minLength": 1},
+    "structured_data": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "sections": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "heading", "text", "source_url", "links"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "heading": {"type": "string", "minLength": 1},
+          "text": {"type": "string", "minLength": 1},
+          "source_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["label", "url"],
+              "properties": {
+                "label": {"type": "string"},
+                "url": {"type": "string", "format": "uri"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "representations": {
+      "type": "object", "additionalProperties": false,
+      "required": ["html", "markdown", "json"],
+      "properties": {
+        "html": {"type": "string", "format": "uri"},
+        "markdown": {"type": "string", "format": "uri"},
+        "json": {"type": "string", "format": "uri"}
+      }
+    }
+  }
+}

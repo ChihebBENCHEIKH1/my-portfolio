@@ -12,6 +12,7 @@ npm run build      # Local preview build of both editions, including Dark Deco
 npm run build:cyberpunk # Publishable EN/DE build, excluding Dark Deco
 npm run preview    # Preview production build locally
 npm run verify:seo # Check built English/German HTML without JavaScript
+npm run verify:profile # Check generated Markdown/JSON and footer discovery links
 npm run lint       # ESLint with zero warnings allowed
 npm run deploy     # Build cyberpunk only + deploy to GitHub Pages (gh-pages -d dist)
 ```
@@ -22,7 +23,9 @@ Direct invocation (when system node is wrong version):
 ~/.nvm/versions/node/v20.18.3/bin/node node_modules/vite/bin/vite.js build  # build
 ```
 
-No test runner is configured.
+Profile acceptance checks use Node's built-in test runner through `npm run verify:profile`.
+
+**Public profile exports:** `scripts/prerender.mjs` calls `scripts/profile-export.mjs` to generate `about.md` and `profile.json` for EN/DE, plus a root `llms.txt` index. They use the rendered public sections and existing JSON-LD rather than separate biography copies. `public/profile.schema.json` is the versioned contract. `generated_at` records export generation, not the last update of the underlying facts. Footer links expose the resources without changing the main user flow. No backend or additional dependency is required.
 
 ## Architecture
 

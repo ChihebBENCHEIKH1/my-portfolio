@@ -16,6 +16,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import sirv from "sirv";
 import puppeteer from "puppeteer";
+import { collectPublicProfile, writeProfileExports, writeProfileIndex } from "./profile-export.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DIST = path.resolve(__dirname, "..", "dist");
@@ -33,6 +34,8 @@ const ORIGIN = `http://127.0.0.1:${PORT}`;
 console.log(`[prerender] serving dist on ${ORIGIN}`);
 
 let browser;
+const profiles = [];
+const generatedAt = new Date().toISOString();
 try {
   browser = await puppeteer.launch({
     headless: true,
@@ -118,10 +121,16 @@ try {
     const outPath = path.join(DIST, route, "index.html");
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
     fs.writeFileSync(outPath, portable, "utf8");
+    if (route === "/" || route === "/de/") {
+      const profile = await page.evaluate(collectPublicProfile, generatedAt);
+      writeProfileExports(profile, path.dirname(outPath));
+      profiles.push(profile);
+    }
     const sizeKb = (fs.statSync(outPath).size / 1024).toFixed(1);
     console.log(`[prerender] wrote ${outPath} (${sizeKb} KB)`);
     await page.close();
   }
+  writeProfileIndex(profiles, DIST);
 } catch (err) {
   console.error("[prerender] failed:", err);
   process.exitCode = 1;
