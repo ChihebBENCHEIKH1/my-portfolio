@@ -4,16 +4,18 @@ import type { CSSProperties } from "react";
 const GLYPHS = "アカサタナハマヤ0123456789ABCDEF#%&*<>/=+".split("");
 
 /**
- * Decrypts `text` from random cyber-glyphs, left to right. Runs when the boot
- * overlay lifts (the `cb:boot-done` event) so the hero "decrypts" into view,
- * and again on hover. Reduced-motion → renders the text plainly. The visible
+ * Decrypts `text` from random cyber-glyphs, left to right. Can run when the boot
+ * overlay lifts (the `cb:boot-done` event), and on hover. autoStart=false keeps
+ * first-paint text stable. Reduced-motion renders it plainly. The visible
  * layers are aria-hidden; give the parent element the accessible label.
  */
-export function ScrambleText({ text, className, style, active }: {
+export function ScrambleText({ text, className, style, active, autoStart = true }: {
   text: string; className?: string; style?: CSSProperties;
   /** Optional external trigger — re-runs the decrypt whenever this turns true
    *  (e.g. wire it to whileInView). Boot/hover behavior is unchanged. */
   active?: boolean;
+  /** Keep important prerendered text stable on load; hover still decrypts it. */
+  autoStart?: boolean;
 }) {
   const [out, setOut] = useState(text);
   const raf = useRef(0);
@@ -44,6 +46,7 @@ export function ScrambleText({ text, className, style, active }: {
 
   useEffect(() => {
     setOut(text);
+    if (!autoStart) return () => cancelAnimationFrame(raf.current);
     let fired = false;
     const onDone = () => { fired = true; run(); };
     window.addEventListener("cb:boot-done", onDone, { once: true });
@@ -53,7 +56,7 @@ export function ScrambleText({ text, className, style, active }: {
       clearTimeout(fb);
       cancelAnimationFrame(raf.current);
     };
-  }, [text, run]);
+  }, [text, run, autoStart]);
 
   return (
     <span style={{ position: "relative", display: "inline-block" }} onPointerEnter={run}>

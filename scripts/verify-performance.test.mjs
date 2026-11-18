@@ -5,6 +5,57 @@ import test from "node:test";
 import puppeteer from "puppeteer";
 import sirv from "sirv";
 
+test("the prerendered name stays visible and stable until interaction", { timeout: 20000 }, async () => {
+  const server = http.createServer(sirv(fileURLToPath(new URL("../dist/", import.meta.url))));
+  await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
+  let browser;
+  try {
+    browser = await puppeteer.launch({ args: ["--no-sandbox", "--disable-dev-shm-usage", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"] });
+    const page = await browser.newPage();
+    await page.evaluateOnNewDocument(() => {
+      window.nameSamples = [];
+      let currentHeading;
+      let headingObserver;
+      const observeHeading = () => {
+        const heading = document.querySelector("#Home h1");
+        if (!heading || heading === currentHeading) return;
+        currentHeading = heading;
+        headingObserver?.disconnect();
+        const sample = () => {
+          const pink = heading.querySelector(".glow-pink");
+          if (pink) window.nameSamples.push({ opacity: Number(getComputedStyle(heading).opacity), text: pink.textContent });
+        };
+        headingObserver = new MutationObserver(sample);
+        headingObserver.observe(heading, { attributes: true, attributeFilter: ["style"], childList: true, characterData: true, subtree: true });
+        sample();
+      };
+      const rootObserver = new MutationObserver(observeHeading);
+      document.addEventListener("DOMContentLoaded", () => {
+        observeHeading();
+        rootObserver.observe(document.getElementById("root"), { childList: true, subtree: true });
+      }, { once: true });
+      window.stopNameObservation = () => { rootObserver.disconnect(); headingObserver?.disconnect(); };
+    });
+    await page.goto(`http://127.0.0.1:${server.address().port}`, { waitUntil: "networkidle0" });
+    await new Promise(resolve => setTimeout(resolve, 4500));
+    const samples = await page.evaluate(() => { window.stopNameObservation(); return window.nameSamples; });
+    assert(samples.length > 0, "observed the rendered heading");
+    assert(samples.every(value => value.opacity === 1), "the already-visible heading faded out during startup");
+    assert(samples.every(value => value.text === "CHEIKH"), "an idle timer rewrote the already-visible name");
+    await page.evaluate(() => {
+      window.nameHoverChanges = 0;
+      const observer = new MutationObserver(() => { window.nameHoverChanges++; });
+      observer.observe(document.querySelector("#Home h1 .glow-pink"), { childList: true, characterData: true, subtree: true });
+    });
+    await page.hover("#Home h1 .glow-pink");
+    await page.waitForFunction(() => window.nameHoverChanges > 1);
+    await page.waitForFunction(() => document.querySelector("#Home h1 .glow-pink").textContent === "CHEIKH");
+  } finally {
+    await browser?.close();
+    await new Promise(resolve => server.close(resolve));
+  }
+});
+
 test("the original 3D city loads automatically and its controls remain usable", { timeout: 90000 }, async () => {
   const server = http.createServer(sirv(fileURLToPath(new URL("../dist/", import.meta.url))));
   await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));

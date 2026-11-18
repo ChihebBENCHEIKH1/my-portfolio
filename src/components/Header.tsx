@@ -198,9 +198,10 @@ export function Header({ titles }: { titles: any }) {
           {"// "}{t.myInfo}
         </motion.div>
 
-        {/* Name — decrypts into view on boot-lift / hover */}
+        {/* Keep the prerendered name visible; decrypt on hover without delaying first paint. */}
         <motion.h1
           {...stagger(2)}
+          initial={false}
           aria-label="Chiheb Ben Cheikh"
           style={{
             fontFamily: '"Space Grotesk", sans-serif',
@@ -211,9 +212,9 @@ export function Header({ titles }: { titles: any }) {
             marginBottom: "0.5rem",
           }}
         >
-          <ScrambleText text="CHIHEB" className="text-shine" /><br />
-          <ScrambleText text="BEN" className="glow-cyan" style={{ color: "#00f0ff" }} />{" "}
-          <ScrambleText text="CHEIKH" className="glow-pink" style={{ color: "#ff007f" }} />
+          <ScrambleText text="CHIHEB" className="text-shine" autoStart={false} /><br />
+          <ScrambleText text="BEN" className="glow-cyan" style={{ color: "#00f0ff" }} autoStart={false} />{" "}
+          <ScrambleText text="CHEIKH" className="glow-pink" style={{ color: "#ff007f" }} autoStart={false} />
         </motion.h1>
 
         {/* Decorative line */}
