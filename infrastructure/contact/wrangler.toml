@@ -1,0 +1,26 @@
+name = "calibib-site-contact"
+main = "src/index.ts"
+compatibility_date = "2026-11-18"
+account_id = "39b32128becb0b47e7ee99e157d87509"
+workers_dev = false
+routes = [{ pattern = "biancotoro.com/api/inquiry*", zone_name = "biancotoro.com" }]
+
+[vars]
+CONTACT_FROM = "website@biancotoro.com"
+
+[[send_email]]
+name = "EMAIL"
+
+[[ratelimits]]
+name = "CONTACT_LIMITER"
+namespace_id = "21007301"
+simple = { limit = 3, period = 60 }
+
+[[ratelimits]]
+name = "SITE_LIMITER"
+namespace_id = "21007302"
+simple = { limit = 30, period = 60 }
+
+[observability]
+enabled = true
+head_sampling_rate = 1

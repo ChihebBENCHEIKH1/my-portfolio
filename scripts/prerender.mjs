@@ -109,6 +109,9 @@ try {
         element.style.visibility = "visible";
       });
       document.querySelectorAll(".city-foreground-3d").forEach(element => element.remove());
+      // A static snapshot has no JSON submit handler. Keep email links usable
+      // and prevent a native GET from putting a private message into the URL.
+      document.querySelectorAll('form button[type="submit"]').forEach(button => { button.disabled = true; });
       return "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
     });
     // Vite and image preloads can materialize the temporary server origin.

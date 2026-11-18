@@ -14,11 +14,31 @@ const HEAVY_DEFERRED = [
   "Icosphere",
 ];
 
+const assetOrigin = process.env.PORTFOLIO_ASSET_ORIGIN?.replace(/\/$/, "");
+if (assetOrigin && (new URL(assetOrigin).origin !== assetOrigin || !assetOrigin.startsWith("https://"))) {
+  throw new Error("PORTFOLIO_ASSET_ORIGIN must be an HTTPS origin without a path");
+}
+
 export default defineConfig(({ mode }) => ({
-  // The custom domain serves both / and /de/; assets must resolve from either.
-  base: "/",
+  // Canonical HTML stays on the custom domain; production assets can use a CDN.
+  base: assetOrigin ? `${assetOrigin}/` : "/",
   assetsInclude: ["**/*.png", "**/*.jpeg", "**/*.jpg"],
   plugins: [
+    {
+      name: "portfolio-asset-preconnect",
+      transformIndexHtml: {
+        order: "post",
+        handler(html) {
+          if (!assetOrigin) return html;
+          // Vite also rebases root public files. Only assets/fonts live on
+          // this host; the web manifest and icon stay with canonical HTML.
+          return html.split(`${assetOrigin}/manifest.json`).join("/manifest.json")
+            .split(`${assetOrigin}/logo-mark.svg`).join("/logo-mark.svg")
+            .replace(/href="\/fonts\//g, `href="${assetOrigin}/fonts/`)
+            .replace("</head>", `<link rel="preconnect" href="${assetOrigin}" crossorigin>\n</head>`);
+        },
+      },
+    },
     react(),
     tailwindcss(),
     ViteImageOptimizer({

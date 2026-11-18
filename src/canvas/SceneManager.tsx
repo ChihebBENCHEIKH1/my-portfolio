@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { useReducedMotion } from "framer-motion";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
@@ -38,6 +38,34 @@ function facadeTexture(index: number, day = false) {
   return texture;
 }
 
+type BuildingList = ReturnType<typeof getCityBuildings>;
+
+function District({ tone, geometry, buildings, worldWidth, worldHeight, maxRatio, texture, day, lightLevel }: {
+  tone: number; geometry: THREE.BoxGeometry; buildings: BuildingList; worldWidth: number; worldHeight: number;
+  maxRatio: number; texture: THREE.Texture; day: boolean; lightLevel: number;
+}) {
+  const mesh = useRef<THREE.InstancedMesh>(null);
+  const { invalidate } = useThree();
+  const members = useMemo(() => buildings.map((building, index) => ({ ...building, index })).filter(building => building.c - 1 === tone), [buildings, tone]);
+  useLayoutEffect(() => {
+    if (!mesh.current) return;
+    const matrix = new THREE.Matrix4();
+    members.forEach((building, index) => {
+      const width = building.w * worldWidth / 100;
+      const height = Math.min(building.h * worldHeight / 130, worldWidth * maxRatio);
+      const depth = .7 + (building.index % 3) * .35;
+      matrix.makeScale(width, height, depth).setPosition((building.x + building.w / 2) * worldWidth / 100 - worldWidth / 2, height / 2, (building.index % 3) * .25);
+      mesh.current!.setMatrixAt(index, matrix);
+    });
+    mesh.current.instanceMatrix.needsUpdate = true;
+    mesh.current.computeBoundingSphere();
+    invalidate();
+  }, [members, worldWidth, worldHeight, maxRatio, invalidate]);
+  return <instancedMesh ref={mesh} name={`city-district-${tone}`} args={[geometry, undefined, Math.max(26, buildings.length)]} count={members.length}>
+    <meshStandardMaterial map={texture} emissiveMap={texture} emissive="#ffffff" emissiveIntensity={day ? .025 : .3 * lightLevel} metalness={.3} roughness={.55} />
+  </instancedMesh>;
+}
+
 function Buildings({ active, composer }: { active: boolean; composer: RefObject<Composer> }) {
   const { size, camera, invalidate } = useThree();
   const interactive = useSceneStore(s => s.interactive);
@@ -48,6 +76,7 @@ function Buildings({ active, composer }: { active: boolean; composer: RefObject<
   const profile = getCityProfile(size.width);
   const buildings = useMemo(() => getCityBuildings(count, profile.widthScale), [count, profile.widthScale]);
   const textures = useMemo(() => [0,1,2].map(index => facadeTexture(index, day)), [day]);
+  const buildingGeometry = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
   const decks = useMemo(() => ["#ff83bb", "#69dbff"].map(color => {
     const canvas = document.createElement("canvas"); canvas.width = 128; canvas.height = 32;
     const ctx = canvas.getContext("2d")!;
@@ -86,6 +115,7 @@ function Buildings({ active, composer }: { active: boolean; composer: RefObject<
   }, [active, reduced, invalidate]);
 
   useEffect(() => () => textures.forEach(texture => texture.dispose()), [textures]);
+  useEffect(() => () => buildingGeometry.dispose(), [buildingGeometry]);
   useEffect(() => () => decks.forEach(texture => texture.dispose()), [decks]);
   // Render on pointer input, then stop once the camera settles. No idle WebGL loop.
   useFrame((_, delta) => {
@@ -123,16 +153,13 @@ function Buildings({ active, composer }: { active: boolean; composer: RefObject<
     <group position={[0, -worldHeight / 2 - .6, 0]}>
       <group position={[-14,0,-2]} scale={[profile.towerWidthScale,1,profile.towerWidthScale]}><TokyoTower3D height={tokyoHeight} windows={decks[0]} /></group>
       <group position={[13.4,0,-3]} scale={[profile.towerWidthScale,1,profile.towerWidthScale]}><Skytree3D height={skytreeHeight} windows={decks[1]} color={towerColor} /></group>
+      {[0, 1, 2].map(tone => <District key={tone} tone={tone} geometry={buildingGeometry} buildings={buildings} worldWidth={worldWidth} worldHeight={worldHeight} maxRatio={profile.maxBuildingRatio} texture={textures[tone]} day={day} lightLevel={lightLevel} />)}
       {buildings.map(({x,w,h,c}, i) => {
         const tone = c-1;
         const width = w * worldWidth / 100;
         const height = Math.min(h * worldHeight / 130, worldWidth * profile.maxBuildingRatio);
         const depth = .7 + (i % 3) * .35;
         return <group key={i} position={[(x + w/2) * worldWidth / 100 - worldWidth/2, 0, (i % 3) * .25]}>
-          <mesh position={[0,height/2,0]}>
-            <boxGeometry args={[width,height,depth]} />
-            <meshStandardMaterial map={textures[tone]} emissiveMap={textures[tone]} emissive="#ffffff" emissiveIntensity={day ? .025 : .3 * lightLevel} metalness={.3} roughness={.55} />
-          </mesh>
           <mesh position={[0,height + .03,0]}>
             <boxGeometry args={[width + .05,.07,depth + .04]} />
             <meshBasicMaterial color={ACCENTS[tone]} transparent opacity={.38} />

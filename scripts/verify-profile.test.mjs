@@ -47,6 +47,9 @@ test("public profile exports preserve the current pages and remain readable with
       const page = await browser.newPage();
       await page.setJavaScriptEnabled(false);
       await page.goto(origin + route, { waitUntil: "domcontentloaded" });
+      assert(await page.$eval('#Contact button[type="submit"]', button => button.disabled), `${route}: no-JavaScript visitors use the visible email link`);
+      assert.equal(await page.$eval('link[rel="manifest"]', element => element.getAttribute("href")), "/manifest.json", "site manifest remains on the canonical host");
+      assert.equal(await page.$eval('link[rel="icon"]', element => element.getAttribute("href")), "/logo-mark.svg", "site icon remains on the canonical host");
       const source = await page.evaluate(() => ({
         description: document.querySelector('meta[name="description"]')?.content,
         structured: [...document.querySelectorAll('script[type="application/ld+json"]')].map(el => JSON.parse(el.textContent)),

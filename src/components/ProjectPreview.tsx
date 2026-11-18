@@ -42,8 +42,9 @@ function Rag({ de }: { de: boolean }) {
 }
 
 function Motorcycle({ image, de }: { image: string; de: boolean }) {
+  const sources = image === motorcycleFull ? `${motorcycle480} 480w, ${motorcycle800} 800w, ${motorcycle1200} 1200w, ${motorcycleFull} 1840w` : undefined;
   return <div className="preview-stage preview-commerce-stage">
-    <div className="preview-store-window"><div className="preview-store-address"><span />dealership / showroom</div><img src={image} alt="" width="1840" height="961" loading="lazy" decoding="async" /></div>
+    <div className="preview-store-window"><div className="preview-store-address"><span />dealership / showroom</div><img src={image} srcSet={sources} sizes="(max-width: 600px) calc(100vw - 108px), (max-width: 768px) calc(100vw - 134px), (max-width: 1224px) calc((100vw - 298px) / 2), 467px" alt="" width="1840" height="961" loading="lazy" decoding="async" /></div>
     <div className="preview-checkout"><span className="preview-checkout-icon">↗</span><strong>{de ? "Vom Besuch zum Kauf" : "From visit to purchase"}</strong><div>{["OTP", "Stripe", de ? "Rechnung" : "Invoice"].map((label, index) => <span key={label}><i>{index+1}</i>{label}</span>)}</div></div>
   </div>;
 }
@@ -91,3 +92,7 @@ export function ProjectPreview({ kind, image, de }: { kind: PreviewKind; image: 
     {kind === "sentinel" && <Sentinel de={de} />}
   </div>;
 }
+import motorcycleFull from "../assets/hero.webp";
+import motorcycle480 from "../assets/hero-480.webp";
+import motorcycle800 from "../assets/hero-800.webp";
+import motorcycle1200 from "../assets/hero-1200.webp";

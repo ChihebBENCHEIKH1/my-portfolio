@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
+import { ContactSubmissionError, submitInquiry } from "../utils/contact";
 import "./Contact.css";
-
-const GLYPHS = "アカサタナハマヤ0123456789ABCDEF#%&*<>/=+";
 
 export function Contact({ titles }: { titles: any }) {
   const { lang } = useLanguage();
@@ -13,71 +12,60 @@ export function Contact({ titles }: { titles: any }) {
   const reduced = useReducedMotion();
   const visible = useInView(ref);
   const animateDecorations = visible && !reduced;
-  const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [phase, setPhase] = useState<"idle" | "charging" | "sent">("idle");
-  const [btnLabel, setBtnLabel] = useState("TRANSMIT");
+  const emptyForm = { name: "", email: "", subject: "", message: "", website: "" };
+  const [form, setForm] = useState(emptyForm);
+  const [phase, setPhase] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [notice, setNotice] = useState<"" | "accepted" | "validation" | "rate" | "unavailable">("");
   const timers = useRef<number[]>([]);
-  const scrambleInt = useRef(0);
+  const pending = useRef<AbortController | null>(null);
+  const mounted = useRef(true);
+  const de = lang === "de";
+  const messages = de ? {
+    send: "SENDEN", sending: "WIRD GESENDET…", accepted: "Anfrage übermittelt. Vielen Dank.",
+    validation: "Bitte prüfe die Angaben und die maximale Nachrichtenlänge.", rate: "Bitte warte eine Minute, bevor du erneut sendest.",
+    unavailable: "Die Zustellung konnte nicht bestätigt werden. Bitte versuche es erneut oder schreibe eine E-Mail.",
+  } : {
+    send: "TRANSMIT", sending: "SENDING…", accepted: "Your inquiry was submitted. Thank you.",
+    validation: "Please check your details and the maximum message length.", rate: "Please wait a minute before sending again.",
+    unavailable: "Delivery could not be confirmed. Please retry or email directly.",
+  };
 
-  useEffect(() => () => {
-    timers.current.forEach(id => window.clearTimeout(id));
-    window.clearInterval(scrambleInt.current);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; pending.current?.abort(); timers.current.forEach(id => window.clearTimeout(id)); };
   }, []);
 
-  const setField = (key: string, value: string) =>
+  const setField = (key: string, value: string) => {
     setForm(f => ({ ...f, [key]: value }));
+    setNotice(""); if (phase === "error") setPhase("idle");
+  };
 
   const validity: Record<string, boolean> = {
-    name: form.name.trim().length >= 2,
+    name: form.name.trim().length >= 1,
     email: /^\S+@\S+\.\S+$/.test(form.email),
     subject: form.subject.trim().length >= 2,
     message: form.message.trim().length >= 2,
   };
 
-  // Reveal `text` left→right through cyber-glyphs on the button label.
-  const scrambleTo = (text: string, dur: number) => {
-    window.clearInterval(scrambleInt.current);
-    const start = performance.now();
-    scrambleInt.current = window.setInterval(() => {
-      const p = Math.min((performance.now() - start) / dur, 1);
-      const frontier = Math.floor(p * text.length);
-      let s = text.slice(0, frontier);
-      for (let i = frontier; i < text.length; i++)
-        s += text[i] === " " ? " " : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      setBtnLabel(s);
-      if (p >= 1) window.clearInterval(scrambleInt.current);
-    }, 40);
-  };
-
-  const fireMailto = () => {
-    const subject = encodeURIComponent(form.subject || `Portfolio contact from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${t.contactEmail}?subject=${subject}&body=${body}`;
-  };
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (phase !== "idle") return;
-    if (reduced) {
-      fireMailto();
-      setPhase("sent");
-      timers.current.push(window.setTimeout(() => {
-        setPhase("idle");
-        setBtnLabel("TRANSMIT");
-      }, 2000));
-      return;
+    if (pending.current || phase === "sending" || phase === "sent") return;
+    if (!validity.name || !validity.email || !form.message.trim()) { setNotice("validation"); setPhase("error"); return; }
+    const controller = new AbortController(); pending.current = controller;
+    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    setPhase("sending"); setNotice("");
+    try {
+      await submitInquiry({ ...form, lang: de ? "de" : "en" }, { signal: controller.signal });
+      if (!mounted.current) return;
+      setForm(emptyForm); setPhase("sent"); setNotice("accepted");
+      timers.current.push(window.setTimeout(() => setPhase("idle"), 2500));
+    } catch (error) {
+      if (!mounted.current) return;
+      setPhase("error");
+      setNotice(error instanceof ContactSubmissionError && error.code === "RATE_LIMITED" ? "rate" : error instanceof ContactSubmissionError && error.code === "INVALID_REQUEST" ? "validation" : "unavailable");
+    } finally {
+      window.clearTimeout(timeout); if (pending.current === controller) pending.current = null;
     }
-    setPhase("charging");
-    scrambleTo("ENCRYPTING PAYLOAD…", 350);
-    timers.current.push(window.setTimeout(() => scrambleTo("TRANSMITTING…", 300), 450));
-    timers.current.push(window.setTimeout(() => {
-      fireMailto();
-      setPhase("sent");
-    }, 950));
-    timers.current.push(window.setTimeout(() => {
-      setPhase("idle");
-      setBtnLabel("TRANSMIT");
-    }, 2950));
   };
 
   return (
@@ -294,15 +282,17 @@ export function Contact({ titles }: { titles: any }) {
           <div className="grid-tight" style={{
             padding: "2rem", display: "flex", flexDirection: "column", gap: "1.25rem",
           }}>
+            <input type="text" name="website" value={form.website} onChange={e => setField("website", e.target.value)} autoComplete="off" tabIndex={-1} aria-hidden="true" style={{ display: "none" }} />
             <div className="contact-fields" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               {[["name", "IDENT", "Your name"], ["email", "FREQ", "your@email.com"]].map(([key, lbl, ph]) => (
                 <div key={key} className="term-group">
-                  <label className="term-label">
+                  <label className="term-label" htmlFor={`contact-${key}`}>
                     <span className="term-caret" aria-hidden="true">{">"}</span> {lbl}
                   </label>
                   <div className="term-wrap">
                     <span className="term-glyph" aria-hidden="true">{">"}_</span>
                     <input type={key === "email" ? "email" : "text"} placeholder={ph}
+                      id={`contact-${key}`} name={key} autoComplete={key === "email" ? "email" : "name"} maxLength={key === "email" ? 254 : 120} disabled={phase === "sending"}
                       className="term-field"
                       value={form[key as "name" | "email"]}
                       onChange={e => setField(key, e.target.value)}
@@ -322,12 +312,13 @@ export function Contact({ titles }: { titles: any }) {
             </div>
 
             <div className="term-group">
-              <label className="term-label">
+              <label className="term-label" htmlFor="contact-subject">
                 <span className="term-caret" aria-hidden="true">{">"}</span> SUBJECT
               </label>
               <div className="term-wrap">
                 <span className="term-glyph" aria-hidden="true">{">"}_</span>
                 <input type="text" placeholder="What's this about?" className="term-field"
+                  id="contact-subject" name="subject" maxLength={160} disabled={phase === "sending"}
                   value={form.subject} onChange={e => setField("subject", e.target.value)}
                   aria-label="Subject" />
                 {validity.subject && (
@@ -341,12 +332,13 @@ export function Contact({ titles }: { titles: any }) {
             </div>
 
             <div className="term-group">
-              <label className="term-label">
+              <label className="term-label" htmlFor="contact-message">
                 <span className="term-caret" aria-hidden="true">{">"}</span> PAYLOAD
               </label>
               <div className="term-wrap">
                 <span className="term-glyph term-glyph-top" aria-hidden="true">{">"}_</span>
                 <textarea rows={5} placeholder="Tell me about your project..."
+                  id="contact-message" name="message" maxLength={5000} disabled={phase === "sending"}
                   className="term-field" style={{ resize: "none" }}
                   value={form.message} onChange={e => setField("message", e.target.value)}
                   required
@@ -362,31 +354,31 @@ export function Contact({ titles }: { titles: any }) {
               </div>
             </div>
 
-            {/* TRANSMIT — idle → charging → sent */}
+            {/* Confirmation reflects the real request, including failure. */}
             <button
               type="submit"
               className={`transmit-btn${phase === "sent" ? " is-sent" : ""}`}
-              disabled={phase !== "idle"}
+              disabled={phase === "sending" || phase === "sent"}
             >
-              {phase === "charging" && (
+              {phase === "sending" && (
                 <motion.div
                   className="transmit-charge" aria-hidden="true"
-                  initial={{ width: 0 }} animate={{ width: "100%" }}
-                  transition={{ duration: 0.9, ease: "linear" }}
+                  style={{ width: "100%" }} animate={reduced ? { opacity: .25 } : { opacity: [.15, .6, .15] }}
+                  transition={{ duration: 1.2, repeat: Infinity }}
                 />
               )}
               {phase === "sent" ? (
-                <span className="transmit-sent">✓ CHANNEL OPEN</span>
+                <span className="transmit-sent">✓ {de ? "ÜBERMITTELT" : "SUBMITTED"}</span>
               ) : (
                 <>
-                  <span style={{ position: "relative", zIndex: 1 }}>{btnLabel}</span>
+                  <span style={{ position: "relative", zIndex: 1 }}>{phase === "sending" ? messages.sending : messages.send}</span>
                   <span aria-hidden="true" style={{ fontSize: "14px", position: "relative", zIndex: 1 }}>→</span>
                 </>
               )}
             </button>
-            <span role="status" className="sr-only">
-              {phase === "sent" ? "Message channel opened — your email client should now be open." : ""}
-            </span>
+            <p role={phase === "error" ? "alert" : "status"} aria-live="polite" className={`contact-submit-status${phase === "error" ? " is-error" : ""}`}>{notice ? messages[notice] : ""}</p>
+            <noscript>{de ? "Bitte nutze ohne JavaScript den E-Mail-Link auf dieser Seite." : "Without JavaScript, please use the email link on this page."}</noscript>
+            <p className="contact-data-note">{de ? "Deine Angaben werden über unseren Website-E-Mail-Dienst übermittelt, damit wir antworten können." : "Your details are sent through our website email service so we can reply."} <a href="https://biancotoro.com/privacy" target="_blank" rel="noopener noreferrer">{de ? "Datenschutz" : "Privacy"}</a></p>
           </div>
         </motion.form>
       </div>

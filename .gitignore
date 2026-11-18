@@ -10,6 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.portfolio-publish/
+.wrangler/
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
 *.local
 
 # Editor directories and files

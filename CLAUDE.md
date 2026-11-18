@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-**Requires Node 18+.** System default is v12 — use `~/.nvm/versions/node/v20.18.3/bin/node` explicitly, or activate nvm first.
+**Local builds require Node 20; publication requires Node 22.19+ and Chrome.** See `docs/deployment.md` for the assets-only CDN and contact-service deployment.
 
 ```bash
 npm run dev        # Start dev server (node node_modules/vite/bin/vite.js)
@@ -14,7 +14,8 @@ npm run preview    # Preview production build locally
 npm run verify:seo # Check built English/German HTML without JavaScript
 npm run verify:profile # Check generated Markdown/JSON and footer discovery links
 npm run lint       # ESLint with zero warnings allowed
-npm run deploy     # Build cyberpunk only + deploy to GitHub Pages (gh-pages -d dist)
+npm run deploy:stage # Build, publish CDN assets, prerender and verify
+npm run deploy     # Same pipeline, then publish canonical HTML to GitHub Pages
 ```
 
 Direct invocation (when system node is wrong version):
@@ -60,4 +61,4 @@ Profile acceptance checks use Node's built-in test runner through `npm run verif
 
 **Scroll performance:** Header background uses a 50px IntersectionObserver sentinel. Reading progress and the career spine/packet use native CSS scroll timelines, with static decoration in browsers without support. Repeated section CSS animations pause outside the viewport; Header and Contact gate their Framer loops separately. The career section uses `overflow: clip`; `hidden` would incorrectly make it the timeline scroll container. Preserve transform/opacity animations instead of animating layout properties (`left`, `top`, dimensions).
 
-**GitHub Pages:** `public/CNAME` binds the custom domain. Vite uses `base: "/"` so assets resolve on `/`, `/de/` and `/art-deco/`. The default local build includes both editions; `build:cyberpunk` and `predeploy` include only the main entry. The postbuild script prerenders EN/DE and includes Art Deco only if its built entry exists. It removes the temporary preview origin from URLs, and rejects page errors or empty snapshots. Run `npm run verify:seo` after building. A browser snapshot contains completed animations, so the client mounts fresh rather than hydrating it. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.
+**GitHub Pages:** `public/CNAME` binds the custom domain. Local Vite builds use `base: "/"`; publication sets `PORTFOLIO_ASSET_ORIGIN` for the assets-only CDN. The default local build includes both editions; `build:cyberpunk` and the publisher include only the main entry. The postbuild script prerenders EN/DE and includes Art Deco only if its built entry exists. It removes the temporary preview origin from URLs, and rejects page errors or empty snapshots. Run `npm run verify:seo` after building. A browser snapshot contains completed animations, so the client mounts fresh rather than hydrating it. Scripts bypass the `vite` bin wrapper and call `node node_modules/vite/bin/vite.js` directly to avoid Node version shebang issues.
