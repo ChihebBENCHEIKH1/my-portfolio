@@ -1,8 +1,9 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type RefObject } from "react";
 import { useReducedMotion } from "framer-motion";
 import * as THREE from "three";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
+import type { EffectComposer as Composer } from "postprocessing";
 import { getCityBuildings, getCityProfile } from "./cityModel";
 import { TokyoTower3D, Skytree3D } from "./TokyoLandmarks3D";
 import { useSceneStore } from "../store/sceneStore";
@@ -37,7 +38,7 @@ function facadeTexture(index: number, day = false) {
   return texture;
 }
 
-function Buildings({ active }: { active: boolean }) {
+function Buildings({ active, composer }: { active: boolean; composer: RefObject<Composer> }) {
   const { size, camera, invalidate } = useThree();
   const interactive = useSceneStore(s => s.interactive);
   const daylight = useSceneStore(s => s.daylight);
@@ -147,13 +148,13 @@ function Buildings({ active }: { active: boolean }) {
         </group>;
       })}
     </group>
-    <EffectComposer multisampling={0}>
+    <EffectComposer ref={composer} multisampling={0}>
       <Bloom intensity={.65} luminanceThreshold={1.1} luminanceSmoothing={.65} mipmapBlur />
     </EffectComposer>
   </>;
 }
 
-function PrepareScene({ onPrepared, onFirstFrame }: { onPrepared: () => void; onFirstFrame: () => void }) {
+function PrepareScene({ composer, onPrepared, onFirstFrame }: { composer: RefObject<Composer>; onPrepared: () => void; onFirstFrame: () => void }) {
   const { gl, scene, camera } = useThree();
   const compiled = useRef(false);
   const firstFrame = useRef(false);
@@ -161,9 +162,24 @@ function PrepareScene({ onPrepared, onFirstFrame }: { onPrepared: () => void; on
   const [failure, setFailure] = useState<Error | null>(null);
   useEffect(() => {
     let cancelled = false;
+    const target = composer.current?.inputBuffer;
+    if (!target) {
+      setFailure(new Error("Scene render target is not available"));
+      return;
+    }
     // Three uses KHR_parallel_shader_compile when available. Queue scene
     // programs together rather than waiting on them one by one during paint.
-    gl.compileAsync(scene, camera).then(() => {
+    // Use the composer's actual target: compiling for the screen instead
+    // produces different color-space variants that first paint cannot reuse.
+    const previousTarget = gl.getRenderTarget();
+    let compilation: ReturnType<typeof gl.compileAsync>;
+    try {
+      gl.setRenderTarget(target);
+      compilation = gl.compileAsync(scene, camera);
+    } finally {
+      gl.setRenderTarget(previousTarget);
+    }
+    compilation.then(() => {
       if (cancelled) return;
       compiled.current = true;
       onPrepared();
@@ -171,7 +187,7 @@ function PrepareScene({ onPrepared, onFirstFrame }: { onPrepared: () => void; on
       if (!cancelled) setFailure(error instanceof Error ? error : new Error(String(error)));
     });
     return () => { cancelled = true; cancelAnimationFrame(revealFrame.current); };
-  }, [gl, scene, camera, onPrepared]);
+  }, [gl, scene, camera, composer, onPrepared]);
   useFrame(() => {
     if (!compiled.current || firstFrame.current) return;
     firstFrame.current = true;
@@ -186,6 +202,7 @@ function PrepareScene({ onPrepared, onFirstFrame }: { onPrepared: () => void; on
 export function SceneManager({ active, onReady }: { active: boolean; onReady: () => void }) {
   const interactive = useSceneStore(s => s.interactive);
   const [prepared, setPrepared] = useState(false);
+  const composer = useRef<Composer>(null);
   const readyCallback = useRef(onReady);
   readyCallback.current = onReady;
   const markPrepared = useCallback(() => setPrepared(true), []);
@@ -203,5 +220,5 @@ export function SceneManager({ active, onReady }: { active: boolean; onReady: ()
       gl.debug.checkShaderErrors = !import.meta.env.PROD;
     }}
     fallback={null}
-  ><Buildings active={active} /><PrepareScene onPrepared={markPrepared} onFirstFrame={markFirstFrame} /></Canvas>;
+  ><Buildings active={active} composer={composer} /><PrepareScene composer={composer} onPrepared={markPrepared} onFirstFrame={markFirstFrame} /></Canvas>;
 }

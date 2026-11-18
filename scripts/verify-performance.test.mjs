@@ -69,6 +69,29 @@ test("the original 3D city loads automatically and its controls remain usable", 
       const page = await browser.newPage();
       await page.evaluateOnNewDocument(() => {
         window.shaderDebugQueries = 0;
+        window.shaderWarmCompletionObserved = false;
+        window.unpreparedFirstDrawPrograms = 0;
+        window.sceneDrawStarted = false;
+        const prototype = WebGL2RenderingContext.prototype;
+        const getProgramParameter = prototype.getProgramParameter;
+        prototype.getProgramParameter = function (program, parameter) {
+          const result = getProgramParameter.call(this, program, parameter);
+          const extension = this.getExtension("KHR_parallel_shader_compile");
+          if (extension && parameter === extension.COMPLETION_STATUS_KHR && result === true) window.shaderWarmCompletionObserved = true;
+          return result;
+        };
+        const linkProgram = prototype.linkProgram;
+        prototype.linkProgram = function (program) {
+          if (window.shaderWarmCompletionObserved && !window.sceneDrawStarted) window.unpreparedFirstDrawPrograms++;
+          return linkProgram.call(this, program);
+        };
+        for (const name of ["drawElements", "drawArrays"]) {
+          const original = prototype[name];
+          prototype[name] = function (...args) {
+            window.sceneDrawStarted = true;
+            return original.apply(this, args);
+          };
+        }
         for (const name of ["getProgramInfoLog", "getShaderInfoLog"]) {
           const original = WebGL2RenderingContext.prototype[name];
           WebGL2RenderingContext.prototype[name] = function (...args) {
@@ -93,6 +116,9 @@ test("the original 3D city loads automatically and its controls remain usable", 
       }, { timeout: 25000 });
       assert(requests.some(url => /vendor-three/.test(url)), `${route}: full 3D loads automatically`);
       assert.equal(await page.evaluate(() => window.shaderDebugQueries), 0, `${route}: production startup avoids synchronous shader-debug queries`);
+      if (await page.evaluate(() => window.shaderWarmCompletionObserved)) {
+        assert.equal(await page.evaluate(() => window.unpreparedFirstDrawPrograms), 0, `${route}: first draw reused its prepared shaders`);
+      }
       assert.equal(await page.$eval(".city-layer", el => el.getAttribute("data-active")), "true");
       assert(await page.$(".tokyo-tower"), `${route}: fallback landmarks are retained for WebGL failure`);
       await page.click(".city-day-toggle");
