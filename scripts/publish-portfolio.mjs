@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { stageCdnAssets } from "./cdn-assets.mjs";
 
 if (Number(process.versions.node.split(".")[0]) < 22) throw new Error("Publishing requires Node22.19+ for the pinned Wrangler CLI. Local builds still support Node20.");
@@ -55,6 +56,15 @@ try {
   const sample = manifest.files.find(file => file.path.startsWith("assets/") && file.path.endsWith(".js"));
   const response = await fetch(`${cdnOrigin}/${sample.path}`);
   if (!/max-age=31536000/.test(response.headers.get("cache-control") || "") || !/immutable/.test(response.headers.get("cache-control") || "") || response.headers.get("access-control-allow-origin") !== "*") throw new Error("CDN cache/CORS headers did not match.");
+  // Check this build's entry modules as well as the archive manifest. An old
+  // retained chunk being readable does not prove the new entry is ready.
+  const html = await fs.readFile(path.join(dist, "index.html"), "utf8");
+  const entries = [...html.matchAll(/(?:src|href)="([^"]+\.js)"/g)].map(match => match[1]).filter(url => url.startsWith(cdnOrigin + "/"));
+  for (const url of new Set(entries)) {
+    const file = manifest.files.find(file => file.path === url.slice(cdnOrigin.length + 1));
+    const live = await fetch(url);
+    if (!file || !live.ok || live.headers.get("access-control-allow-origin") !== "*" || createHash("sha256").update(new Uint8Array(await live.arrayBuffer())).digest("hex") !== file.sha256) throw new Error(`Current CDN entry is not ready: ${url}`);
+  }
   await node("scripts/prerender.mjs");
   await node("scripts/verify-seo.mjs");
   await node("--experimental-strip-types", ["--test", "scripts/verify-profile.test.mjs", "scripts/verify-performance.test.mjs", "scripts/verify-contact.test.mjs", "scripts/contact-client.test.mjs", "scripts/cdn-assets.test.mjs", "infrastructure/contact/contact.test.mjs"]);

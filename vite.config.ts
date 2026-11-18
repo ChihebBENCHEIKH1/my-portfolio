@@ -1,4 +1,4 @@
-import { defineConfig } from "vite";
+import { defineConfig, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import tailwindcss from "@tailwindcss/vite";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
@@ -19,9 +19,20 @@ if (assetOrigin && (new URL(assetOrigin).origin !== assetOrigin || !assetOrigin.
   throw new Error("PORTFOLIO_ASSET_ORIGIN must be an HTTPS origin without a path");
 }
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(({ mode }): UserConfig => ({
   // Canonical HTML stays on the custom domain; production assets can use a CDN.
   base: assetOrigin ? `${assetOrigin}/` : "/",
+  experimental: {
+    renderBuiltUrl(filename, { hostType, type }) {
+      if (!assetOrigin) return;
+      // Critical styles/fonts stay on the HTML origin, avoiding a second
+      // connection before first paint. Large JS/images retain CDN caching.
+      if (type === "public") return `/${filename}`;
+      if (filename.endsWith(".css")) return hostType === "js"
+        ? { runtime: `window.location.origin + ${JSON.stringify(`/${filename}`)}` }
+        : `/${filename}`;
+    },
+  },
   assetsInclude: ["**/*.png", "**/*.jpeg", "**/*.jpg"],
   plugins: [
     {
@@ -34,8 +45,7 @@ export default defineConfig(({ mode }) => ({
           // this host; the web manifest and icon stay with canonical HTML.
           return html.split(`${assetOrigin}/manifest.json`).join("/manifest.json")
             .split(`${assetOrigin}/logo-mark.svg`).join("/logo-mark.svg")
-            .replace(/href="\/fonts\//g, `href="${assetOrigin}/fonts/`)
-            .replace("</head>", `<link rel="preconnect" href="${assetOrigin}" crossorigin>\n</head>`);
+            .replace("<head>", `<head>\n<link rel="preconnect" href="${assetOrigin}" crossorigin>`);
         },
       },
     },

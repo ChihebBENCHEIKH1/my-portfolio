@@ -50,6 +50,7 @@ test("public profile exports preserve the current pages and remain readable with
       assert(await page.$eval('#Contact button[type="submit"]', button => button.disabled), `${route}: no-JavaScript visitors use the visible email link`);
       assert.equal(await page.$eval('link[rel="manifest"]', element => element.getAttribute("href")), "/manifest.json", "site manifest remains on the canonical host");
       assert.equal(await page.$eval('link[rel="icon"]', element => element.getAttribute("href")), "/logo-mark.svg", "site icon remains on the canonical host");
+      assert(await page.$$eval('link[rel="stylesheet"], link[as="font"]', elements => elements.every(element => element.getAttribute("href").startsWith("/"))), "critical styles/fonts stay on the HTML origin");
       const source = await page.evaluate(() => ({
         description: document.querySelector('meta[name="description"]')?.content,
         structured: [...document.querySelectorAll('script[type="application/ld+json"]')].map(el => JSON.parse(el.textContent)),

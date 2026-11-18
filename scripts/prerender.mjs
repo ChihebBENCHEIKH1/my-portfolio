@@ -57,6 +57,11 @@ try {
 
     const errors = [];
     page.on("pageerror", (err) => errors.push(err.message));
+    const failedResources = [];
+    page.on("requestfailed", request => {
+      if (!/kit\.fontawesome\.com|fonts\.googleapis\.com|fonts\.gstatic\.com/.test(request.url())) failedResources.push(`${request.failure()?.errorText}: ${request.url()}`);
+    });
+    page.on("response", response => { if (response.status() >= 400) failedResources.push(`${response.status()}: ${response.url()}`); });
 
     // Block third-party requests that keep network busy and aren't needed
     // for the static snapshot (FontAwesome kit, Google Fonts external CSS).
@@ -72,7 +77,8 @@ try {
     // Use domcontentloaded — `networkidle0` never fires due to animation frames
     // and lingering analytics. We synchronise on the hero <h1> instead.
     await page.goto(`${ORIGIN}${route}`, { waitUntil: "domcontentloaded", timeout: 60_000 });
-    await page.waitForSelector("h1", { timeout: 30_000 });
+    try { await page.waitForSelector("h1", { timeout: 30_000 }); }
+    catch (error) { throw new Error(`${route}: application did not mount: ${[...errors, ...failedResources].slice(0, 8).join("; ") || error.message}`); }
     await page.waitForFunction(
       (expected) => document.documentElement.lang === expected &&
         (document.querySelector("#root main")?.textContent?.length || 0) > 500,

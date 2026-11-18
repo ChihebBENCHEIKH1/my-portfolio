@@ -24,7 +24,7 @@
 
 - Add a documented deployment script and Vite support for an explicit asset origin. Default local build stays local. Production deploy builds once, uploads assets to Pages, prerenders against the deployed assets, verifies, then publishes canonical HTML to GitHub Pages.
 - CDN includes `/assets/`, fonts and license files, CORS for public assets, immutable caching only for hashed files, no indexable duplicate site HTML. Retain existing hashed assets via a checked public manifest so open tabs and cached HTML continue to load older chunks.
-- Add preconnect and align font preload URLs with CSS font URLs. Validate actual headers, repeat-cache behavior and absence of duplicate font downloads. No DNS or mailbox migration.
+- Add early preconnect and align font preload URLs with CSS font URLs. Keep critical styles/fonts on the HTML origin after the live cold-load comparison showed a second-origin stylesheet delay. Validate actual headers, repeat-cache behavior and absence of duplicate font downloads. No DNS or mailbox migration.
 
 ## 4. Identical 3D geometry batching
 
