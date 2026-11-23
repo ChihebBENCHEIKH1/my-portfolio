@@ -13,6 +13,7 @@ const pages = [
   { route: "/de/", language: "de", expectedText: "Gründer", profile: true },
   { route: "/case-studies/hugging-face-filesystem-cache/", language: "en", expectedText: "My contribution", profile: false },
   { route: "/case-studies/llama-cpp-json-schema/", language: "en", expectedText: "My contribution", profile: false },
+  { route: "/case-studies/finrag-retrieval-evaluation/", language: "en", expectedText: "Which retrieval method worked best?", profile: false },
 ];
 const server = http.createServer(sirv(dist, { dev: false }));
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));

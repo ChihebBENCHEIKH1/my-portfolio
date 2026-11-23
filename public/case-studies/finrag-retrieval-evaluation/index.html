@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FinRAG retrieval evaluation | Chiheb Ben Cheikh</title>
+  <meta name="description" content="A RAG evaluation on financial filings comparing BM25, dense and hybrid retrieval, and showing where performance fell on a held-out test set.">
+  <meta name="author" content="Chiheb Ben Cheikh">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/">
+  <link rel="stylesheet" href="/case-studies/styles.css">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="FinRAG retrieval evaluation | Chiheb Ben Cheikh">
+  <meta property="og:description" content="A RAG evaluation on financial filings comparing BM25, dense and hybrid retrieval, and showing where performance fell on a held-out test set.">
+  <meta property="og:url" content="https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How I evaluated RAG retrieval on financial filings",
+    "description": "A RAG evaluation on financial filings comparing BM25, dense and hybrid retrieval, and showing where performance fell on a held-out test set.",
+    "url": "https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/",
+    "mainEntityOfPage": "https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "@id": "https://www.chihebbencheikh.com/#person",
+      "name": "Chiheb Ben Cheikh",
+      "url": "https://www.chihebbencheikh.com/"
+    },
+    "citation": [
+      "https://github.com/ChihebBENCHEIKH1/Finrag/blob/97442073acaeb75d33178ae8c3de77c2870aad9c/eval/RESULTS-M2.md",
+      "https://github.com/ChihebBENCHEIKH1/Finrag/blob/97442073acaeb75d33178ae8c3de77c2870aad9c/eval/RESULTS-M3.md"
+    ]
+  }
+  </script>
+</head>
+<body>
+<main>
+  <nav aria-label="Main">
+    <a href="/">← Portfolio</a>
+    <a href="https://github.com/ChihebBENCHEIKH1/Finrag">FinRAG on GitHub ↗</a>
+  </nav>
+  <article>
+    <p class="eyebrow">Open-source case study</p>
+    <h1>How I evaluated RAG retrieval on financial filings</h1>
+    <p class="byline">By <a rel="author" href="/">Chiheb Ben Cheikh</a></p>
+    <p class="intro">In FinRAG, plain BM25 keyword search retrieved the evidence more often than either dense or hybrid search on the development set. It still missed the evidence on over a quarter of the answerable questions in the held-out test set.</p>
+    <h2>What I measured</h2>
+    <p>I built a question-answering prototype over five public 10-K filings. I wrote the evaluation protocol before building the system and kept the development and test sets separate.</p>
+    <p>Recall@5 measures how often a question’s reference evidence appears in the five highest-ranked chunks. It measures evidence retrieval. Answer correctness was evaluated separately.</p>
+    <h2>Which retrieval method worked best?</h2>
+    <p>On the 40 answerable development questions, BM25 reached 87.5% recall@5, the hybrid reached 82.5%, and the dense retriever reached 55%. The hybrid used reciprocal rank fusion with BM25 and a bge-small embedding model. I kept BM25 for this corpus.</p>
+    <p>Many questions used terms that appeared verbatim in the filings. That was a reason to start with a lexical baseline and measure whether adding embeddings helped.</p>
+    <h2>Where the system still fell short</h2>
+    <p>With BM25, recall@5 fell to 73.1% on the 67 answerable held-out questions. The project’s error analysis found a larger drop on table-lookup questions. Before tuning answer generation, I would inspect how captions and table headers are retained and whether retrieval brings back the relevant row with its units.</p>
+    <p>This was a prototype tested on one small financial corpus. The published results describe this evaluation setup.</p>
+    <h2>How to apply the same check</h2>
+    <p>Label the evidence for a small set of real questions, run BM25 as a baseline, and report retrieval recall separately from answer quality. Slice the results by question type so table misses don’t disappear inside an overall average.</p>
+    <section class="callout" aria-label="Project enquiry">
+      <h2>Discuss an AI system or architecture review</h2>
+      <p>If you’re working on an AI feature and want to understand where its failures come from, <a href="https://biancotoro.com/architecture-security-review">see what a BiancoToro architecture review covers →</a></p>
+    </section>
+  </article>
+  <footer>
+    <p>Sources: <a href="https://github.com/ChihebBENCHEIKH1/Finrag/blob/97442073acaeb75d33178ae8c3de77c2870aad9c/eval/RESULTS-M2.md">development retrieval comparison</a> and <a href="https://github.com/ChihebBENCHEIKH1/Finrag/blob/97442073acaeb75d33178ae8c3de77c2870aad9c/eval/RESULTS-M3.md">held-out results and error analysis</a>.</p>
+    <p>Related: <a href="/case-studies/llama-cpp-json-schema/">Preserving JSON Schema constraints in llama.cpp</a>.</p>
+  </footer>
+</main>
+</body>
+</html>
