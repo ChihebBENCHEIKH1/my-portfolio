@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trace RabbitMQ routing with Graphify | Chiheb Ben Cheikh</title>
+  <meta name="description" content="Find RabbitMQ publishers and subscribers across Kotlin repositories with a runnable Graphify example and source locations for each routing-key edge.">
+  <meta name="author" content="Chiheb Ben Cheikh">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.chihebbencheikh.com/case-studies/graphify-rabbitmq-routing/">
+  <link rel="stylesheet" href="/case-studies/styles.css">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Trace RabbitMQ routing with Graphify | Chiheb Ben Cheikh">
+  <meta property="og:description" content="Find RabbitMQ publishers and subscribers across Kotlin repositories with a runnable Graphify example and source locations for each routing-key edge.">
+  <meta property="og:url" content="https://www.chihebbencheikh.com/case-studies/graphify-rabbitmq-routing/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to trace RabbitMQ publishers and consumers across repositories",
+    "description": "Find RabbitMQ publishers and subscribers across Kotlin repositories with a runnable Graphify example and source locations for each routing-key edge.",
+    "url": "https://www.chihebbencheikh.com/case-studies/graphify-rabbitmq-routing/",
+    "mainEntityOfPage": "https://www.chihebbencheikh.com/case-studies/graphify-rabbitmq-routing/",
+    "inLanguage": "en",
+    "author": {
+      "@type": "Person",
+      "@id": "https://www.chihebbencheikh.com/#person",
+      "name": "Chiheb Ben Cheikh",
+      "url": "https://www.chihebbencheikh.com/"
+    },
+    "citation": [
+      "https://github.com/ChihebBENCHEIKH1/graphify/tree/main/examples/rabbitmq-routing",
+      "https://pypi.org/project/graphify-cli/0.1.0/"
+    ]
+  }
+  </script>
+</head>
+<body>
+<main>
+  <nav aria-label="Main">
+    <a href="/">← Portfolio</a>
+    <a href="https://github.com/ChihebBENCHEIKH1/graphify/tree/main/examples/rabbitmq-routing">Example source ↗</a>
+  </nav>
+  <article>
+    <p class="eyebrow">Open-source walkthrough</p>
+    <h1>How to trace RabbitMQ publishers and consumers across repositories</h1>
+    <p class="byline">By <a rel="author" href="/">Chiheb Ben Cheikh</a></p>
+    <p class="intro">Before changing a RabbitMQ routing key, find the code that publishes it, the service that binds it and the branch that handles it. Here is a two-service Kotlin example you can run locally with Graphify.</p>
+
+    <h2>Run the example</h2>
+    <p>The <code>orders</code> service publishes <code>orders.events.completed</code> after an order completes. The <code>billing</code> service declares the key in its bindings and dispatches the event to invoice creation. The example needs Git, Python 3.10 or newer and a shell. Graphify reads the source files, so you can run the query with no RabbitMQ server or Kotlin build.</p>
+    <pre><code>git clone https://github.com/ChihebBENCHEIKH1/graphify.git
+cd graphify/examples/rabbitmq-routing
+python3 -m venv .venv
+.venv/bin/python -m pip install graphify-cli==0.1.0
+
+export GRAPHIFY_ROOT="$PWD"
+export GRAPHIFY_CACHE="$PWD/out"
+.venv/bin/graphify root
+.venv/bin/graphify build --summary "$GRAPHIFY_CACHE/ARCHITECTURE_GRAPH.md"
+.venv/bin/graphify key orders.events.completed</code></pre>
+    <p><code>graphify root</code> should show the example directory containing <code>orders</code> and <code>billing</code>. The build writes the graph and Markdown summary into <code>out/</code>.</p>
+
+    <h2>Read the source locations</h2>
+    <p>Graphify reports one publishing call site and two kinds of evidence for the billing subscriber.</p>
+    <ul>
+      <li><strong>Publisher.</strong> <code>OrdersUseCase.kt:7</code> calls <code>sendOrderCompleted</code>. The broker method publishes with the routing key and passes an <code>OrderCompleted</code> payload.</li>
+      <li><strong>Binding.</strong> <code>BillingRabbitMQFactory.kt:8</code> lists the key. Graphify labels this evidence <code>queueBind</code>.</li>
+      <li><strong>Dispatch.</strong> <code>BillingMessageHandler.kt:9</code> routes the same key to invoice creation. Graphify labels this evidence <code>dispatch</code>.</li>
+    </ul>
+    <p>The binding and dispatch lines both describe the billing service. To consume the source locations in a script or review check, add <code>--json</code> before the subcommand.</p>
+    <pre><code>.venv/bin/graphify --json key orders.events.completed</code></pre>
+
+    <h2>Check the scope before renaming a key</h2>
+    <p>Inspect the publisher, binding, handler and payload together. A rename in this example touches both repositories. In a deployed application, also check the actual queue bindings and rollout order. Graphify infers the edges from source conventions, including the typed broker method, the factory key list and the dispatch branch shown here. Dynamically constructed routing keys and runtime-only bindings can fall outside that analysis.</p>
+  </article>
+  <footer>
+    <p><a href="https://github.com/ChihebBENCHEIKH1/graphify">Graphify on GitHub</a> · <a href="https://pypi.org/project/graphify-cli/0.1.0/">graphify-cli 0.1.0 on PyPI</a></p>
+    <p>Related: <a href="/case-studies/finrag-retrieval-evaluation/">How I evaluated RAG retrieval on financial filings</a>.</p>
+  </footer>
+</main>
+</body>
+</html>

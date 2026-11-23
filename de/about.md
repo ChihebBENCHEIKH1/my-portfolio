@@ -4,7 +4,7 @@ Gründer von BiancoToro Technologies. Softwarearchitektur, Produktentwicklung, a
 
 Source: <https://www.chihebbencheikh.com/de/>
 Language: de
-Export generated: 2026-11-23T14:21:06.896Z
+Export generated: 2026-11-23T15:06:16.224Z
 JSON: <https://www.chihebbencheikh.com/de/profile.json>
 
 ## Home
@@ -46,7 +46,7 @@ Source: <https://www.chihebbencheikh.com/de/#Projects>
 
 ## Open Source
 
-貢献 05 — Open Source Open Source Gemergter PRDateisystem-Cache Hugging Face / huggingface_hub Doppelte und veraltete Verzeichniseinträge behoben, einschließlich eines Dateiabrufs, der den Ordner-Cache überschrieb. Mit Regressionstests. PythonCachingRegression tests (opens in new tab) Gemergter PRJSON-Schema-Constraints llama.cpp / ggml-org Fehler bei maskierten Bindestrichen in der JSON-Schema-Konvertierung behoben, durch den eine String-Pattern-Bedingung unbemerkt entfallen konnte. C++JSON SchemaGBNF (opens in new tab) Gemergter PRAsynchroner DataLoader Strawberry GraphQL / strawberry-graphql Den DataLoader-Dispatch-Task abbrechen, wenn alle wartenden Futures abgebrochen wurden. PythonAsyncGraphQL (opens in new tab) Offener PRMiddleware-Matcher Next.js / Vercel Template-Literal-Unterstützung für die Analyse von middleware config.matcher vorgeschlagen. Der Pull Request ist offen. TypeScriptMiddlewarei18n (opens in new tab) Offener PRPython-SAST Bandit / PyCQA Erkennung lokal definierter Markup-Unterklassen im B704-Sicherheitscheck vorgeschlagen. Der Pull Request ist offen. PythonASTSAST (opens in new tab) AutorVeröffentlichtes Paket Swiftlet / npm Ein TypeScript-Web-Framework für Node.js mit Routing, Request-Body-Parsing und CORS veröffentlicht. Node.jsTypeScriptHTTP (opens in new tab) Fallstudien lesen Hugging-Face-Dateisystem-Cache (Englisch) →llama.cpp: JSON-Schema-Constraints (Englisch) →FinRAG: Retrieval-Evaluation (Englisch) →
+貢献 05 — Open Source Open Source Gemergter PRDateisystem-Cache Hugging Face / huggingface_hub Doppelte und veraltete Verzeichniseinträge behoben, einschließlich eines Dateiabrufs, der den Ordner-Cache überschrieb. Mit Regressionstests. PythonCachingRegression tests (opens in new tab) Gemergter PRJSON-Schema-Constraints llama.cpp / ggml-org Fehler bei maskierten Bindestrichen in der JSON-Schema-Konvertierung behoben, durch den eine String-Pattern-Bedingung unbemerkt entfallen konnte. C++JSON SchemaGBNF (opens in new tab) Gemergter PRAsynchroner DataLoader Strawberry GraphQL / strawberry-graphql Den DataLoader-Dispatch-Task abbrechen, wenn alle wartenden Futures abgebrochen wurden. PythonAsyncGraphQL (opens in new tab) Offener PRMiddleware-Matcher Next.js / Vercel Template-Literal-Unterstützung für die Analyse von middleware config.matcher vorgeschlagen. Der Pull Request ist offen. TypeScriptMiddlewarei18n (opens in new tab) Offener PRPython-SAST Bandit / PyCQA Erkennung lokal definierter Markup-Unterklassen im B704-Sicherheitscheck vorgeschlagen. Der Pull Request ist offen. PythonASTSAST (opens in new tab) AutorVeröffentlichtes Paket Swiftlet / npm Ein TypeScript-Web-Framework für Node.js mit Routing, Request-Body-Parsing und CORS veröffentlicht. Node.jsTypeScriptHTTP (opens in new tab) Fallstudien lesen Hugging-Face-Dateisystem-Cache (Englisch) →llama.cpp: JSON-Schema-Constraints (Englisch) →FinRAG: Retrieval-Evaluation (Englisch) →Graphify: RabbitMQ-Routing-Keys verfolgen (Englisch) →
 
 Source: <https://www.chihebbencheikh.com/de/#OpenSource>
 
@@ -59,6 +59,7 @@ Source: <https://www.chihebbencheikh.com/de/#OpenSource>
 - Hugging-Face-Dateisystem-Cache (Englisch) →: <https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/>
 - llama.cpp: JSON-Schema-Constraints (Englisch) →: <https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/>
 - FinRAG: Retrieval-Evaluation (Englisch) →: <https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/>
+- Graphify: RabbitMQ-Routing-Keys verfolgen (Englisch) →: <https://www.chihebbencheikh.com/case-studies/graphify-rabbitmq-routing/>
 
 ## Signal Intercepts
 
