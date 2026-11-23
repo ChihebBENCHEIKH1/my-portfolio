@@ -66,11 +66,11 @@
 
         video.hidden = true;
         start.hidden = false;
-        start.addEventListener("click", () => {
+        start.addEventListener("click", (event) => {
           start.hidden = true;
           video.hidden = false;
-          video.focus({ preventScroll: true });
-          video.play().catch(() => video.focus());
+          if (event.detail === 0) video.focus({ preventScroll: true });
+          video.play().catch(() => video.focus({ preventScroll: true }));
         });
       }
     </script>
