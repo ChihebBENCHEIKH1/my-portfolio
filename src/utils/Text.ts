@@ -45,7 +45,7 @@ export const textContent = {
     openSourceSummary: "contributions and projects",
     caseStudiesLabel: "Read the case studies",
     profileFacts: [{"value": "AI", "label": "Product engineering · BiancoToro", "color": "#00f0ff", "gauge": 4}, {"value": "IST", "label": "Research master’s · ENIT", "color": "#ff007f", "gauge": 5}, {"value": "OSS", "label": "Merged contributions", "color": "#ffb800", "gauge": 6}],
-    caseStudies: [{"title": "Hugging Face filesystem caching", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp JSON Schema constraints", "url": "/case-studies/llama-cpp-json-schema/"}, {"title": "FinRAG retrieval evaluation", "url": "/case-studies/finrag-retrieval-evaluation/"}],
+    caseStudies: [{"title": "Hugging Face filesystem caching", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp JSON Schema constraints", "url": "/case-studies/llama-cpp-json-schema/"}, {"title": "FinRAG retrieval evaluation", "url": "/case-studies/finrag-retrieval-evaluation/"}, {"title": "Trace RabbitMQ routing keys with Graphify", "url": "/case-studies/graphify-rabbitmq-routing/"}],
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "CV DOWNLOAD",
@@ -299,7 +299,7 @@ export const textContent = {
     openSourceSummary: "Beiträge und Projekte",
     caseStudiesLabel: "Fallstudien lesen",
     profileFacts: [{"value": "AI", "label": "Produktentwicklung · BiancoToro", "color": "#00f0ff", "gauge": 4}, {"value": "IST", "label": "Forschungsmaster · ENIT", "color": "#ff007f", "gauge": 5}, {"value": "OSS", "label": "Gemergte Beiträge", "color": "#ffb800", "gauge": 6}],
-    caseStudies: [{"title": "Hugging-Face-Dateisystem-Cache (Englisch)", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp: JSON-Schema-Constraints (Englisch)", "url": "/case-studies/llama-cpp-json-schema/"}, {"title": "FinRAG: Retrieval-Evaluation (Englisch)", "url": "/case-studies/finrag-retrieval-evaluation/"}],
+    caseStudies: [{"title": "Hugging-Face-Dateisystem-Cache (Englisch)", "url": "/case-studies/hugging-face-filesystem-cache/"}, {"title": "llama.cpp: JSON-Schema-Constraints (Englisch)", "url": "/case-studies/llama-cpp-json-schema/"}, {"title": "FinRAG: Retrieval-Evaluation (Englisch)", "url": "/case-studies/finrag-retrieval-evaluation/"}, {"title": "Graphify: RabbitMQ-Routing-Keys verfolgen (Englisch)", "url": "/case-studies/graphify-rabbitmq-routing/"}],
     headerSkills:
       "Python, TypeScript, Go, JavaScript, SQL, Node.js, Express, FastAPI, Socket.io, Next.js, React, Tailwind, React Flow, Docker, Kubernetes, Terraform, GitHub Actions, Nginx, ReAct Agents, RAG, LoRA/PEFT, LangGraph, Bandit, Semgrep, Trivy, SAST/DAST",
     cvDownload: "Lebenslauf herunterladen",
