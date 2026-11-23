@@ -4,7 +4,7 @@ Founder of BiancoToro Technologies. Software architecture, product engineering, 
 
 Source: <https://www.chihebbencheikh.com/>
 Language: en
-Export generated: 2026-11-18T15:08:13.792Z
+Export generated: 2026-11-23T14:21:06.896Z
 JSON: <https://www.chihebbencheikh.com/profile.json>
 
 ## Home
@@ -46,7 +46,7 @@ Source: <https://www.chihebbencheikh.com/#Projects>
 
 ## Open Source
 
-貢献 05 — Open Source Open Source Merged PRFilesystem caching Hugging Face / huggingface_hub Fixed duplicated and stale directory listings, including a file lookup that replaced its folder cache. Includes regression tests. PythonCachingRegression tests (opens in new tab) Merged PRJSON Schema constraints llama.cpp / ggml-org Fixed escaped hyphens being rejected during JSON Schema conversion, which could silently discard a string pattern constraint. C++JSON SchemaGBNF (opens in new tab) Merged PRAsync DataLoader Strawberry GraphQL / strawberry-graphql Cancel the DataLoader dispatch task when all waiting futures are cancelled. PythonAsyncGraphQL (opens in new tab) Open PRMiddleware matcher Next.js / Vercel Proposed template-literal support for middleware config.matcher analysis. The pull request is open. TypeScriptMiddlewarei18n (opens in new tab) Open PRPython SAST Bandit / PyCQA Proposed detection of locally defined Markup subclasses in the B704 security check. The pull request is open. PythonASTSAST (opens in new tab) AuthorPublished package Swiftlet / npm Published a TypeScript web framework for Node.js with routing, request-body parsing and CORS. Node.jsTypeScriptHTTP (opens in new tab) Read the case studies Hugging Face filesystem caching →llama.cpp JSON Schema constraints →
+貢献 05 — Open Source Open Source Merged PRFilesystem caching Hugging Face / huggingface_hub Fixed duplicated and stale directory listings, including a file lookup that replaced its folder cache. Includes regression tests. PythonCachingRegression tests (opens in new tab) Merged PRJSON Schema constraints llama.cpp / ggml-org Fixed escaped hyphens being rejected during JSON Schema conversion, which could silently discard a string pattern constraint. C++JSON SchemaGBNF (opens in new tab) Merged PRAsync DataLoader Strawberry GraphQL / strawberry-graphql Cancel the DataLoader dispatch task when all waiting futures are cancelled. PythonAsyncGraphQL (opens in new tab) Open PRMiddleware matcher Next.js / Vercel Proposed template-literal support for middleware config.matcher analysis. The pull request is open. TypeScriptMiddlewarei18n (opens in new tab) Open PRPython SAST Bandit / PyCQA Proposed detection of locally defined Markup subclasses in the B704 security check. The pull request is open. PythonASTSAST (opens in new tab) AuthorPublished package Swiftlet / npm Published a TypeScript web framework for Node.js with routing, request-body parsing and CORS. Node.jsTypeScriptHTTP (opens in new tab) Read the case studies Hugging Face filesystem caching →llama.cpp JSON Schema constraints →FinRAG retrieval evaluation →
 
 Source: <https://www.chihebbencheikh.com/#OpenSource>
 
@@ -58,6 +58,7 @@ Source: <https://www.chihebbencheikh.com/#OpenSource>
 - AuthorPublished package Swiftlet / npm Published a TypeScript web framework for Node.js with routing, request-body parsing and CORS. Node.jsTypeScriptHTTP (opens in new tab): <https://www.npmjs.com/package/@chiheb_ben_cheikh/swiftlet>
 - Hugging Face filesystem caching →: <https://www.chihebbencheikh.com/case-studies/hugging-face-filesystem-cache/>
 - llama.cpp JSON Schema constraints →: <https://www.chihebbencheikh.com/case-studies/llama-cpp-json-schema/>
+- FinRAG retrieval evaluation →: <https://www.chihebbencheikh.com/case-studies/finrag-retrieval-evaluation/>
 
 ## Signal Intercepts
 
