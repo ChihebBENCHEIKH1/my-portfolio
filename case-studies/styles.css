@@ -1,1 +1,58 @@
 *{box-sizing:border-box}html{color-scheme:dark}body{margin:0;background:#080b12;color:#e0e0e8;font:17px/1.8 system-ui,sans-serif}main{max-width:820px;margin:0 auto;padding:48px 24px 80px}nav{display:flex;gap:24px;flex-wrap:wrap;margin-bottom:48px;font-size:14px}a{color:#67e8f9;text-underline-offset:4px}a:focus-visible{outline:2px solid #67e8f9;outline-offset:5px}h1{font-size:clamp(2rem,5vw,3.1rem);line-height:1.15;letter-spacing:-.03em}h2{font-size:1.4rem;margin-top:40px}p,li{overflow-wrap:anywhere}.eyebrow,.byline{color:#adb7c9;font-size:14px}.eyebrow{text-transform:uppercase;letter-spacing:.12em}.intro{font-size:20px}pre{overflow:auto;padding:20px;background:#111827;border:1px solid #26354c;border-radius:10px;font-size:14px}code{font-family:ui-monospace,monospace}.callout{padding:24px;margin-top:40px;border:1px solid #26354c;border-radius:12px;background:#101623}.callout p:last-child{margin-bottom:0}footer{margin-top:48px;padding-top:24px;border-top:1px solid #26354c;font-size:14px}@media(max-width:480px){main{padding:28px 20px 60px}.intro{font-size:18px}}
+.case-video {
+  margin: 28px 0;
+  border: 1px solid #26354c;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #080b12;
+}
+
+.case-video video,
+.case-video-start img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.case-video [hidden] {
+  display: none;
+}
+
+.case-video-start {
+  display: block;
+  position: relative;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: #080b12;
+  cursor: pointer;
+}
+
+.case-video-start > span {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #0b1724;
+  color: #eff6ff;
+  font: 600 14px / 1.5 system-ui, sans-serif;
+}
+
+.case-video-time {
+  margin-left: 8px;
+  color: #adb7c9;
+  font-weight: 400;
+}
+
+.case-video-start:hover > span,
+.case-video-start:focus-visible > span {
+  background: #183146;
+}
+
+.case-video-start:focus-visible,
+.case-video video:focus-visible {
+  outline: 2px solid #67e8f9;
+  outline-offset: -3px;
+}
